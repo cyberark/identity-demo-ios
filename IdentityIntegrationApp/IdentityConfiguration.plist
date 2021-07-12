@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>domainopenid</key>
+	<string>https://aae5953.my.idaptive.qa?appKey=13994d85-c001-4089-9b2f-9f2ce28fcce1</string>
+	<key>clientid</key>
+	<string>icici</string>
+	<key>clientsecret</key>
+	<string></string>
+	<key>domainautho</key>
+	<string>https://aae5953.my.idaptive.qa</string>
+	<key>applicationid</key>
+	<string>testapplicationID</string>
+	<key>redirecturi</key>
+	<string>ciamsdkdemo://com.cyberark.ciamsdk</string>
+	<key>scope</key>
+	<string>All</string>
+	<key>threshold</key>
+	<integer>60</integer>
+	<key>responsetype</key>
+	<string>code</string>
+</dict>
+</plist>
