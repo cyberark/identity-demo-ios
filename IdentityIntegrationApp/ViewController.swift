@@ -9,6 +9,7 @@ import UIKit
 import Identity
 
 class ViewController: UIViewController {
+    let scannerBuilder = QRCodeScannerBuilder()
     
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -16,17 +17,36 @@ class ViewController: UIViewController {
             tableView.dataSource = self
         }
     }
-    let loginTypes = [
+    var loginTypes = [
         "Login(OAuth+PKCE)",
         "Refresh Token",
-        "End Session/Logout",
-        "QRCode Authenticator"
+        "End Session/Logout"
     ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        addQRAuth()
         registerCell()
         addObserver()
         // Do any additional setup after loading the view.
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        addQRAuth()
+    }
+    func addQRAuth() {
+        do  {
+            if let _ = try KeyChainWrapper.standard.fetch(key: "access_token")?.toString() {
+                if !loginTypes.contains("QRCode Authenticator") {
+                    loginTypes.append("QRCode Authenticator")
+                }
+            } else {
+                loginTypes = loginTypes.filter { $0 != "QRCode Authenticator" }
+            }
+            self.tableView.reloadData()
+        } catch {
+            
+        }
     }
     func registerCell() {
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -77,6 +97,7 @@ extension ViewController {
                 DispatchQueue.main.async {
                     self.dismiss(animated: true) {
                         self.showAlert(with :"Access Token: ", message: accessToken)
+                        self.addQRAuth()
                     }
                 }
             }
@@ -89,7 +110,7 @@ extension ViewController {
             .build()
             .closeSession(completion: { (result, error) in
                 if((result) != nil) {
-                    
+                    self.addQRAuth()
                 }
             })
     }
@@ -100,8 +121,8 @@ extension ViewController {
 //MARK: QRScanner
 extension ViewController {
     func navigateToScanner() {
-        let builder = QRCodeScannerBuilder()
-        builder.authenticate(with: nil, presenter: self)
+        //let value = "https://aaj7479.my.dev.idaptive.app/security/StartQRCodeAuthentication?guid=LSTcJk-da06TYEDDJbnjS-nIRy7cUvIUWmfIyExGcoo1"
+        scannerBuilder.authenticate(qrCode: nil, presenter: self)
     }
 }
 

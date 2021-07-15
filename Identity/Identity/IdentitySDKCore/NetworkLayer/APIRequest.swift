@@ -47,7 +47,9 @@ extension Endpoint {
     var urlComponents: URLComponents {
         let base: String = self.base ?? ""
         var component = URLComponents(string: base)!
-        component.path = path ?? ""
+        if path != nil {
+            component.path = path ?? ""
+        }
         if queryItems?.count ?? 0 > 0{
             component.queryItems = queryItems
         }

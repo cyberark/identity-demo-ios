@@ -55,12 +55,7 @@ class QRCodeScannerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupScanner()
-        //accessCamera()
-        //      Move the message label and top bar to the front
-        //      view.bringSubviewToFront(messageLabel)
-        //        view.bringSubviewToFront(topbar)
     }
-
     private func setupScanner() {
         //        let failureError = NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to initiate Scanner view."])
         // Get the back-facing camera for capturing videos
@@ -76,7 +71,7 @@ class QRCodeScannerViewController: UIViewController {
         let videoInput: AVCaptureDeviceInput
         do {
             videoInput = try AVCaptureDeviceInput(device: captureDevice)
-        } catch let _ {
+        } catch _ {
             self.cameraAccessFailed()
             return
         }
@@ -186,8 +181,6 @@ class QRCodeScannerViewController: UIViewController {
         self.handleOrientation()
     }
 }
-
-
 
 extension QRCodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {

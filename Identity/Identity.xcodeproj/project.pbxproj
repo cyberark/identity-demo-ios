@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28352390269DADF100AE1BBB /* QRCodeAuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2835238F269DADF100AE1BBB /* QRCodeAuthClient.swift */; };
+		28352398269DAF0A00AE1BBB /* QRAuthResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28352397269DAF0A00AE1BBB /* QRAuthResultModel.swift */; };
+		283523A0269DBE5B00AE1BBB /* QRAuthEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2835239F269DBE5B00AE1BBB /* QRAuthEndPoint.swift */; };
 		E24ECD58269C63B100C61EF5 /* CyberarkAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD2B269C63B100C61EF5 /* CyberarkAuthProvider.swift */; };
 		E24ECD59269C63B100C61EF5 /* CyberArkBrowserBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD2D269C63B100C61EF5 /* CyberArkBrowserBuilder.swift */; };
 		E24ECD5A269C63B100C61EF5 /* CyberArkBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD2E269C63B100C61EF5 /* CyberArkBrowser.swift */; };
@@ -24,8 +27,8 @@
 		E24ECD69269C63B100C61EF5 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD43269C63B100C61EF5 /* APIRequest.swift */; };
 		E24ECD6A269C63B100C61EF5 /* NetworkConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD44269C63B100C61EF5 /* NetworkConstant.swift */; };
 		E24ECD6B269C63B100C61EF5 /* QRCodeScannerBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD46269C63B100C61EF5 /* QRCodeScannerBuilder.swift */; };
-		E24ECD6C269C63B100C61EF5 /* QRCodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD47269C63B100C61EF5 /* QRCodeModel.swift */; };
-		E24ECD6D269C63B100C61EF5 /* QRScannerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD48269C63B100C61EF5 /* QRScannerViewModel.swift */; };
+		E24ECD6C269C63B100C61EF5 /* QRAuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD47269C63B100C61EF5 /* QRAuthModel.swift */; };
+		E24ECD6D269C63B100C61EF5 /* QRAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD48269C63B100C61EF5 /* QRAuthViewModel.swift */; };
 		E24ECD6E269C63B100C61EF5 /* QRCodeScannerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E24ECD49269C63B100C61EF5 /* QRCodeScannerViewController.xib */; };
 		E24ECD6F269C63B100C61EF5 /* QRCodeScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD4A269C63B100C61EF5 /* QRCodeScannerViewController.swift */; };
 		E24ECD70269C63B100C61EF5 /* Codable+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD4C269C63B100C61EF5 /* Codable+Helper.swift */; };
@@ -55,6 +58,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2835238F269DADF100AE1BBB /* QRCodeAuthClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeAuthClient.swift; sourceTree = "<group>"; };
+		28352397269DAF0A00AE1BBB /* QRAuthResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRAuthResultModel.swift; sourceTree = "<group>"; };
+		2835239F269DBE5B00AE1BBB /* QRAuthEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRAuthEndPoint.swift; sourceTree = "<group>"; };
 		E24ECD2B269C63B100C61EF5 /* CyberarkAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyberarkAuthProvider.swift; sourceTree = "<group>"; };
 		E24ECD2D269C63B100C61EF5 /* CyberArkBrowserBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyberArkBrowserBuilder.swift; sourceTree = "<group>"; };
 		E24ECD2E269C63B100C61EF5 /* CyberArkBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyberArkBrowser.swift; sourceTree = "<group>"; };
@@ -72,8 +78,8 @@
 		E24ECD43269C63B100C61EF5 /* APIRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		E24ECD44269C63B100C61EF5 /* NetworkConstant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkConstant.swift; sourceTree = "<group>"; };
 		E24ECD46269C63B100C61EF5 /* QRCodeScannerBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeScannerBuilder.swift; sourceTree = "<group>"; };
-		E24ECD47269C63B100C61EF5 /* QRCodeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeModel.swift; sourceTree = "<group>"; };
-		E24ECD48269C63B100C61EF5 /* QRScannerViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRScannerViewModel.swift; sourceTree = "<group>"; };
+		E24ECD47269C63B100C61EF5 /* QRAuthModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRAuthModel.swift; sourceTree = "<group>"; };
+		E24ECD48269C63B100C61EF5 /* QRAuthViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRAuthViewModel.swift; sourceTree = "<group>"; };
 		E24ECD49269C63B100C61EF5 /* QRCodeScannerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QRCodeScannerViewController.xib; sourceTree = "<group>"; };
 		E24ECD4A269C63B100C61EF5 /* QRCodeScannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QRCodeScannerViewController.swift; sourceTree = "<group>"; };
 		E24ECD4C269C63B100C61EF5 /* Codable+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Codable+Helper.swift"; sourceTree = "<group>"; };
@@ -114,6 +120,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2835238E269DADCB00AE1BBB /* QRCode */ = {
+			isa = PBXGroup;
+			children = (
+				E24ECD47269C63B100C61EF5 /* QRAuthModel.swift */,
+				2835238F269DADF100AE1BBB /* QRCodeAuthClient.swift */,
+				28352397269DAF0A00AE1BBB /* QRAuthResultModel.swift */,
+			);
+			path = QRCode;
+			sourceTree = "<group>";
+		};
 		E24ECD29269C63B100C61EF5 /* IdentitySDKCore */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				E24ECD39269C63B100C61EF5 /* OAuth */,
+				2835238E269DADCB00AE1BBB /* QRCode */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -199,10 +216,10 @@
 			isa = PBXGroup;
 			children = (
 				E24ECD46269C63B100C61EF5 /* QRCodeScannerBuilder.swift */,
-				E24ECD47269C63B100C61EF5 /* QRCodeModel.swift */,
-				E24ECD48269C63B100C61EF5 /* QRScannerViewModel.swift */,
+				E24ECD48269C63B100C61EF5 /* QRAuthViewModel.swift */,
 				E24ECD49269C63B100C61EF5 /* QRCodeScannerViewController.xib */,
 				E24ECD4A269C63B100C61EF5 /* QRCodeScannerViewController.swift */,
+				2835239F269DBE5B00AE1BBB /* QRAuthEndPoint.swift */,
 			);
 			path = "QR Athenticator";
 			sourceTree = "<group>";
@@ -371,6 +388,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28352390269DADF100AE1BBB /* QRCodeAuthClient.swift in Sources */,
 				E24ECD63269C63B100C61EF5 /* OAuthClient.swift in Sources */,
 				E24ECD5B269C63B100C61EF5 /* AuthenticationViewModel.swift in Sources */,
 				E24ECD5D269C63B100C61EF5 /* IdentityAppInfo.swift in Sources */,
@@ -391,17 +409,19 @@
 				E24ECD6B269C63B100C61EF5 /* QRCodeScannerBuilder.swift in Sources */,
 				E24ECD77269C63B100C61EF5 /* Reachability.swift in Sources */,
 				E24ECD78269C63B100C61EF5 /* URLRquest+Helper.swift in Sources */,
+				28352398269DAF0A00AE1BBB /* QRAuthResultModel.swift in Sources */,
 				E24ECD73269C63B100C61EF5 /* Bundle+Helper.swift in Sources */,
 				E24ECD5C269C63B100C61EF5 /* OAuthEndPoint.swift in Sources */,
-				E24ECD6D269C63B100C61EF5 /* QRScannerViewModel.swift in Sources */,
+				E24ECD6D269C63B100C61EF5 /* QRAuthViewModel.swift in Sources */,
 				E24ECD5F269C63B100C61EF5 /* IdentityTypes.swift in Sources */,
 				E24ECD5A269C63B100C61EF5 /* CyberArkBrowser.swift in Sources */,
 				E24ECD62269C63B100C61EF5 /* OAuthAcessToken.swift in Sources */,
 				E24ECD6F269C63B100C61EF5 /* QRCodeScannerViewController.swift in Sources */,
 				E24ECD74269C63B100C61EF5 /* AuthOChallengeGenerator.swift in Sources */,
 				E24ECD60269C63B100C61EF5 /* OAuth2Header.swift in Sources */,
+				283523A0269DBE5B00AE1BBB /* QRAuthEndPoint.swift in Sources */,
 				E24ECD69269C63B100C61EF5 /* APIRequest.swift in Sources */,
-				E24ECD6C269C63B100C61EF5 /* QRCodeModel.swift in Sources */,
+				E24ECD6C269C63B100C61EF5 /* QRAuthModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
