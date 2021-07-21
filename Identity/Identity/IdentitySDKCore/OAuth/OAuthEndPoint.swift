@@ -28,7 +28,9 @@ public class OAuthEndPoint {
     var pkce: AuthOPKCE?
     /// applicationID configured in the server
     var applicationID: String? = nil
-    
+    /// logoutUri configured in the server
+    var logoutUri: String? = nil
+
     /*public convenience init(pkce: AuthOPKCE?) {
      self.init()
      self.pkce = pkce
@@ -37,6 +39,10 @@ public class OAuthEndPoint {
         config()
         self.pkce = pkce
     }
+    
+    /// Initial Configuration
+    /// To get the configured values
+    /// 
     func config()  {
         guard
             let path = Bundle.main.path(forResource: "IdentityConfiguration", ofType: "plist"),
@@ -48,7 +54,7 @@ public class OAuthEndPoint {
         
         guard
             let clientId = values["clientid"] as? String,
-            let domain = values["domainautho"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String
+            let domain = values["domainautho"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String
         else {
             print("IdentityConfiguration.plist file at \(path) is missing 'ClientId' and/or 'Domain' values!")
             return
@@ -59,10 +65,14 @@ public class OAuthEndPoint {
         self.redirectUri = redirectUri
         self.threshold = threshold
         self.applicationID = applicationID
+        self.logoutUri = applicationID
+
     }
 }
 extension OAuthEndPoint {
     
+    /// To get the autherization endpoint
+    /// - Returns: Endpoint
     func getAuthorizationEndpoint() -> Endpoint {
         let parameters: [String: String] = [:]
     
@@ -81,6 +91,10 @@ extension OAuthEndPoint {
         }
         return Endpoint(path: path, httpMethod: .get, headers: headers, body: nil, queryItems: queryItems, dataType: .JSON, base: self.domain!)
     }
+    
+    /// To get the access token from the auth code
+    /// - Parameter code: code
+    /// - Returns: Endpoint
     func getAuthenticationEndpoint(code: String) -> Endpoint {
         
         let postData = NSMutableData(data: "\(OAuth2Header.grantType.rawValue)=\(OAuth2Header.grantTypeAuthCode.rawValue)".data(using: String.Encoding.utf8)!)
@@ -100,6 +114,9 @@ extension OAuthEndPoint {
         
         return Endpoint(path:path, httpMethod: .post, headers: headers, body: postData as Data, queryItems: queryItems, dataType: .JSON, base: self.domain!)
     }
+    
+    /// To Close the session
+    /// - Returns: Endpoint
     func getCloseSessionEndpoint() -> Endpoint {
         let parameters: [String: String] = [:]
     
@@ -113,6 +130,12 @@ extension OAuthEndPoint {
         }
         return Endpoint(path: path, httpMethod: .get, headers: headers, body: nil, queryItems: queryItems, dataType: .JSON, base: self.domain!)
     }
+    
+    /// To get the Refresh token
+    /// - Parameters:
+    ///   - code: code
+    ///   - refreshToken: Refresh token
+    /// - Returns: Endpoint
     func getRefreshTokenEndpoint(code: String, refreshToken: String) -> Endpoint {
         let postData = NSMutableData(data: "\(OAuth2Header.grantType.rawValue)=\(OAuth2Header.refreshToken.rawValue)".data(using: String.Encoding.utf8)!)
         postData.append("&\(OAuth2Header.clientId.rawValue)=\(self.clientId ?? "")".data(using: String.Encoding.utf8)!)

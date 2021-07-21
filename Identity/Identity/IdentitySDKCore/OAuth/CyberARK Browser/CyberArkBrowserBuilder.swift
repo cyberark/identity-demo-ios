@@ -64,7 +64,7 @@ public class CyberArkBrowserBuilder: NSObject {
         return self
     }
     
-    /// builds the 
+    /// builds the  Browser
     /// - Returns: the browser object
     @objc public func build() -> CyberArkBrowser {
         let browser = CyberArkBrowser(type: self.webType, presentingViewController: self.presentingViewController, oauthEndPoint: self.oAuthEndPoint, pkce: self.pkce)

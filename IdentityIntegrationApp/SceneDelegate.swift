@@ -69,11 +69,7 @@ extension SceneDelegate {
     /// OAUth based result
     /// - Parameter url: context URL
     func process(with url: URL) {
-        if let code =  url.queryParameter(with:"code") {
-            CyberArkAuthProvider.resume(url: url)
-        } else {
-            CyberArkAuthProvider.dismiss()
-        }
+        CyberArkAuthProvider.resume(url: url)
     }
 }
 

@@ -15,6 +15,10 @@ public protocol AuthenticationViewModelProtocol {
     
     var didReceiveAccessToken: ((Bool,String) -> Void)? { get set }
     
+    var didReceiveRefreshToken: ((Bool,String) -> Void)? { get set }
+
+    var didLoggedOut: ((Bool, String) -> Void)? { get set }
+
     func fetchAuthToken(code: String, pkce: AuthOPKCE?)
 }
 
@@ -27,6 +31,16 @@ public class AuthenticationViewModel: AuthenticationViewModelProtocol {
     
     public var didReceiveAccessToken: ((Bool,String) -> Void)?
     
+    public var didReceiveRefreshToken: ((Bool, String) -> Void)?
+    
+    public var didLoggedOut: ((Bool, String) -> Void)?
+
+    var refreshTokenResponse: AccessToken? {
+        didSet {
+            self.didReceiveRefreshToken!(true,refreshTokenResponse?.access_token ?? "")
+        }
+    }
+
     var authResponse: AccessToken? {
         didSet {
             self.didReceiveAccessToken!(true,authResponse?.access_token ?? "")
@@ -79,7 +93,7 @@ extension AuthenticationViewModel {
         
     }
 }
-// To Close the session
+// To send Refresh token
 extension AuthenticationViewModel {
 
     /// To close the current session
@@ -94,15 +108,29 @@ extension AuthenticationViewModel {
                   switch result {
             case .success(let loginFeedResult):
                 guard let response = loginFeedResult else {
-                    self?.didReceiveAccessToken!(false, "unable to fecth accesstoken")
+                    self?.didReceiveRefreshToken!(false, "unable to fecth accesstoken")
                     return
                 }
-                self?.authResponse = response
+                self?.refreshTokenResponse = response
             case .failure(let error):
-                self?.didReceiveAccessToken!(false, "unable to fecth accesstoken")
+                self?.didReceiveRefreshToken!(false, "unable to fecth accesstoken")
                 print("the error \(error)")
             }
         }
 
+    }
+}
+// To Close the session
+extension AuthenticationViewModel {
+    /// To close the current session
+    /// - Parameters:
+    ///   - code: code
+    ///   - pkce: pkce
+    public func logout() {
+        do {
+            try KeyChainWrapper.standard.deleteAll()
+        } catch {
+        }
+        self.didLoggedOut!(true, "unable to close the session")
     }
 }

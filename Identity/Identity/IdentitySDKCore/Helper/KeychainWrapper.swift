@@ -24,14 +24,14 @@ enum KeyChainStorageKeys: String {
 
 }
 /// Keychain Wrapper
-///  Wrapper to store the credentials in secure way
+/// Wrapper to store the credentials in secure way
 ///
-public class KeyChainWrapper{
+public class KeyChainWrapper {
     
     public static let standard = KeyChainWrapper()
-
+    
     private (set) public var serviceName: String = {
-       return "OAuth"
+        return "OAuth"
     }()
     
     private (set) public var accessGroup: String = {
@@ -41,6 +41,11 @@ public class KeyChainWrapper{
     private init() {
     }
     
+    /// To save the keychain
+    /// - Parameters:
+    ///   - key: key
+    ///   - data: data
+    /// - Throws: erro
     public func save(key: String, data: Data) throws {
         let status = SecItemAdd([
             kSecClass: kSecClassGenericPassword,
@@ -52,6 +57,10 @@ public class KeyChainWrapper{
         guard status == errSecSuccess else { throw KeychainError.operation_error }
     }
     
+    /// To fetch the keys
+    /// - Parameter key: key
+    /// - Throws: data
+    /// - Returns: data
     public func fetch(key: String) throws -> Data? {
         var result: AnyObject?
         let status = SecItemCopyMatching([
@@ -69,11 +78,20 @@ public class KeyChainWrapper{
             throw KeychainError.operation_error
         }
     }
-    /**
-     Function to delete a single item
-     - parameters:
-     - account: Account name for keychain item
-     */
+    
+    /// To get string from key
+    /// - Parameter key: key
+    /// - Throws: error
+    /// - Returns: value
+    public func string(for key: String) throws -> String? {
+        guard let data = try fetch(key: key) else {
+            return nil
+        }
+        return data.toString()
+    }
+    /// To delete the account with key
+    /// - Parameter account: account
+    /// - Throws: error
     func delete(account: String) throws {
         /// Status for the query
         let status = SecItemDelete([
@@ -84,9 +102,8 @@ public class KeyChainWrapper{
         guard status == errSecSuccess else { throw KeychainError.operation_error }
     }
     
-    /**
-     To delete all items for the app
-     */
+    /// To delete all the
+    /// - Throws: error
     func deleteAll() throws {
         let status = SecItemDelete([
             kSecClass: kSecClassGenericPassword,

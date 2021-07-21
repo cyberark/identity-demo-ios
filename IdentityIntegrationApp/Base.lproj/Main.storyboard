@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QSu-nY-VJ1">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -41,17 +43,120 @@
                             <constraint firstItem="ot4-nc-oZT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="wLE-xr-kBQ"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="t1F-lD-hZu"/>
                     <connections>
                         <outlet property="tableView" destination="hvu-Nx-fbZ" id="bi6-Wy-Ipk"/>
+                        <segue destination="kMM-q3-Uhg" kind="show" identifier="HomeViewSegueIdentifier" id="Jye-4a-qsj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="20" y="70"/>
+            <point key="canvasLocation" x="790" y="70"/>
+        </scene>
+        <!--Home View Controller-->
+        <scene sceneID="CtB-5G-rrn">
+            <objects>
+                <viewController id="kMM-q3-Uhg" customClass="HomeViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YeJ-3w-amo">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cyberarklogo" translatesAutoresizingMaskIntoConstraints="NO" id="Hqs-JV-5xX">
+                                <rect key="frame" x="87" y="60" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="IHn-fT-6xU"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="1mL-jD-OLA">
+                                <rect key="frame" x="30" y="228" width="354" height="164"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="naz-wQ-Rhn">
+                                        <rect key="frame" x="0.0" y="0.0" width="354" height="34"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nkr-kt-nEv">
+                                                <rect key="frame" x="0.0" y="0.0" width="162" height="34"/>
+                                                <color key="backgroundColor" name="AccentColor"/>
+                                                <state key="normal" title="Enroll"/>
+                                                <connections>
+                                                    <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="4t5-OF-y3e"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ew-GS-P8B">
+                                                <rect key="frame" x="192" y="0.0" width="162" height="34"/>
+                                                <color key="backgroundColor" name="AccentColor"/>
+                                                <state key="normal" title="QR Authenticator"/>
+                                                <connections>
+                                                    <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="NQB-UH-NxN"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LUa-cc-g6E">
+                                        <rect key="frame" x="0.0" y="65" width="354" height="34"/>
+                                        <color key="backgroundColor" name="AccentColor"/>
+                                        <state key="normal" title="Refresh Token"/>
+                                        <connections>
+                                            <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="pNw-mO-Ol1"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rws-De-Qwn">
+                                        <rect key="frame" x="0.0" y="130" width="354" height="34"/>
+                                        <color key="backgroundColor" name="AccentColor"/>
+                                        <state key="normal" title="Logout"/>
+                                        <connections>
+                                            <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="0Cm-ND-uUo"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="LWo-6j-NfF"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Hqs-JV-5xX" firstAttribute="top" secondItem="LWo-6j-NfF" secondAttribute="top" constant="16" id="89K-Cx-6JE"/>
+                            <constraint firstItem="LWo-6j-NfF" firstAttribute="trailing" secondItem="1mL-jD-OLA" secondAttribute="trailing" constant="30" id="IXM-Ba-wpe"/>
+                            <constraint firstItem="1mL-jD-OLA" firstAttribute="top" secondItem="Hqs-JV-5xX" secondAttribute="bottom" constant="40" id="QEL-fk-D6O"/>
+                            <constraint firstItem="LWo-6j-NfF" firstAttribute="trailing" secondItem="Hqs-JV-5xX" secondAttribute="trailing" constant="87" id="Zt1-Lo-cmN"/>
+                            <constraint firstItem="Hqs-JV-5xX" firstAttribute="leading" secondItem="LWo-6j-NfF" secondAttribute="leading" constant="87" id="cur-pv-499"/>
+                            <constraint firstItem="1mL-jD-OLA" firstAttribute="leading" secondItem="LWo-6j-NfF" secondAttribute="leading" constant="30" id="xp7-hi-7DL"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="miC-1a-Unv"/>
+                    <connections>
+                        <outlet property="QR_button" destination="6ew-GS-P8B" id="zgn-2U-YGo"/>
+                        <outlet property="enroll_button" destination="Nkr-kt-nEv" id="zVn-70-Eq4"/>
+                        <outlet property="logout_button" destination="rws-De-Qwn" id="G7t-Sv-CLz"/>
+                        <outlet property="refresh_button" destination="LUa-cc-g6E" id="AXP-oW-eOI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UnQ-6Q-UNq" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1741" y="70"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bc2-xw-bqx">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="QSu-nY-VJ1" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oFO-qw-uTc">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="1CV-O1-0ra"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fLa-5a-nxe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="18.840579710144929" y="69.642857142857139"/>
         </scene>
     </scenes>
     <resources>
         <image name="cyberarklogo" width="50" height="50"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

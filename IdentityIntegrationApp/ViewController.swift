@@ -11,6 +11,8 @@ import Identity
 class ViewController: UIViewController {
     let scannerBuilder = QRCodeScannerBuilder()
     
+    let homeViewSegueIdentifier = "HomeViewSegueIdentifier"
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.delegate = self
@@ -18,21 +20,21 @@ class ViewController: UIViewController {
         }
     }
     var loginTypes = [
-        "Login(OAuth+PKCE)",
-        "Refresh Token",
-        "End Session/Logout"
+        "Login(OAuth+PKCE)"
+        //"Refresh Token",
+        //"End Session/Logout"
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addQRAuth()
+        //addQRAuth()
         registerCell()
         addObserver()
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        addQRAuth()
+        //addQRAuth()
     }
     func addQRAuth() {
         do  {
@@ -96,8 +98,9 @@ extension ViewController {
             if result {
                 DispatchQueue.main.async {
                     self.dismiss(animated: true) {
-                        self.showAlert(with :"Access Token: ", message: accessToken)
-                        self.addQRAuth()
+                        //self.showAlert(with :"Access Token: ", message: accessToken)
+                        self.navigateToHomeScreen()
+                        //self.addQRAuth()
                     }
                 }
             }
@@ -117,6 +120,8 @@ extension ViewController {
     func refreshToken() {
         CyberArkAuthProvider.sendRefreshToken()
     }
+    
+   
 }
 //MARK: QRScanner
 extension ViewController {
@@ -125,7 +130,16 @@ extension ViewController {
         scannerBuilder.authenticate(qrCode: nil, presenter: self)
     }
 }
-
+extension ViewController {
+    func navigateToHomeScreen() {
+        performSegue(withIdentifier: homeViewSegueIdentifier, sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == homeViewSegueIdentifier) {
+            let controller = segue.destination as! HomeViewController
+        }
+    }
+}
 //MARK:- read from plist
 extension ViewController {
     func plistValues(bundle: Bundle) -> (clientId: String, domain: String, domain_auth0: String)? {

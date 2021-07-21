@@ -20,5 +20,7 @@
 	<integer>60</integer>
 	<key>responsetype</key>
 	<string>code</string>
+	<key>logouturi</key>
+	<string>identitysdklogout://com.cyberark.identity</string>
 </dict>
 </plist>
