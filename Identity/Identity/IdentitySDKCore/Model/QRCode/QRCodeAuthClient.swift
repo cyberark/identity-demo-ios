@@ -6,6 +6,9 @@
 //
 
 import Foundation
+protocol QRCodeAuthClientProtocol {
+    func featchQRAuth(from endpoint: Endpoint, completion: @escaping (Result<QRAuthModel?, APIError>) -> Void)
+}
 class QRCodeAuthClient: APIClient {
     let session: URLSession
     init(configuration: URLSessionConfiguration) {
@@ -16,7 +19,7 @@ class QRCodeAuthClient: APIClient {
     }
 }
 
-extension QRCodeAuthClient {
+extension QRCodeAuthClient: QRCodeAuthClientProtocol {
     func featchQRAuth(from endpoint: Endpoint, completion: @escaping (Result<QRAuthModel?, APIError>) -> Void) {
         let request = endpoint.request
         print("endpoint request \(request)")

@@ -13,6 +13,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var QR_button: UIButton!
     @IBOutlet weak var logout_button: UIButton!
     @IBOutlet weak var refresh_button: UIButton!
+    let builder = QRCodeScannerBuilder()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addObserver()
@@ -63,8 +65,7 @@ extension HomeViewController {
         CyberArkAuthProvider.sendRefreshToken()
     }
     func navigateToScanner() {
-        let builder = QRCodeScannerBuilder()
-        builder.authenticate(qrCode: "https://aaj7479.my.dev.idaptive.app/security/StartQRCodeAuthentication?guid=LSTcJk-da06TYEDDJbnjS-nIRy7cUvIUWmfIyExGcoo1", presenter: self)
+        builder.authenticate(qrCode:nil, presenter: self)
     }
 }
 extension HomeViewController {}

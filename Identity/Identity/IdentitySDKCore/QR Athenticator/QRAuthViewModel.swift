@@ -13,12 +13,19 @@ protocol QRAuthViewModelProtocol {
     var didReceiveAuth: ((Bool,String) -> Void)? { get set }
 }
 public class QRAuthViewModel {
-    private let client = QRCodeAuthClient()
+    private let apiServiceClient : QRCodeAuthClientProtocol
     public var didReceiveAuth: ((Bool,String) -> Void)?
+    
+    init( apiService: QRCodeAuthClientProtocol = QRCodeAuthClient()) {
+        self.apiServiceClient = apiService
+    }
     var authResponse: QRAuthModel? {
         didSet {
             print("QR Auth response", authResponse?.result?.auth ?? "")
-            self.didReceiveAuth!(true, authResponse?.result?.auth ?? "")
+            if let didReceive = self.didReceiveAuth {
+                didReceive(true, authResponse?.result?.auth ?? "")
+            }
+            
         }
     }
 }
@@ -30,19 +37,19 @@ extension QRAuthViewModel: QRAuthViewModelProtocol {
                 return
             }
             let endPoint: Endpoint = QRAuthEndPoint().endpoint(code: uri, access_token: access_token)
-            client.featchQRAuth(from: endPoint) { [weak self] result in
+            apiServiceClient.featchQRAuth(from: endPoint) { [weak self] result in
                 switch result {
                 case .success(let data):
                     guard let response = data else {
-                        print("Unable to fecth QRAuthToken")
-                        self?.didReceiveAuth!(false, "unable to fecth QRAuthToken")
+                        print("Response Data not valid")
+                        self?.didReceiveAuth!(false, "Response Data not valid")
                         return
                     }
                     print("QRAuthToken \(String(describing: response.result?.auth))")
                     self?.authResponse = response
                 case .failure(let error):
                     print(false, "unable to fecth accesstoken")
-                    self?.didReceiveAuth!(false, "unable to fecth QRAuthToken")
+                    self?.didReceiveAuth!(false, error.localizedDescription)
                     print("the error \(error)")
                 }
             }

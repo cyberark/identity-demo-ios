@@ -26,9 +26,11 @@ extension UIViewController {
         alertController.addAction(action)
         present(alertController, animated: true, completion: nil)
     }
-    static func showAlertOnRootView(with title: String? = "", message: String) {
-        let rootViewController = UIApplication.shared.windows.last?.rootViewController
-        rootViewController?.showAlert(with: title, message: message)
-         
+    static func showAlertOnRootView(with presenter: UIViewController? = UIApplication.shared.windows.last?.rootViewController,
+                                    title: String? = "",
+                                    message: String) {
+        DispatchQueue.main.async {
+            presenter?.showAlert(with: title, message: message)
+        }
      }
 }

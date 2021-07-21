@@ -15,10 +15,6 @@ enum ScannerError: Error {
     case accessTokenFailed
 }
 
-//protocol QRCodeScannerDelegate {
-//    func onSuccess(qrCode: String)
-//    func onFailure(error: Error)
-//}
 typealias ResultHandler = ( Result <String ,ScannerError > ) -> Void
 class QRCodeScannerViewController: UIViewController {
     
@@ -46,18 +42,16 @@ class QRCodeScannerViewController: UIViewController {
     @IBAction func closeScannerView(_ sender: Any) {
         self.dismiss(animated: true, completion:  nil)
     }
-    class func showScannerView(with presenter: UIViewController? = nil, completionHandler: @escaping ResultHandler) {
-        let presenterVC = presenter ?? UIApplication.shared.windows.last?.rootViewController
+    class func showScannerView(with completionHandler: @escaping ResultHandler) -> QRCodeScannerViewController {
         let vc = QRCodeScannerViewController.loadFromNib()
         vc.handler = completionHandler
-        presenterVC?.present(vc, animated: true, completion: nil)
+        return vc
     }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupScanner()
     }
     private func setupScanner() {
-        //        let failureError = NSError(domain: "", code: 1, userInfo: [NSLocalizedDescriptionKey: "Failed to initiate Scanner view."])
         // Get the back-facing camera for capturing videos
         guard let captureDevice = AVCaptureDevice.default(for: AVMediaType.video) else {
             
@@ -187,6 +181,9 @@ extension QRCodeScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         captureSession.stopRunning()
         if let metadataObject = metadataObjects.first {
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject, let qrCode = readableObject.stringValue else {
+                if let handler = self.handler {
+                    handler(.failure(.inValidQrCode))
+                }
                 return
             }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))

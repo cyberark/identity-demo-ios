@@ -54,16 +54,19 @@ public class QRCodeScannerBuilder {
     private func launchScanner(with qrCoder: String? = nil) {
         guard let uri = qrCoder else {
             DispatchQueue.main.async {
-                QRCodeScannerViewController.showScannerView(with: self.presenter) { [weak self] result in
+                let qrVC = QRCodeScannerViewController.showScannerView() { [weak self] result in
                     switch result {
                     case .success (let value):
                         print(value)
                         self?.fetchAccessToken(uri: value)
-                        UIViewController.showAlertOnRootView(with: "Qrcode: ", message: value)
                     case .failure(let error):
+                        self?.showFailedAlert(message: "Invalid QR Code")
                         print(error.localizedDescription)
                     }
                 }
+                let presenterVC = self.presenter ?? UIApplication.shared.windows.last?.rootViewController
+                presenterVC?.present(qrVC, animated: true, completion: nil)
+                
             }
             return
         }
@@ -75,11 +78,16 @@ public class QRCodeScannerBuilder {
         viewModel.fetchAuthToken(uri: uri)
         addObserver()
     }
+    private func showFailedAlert(message: String) {
+        UIViewController.showAlertOnRootView(with: self.presenter, title: "QR Code", message: message)
+    }
     private func addObserver() {
-        viewModel.didReceiveAuth = { result, authValue in
+        viewModel.didReceiveAuth = { [weak self] result, authValue in
             if result {
-                print("QRAuthCode \(authValue)")
-                UIViewController.showAlertOnRootView(with: "Qrcode Auth", message: authValue)
+                print("Final QRAuthCode \(authValue)")
+                UIViewController.showAlertOnRootView(with: self?.presenter, title: "QR Code", message: authValue)
+            } else {
+                self?.showFailedAlert(message: "QR Api failed")
             }
         }
     }
