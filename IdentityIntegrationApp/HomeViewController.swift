@@ -13,7 +13,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var QR_button: UIButton!
     @IBOutlet weak var logout_button: UIButton!
     @IBOutlet weak var refresh_button: UIButton!
-    let builder = QRCodeScannerBuilder()
+    let builder = QRCodeReaderBuilder()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,7 +65,7 @@ extension HomeViewController {
         CyberArkAuthProvider.sendRefreshToken()
     }
     func navigateToScanner() {
-        builder.authenticate(qrCode:nil, presenter: self)
+        builder.authenticateQrCode(presenter: self)
     }
 }
 extension HomeViewController {}

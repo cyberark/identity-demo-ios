@@ -9,7 +9,7 @@ import Foundation
 
 
 protocol QRAuthViewModelProtocol {
-    func fetchAuthToken(uri: String)
+    func fetchAuthToken(code: String)
     var didReceiveAuth: ((Bool,String) -> Void)? { get set }
 }
 public class QRAuthViewModel {
@@ -30,13 +30,13 @@ public class QRAuthViewModel {
     }
 }
 extension QRAuthViewModel: QRAuthViewModelProtocol {
-    func fetchAuthToken(uri: String) {
+    func fetchAuthToken(code: String) {
         do {
             guard let access_token = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue)?.toString() else {
                 print("Not available accesstoken")
                 return
             }
-            let endPoint: Endpoint = QRAuthEndPoint().endpoint(code: uri, access_token: access_token)
+            let endPoint: Endpoint = QRAuthEndPoint().endpoint(code: code, access_token: access_token)
             apiServiceClient.featchQRAuth(from: endPoint) { [weak self] result in
                 switch result {
                 case .success(let data):

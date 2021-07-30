@@ -9,7 +9,7 @@ import UIKit
 import Identity
 
 class ViewController: UIViewController {
-    let scannerBuilder = QRCodeScannerBuilder()
+    let scannerBuilder = QRCodeReaderBuilder()
     
     let homeViewSegueIdentifier = "HomeViewSegueIdentifier"
     
@@ -24,7 +24,6 @@ class ViewController: UIViewController {
         //"Refresh Token",
         //"End Session/Logout"
     ]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         //addQRAuth()
@@ -35,6 +34,21 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //addQRAuth()
+//        BiometricsAuthenticator().authenticateUser { (response) in
+//            switch response {
+//            case .success(let success):
+//                print("Success \(success)")
+//            case .failure(let error):
+//                DispatchQueue.main.async {
+//                    print("Error for Biometric enrole\(error.localizedDescription)")
+//                    let mesage = error.localizedDescription
+//                    let alertController = UIAlertController(title: "BioMetric Error", message: mesage, preferredStyle: .alert)
+//                    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+//                    alertController.addAction(action)
+//                    self.present(alertController, animated: true, completion: nil)
+//                }
+//            }
+//        }
     }
     func addQRAuth() {
         do  {
@@ -127,7 +141,7 @@ extension ViewController {
 extension ViewController {
     func navigateToScanner() {
         //let value = "https://aaj7479.my.dev.idaptive.app/security/StartQRCodeAuthentication?guid=LSTcJk-da06TYEDDJbnjS-nIRy7cUvIUWmfIyExGcoo1"
-        scannerBuilder.authenticate(qrCode: nil, presenter: self)
+//        scannerBuilder.authenticate(qrCode: nil, presenter: self)
     }
 }
 extension ViewController {

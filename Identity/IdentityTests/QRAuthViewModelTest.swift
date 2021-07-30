@@ -160,3 +160,32 @@ class StubQrAPIAuthGenerator {
         return nil
     }
 }
+
+/*
+let localAuthenticationContext = LAContext()
+localAuthenticationContext.localizedFallbackTitle = "Please use your Passcode"
+
+var authorizationError: NSError?
+let reason = "Authentication is required for you to continue"
+
+if localAuthenticationContext.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: &authorizationError) {
+    
+    let biometricType = localAuthenticationContext.biometryType == LABiometryType.faceID ? "Face ID" : "Touch ID"
+    print("Supported Biometric type is: \( biometricType )")
+    
+    localAuthenticationContext.evaluatePolicy(LAPolicy.deviceOwnerAuthentication, localizedReason: reason) { (success, evaluationError) in
+        if success {
+            print("Success")
+        } else {
+            print("Error \(evaluationError!)")
+            if let errorObj = evaluationError {
+                let messageToDisplay = self.getErrorDescription(errorCode: errorObj._code)
+                print(messageToDisplay)
+            }
+        }
+    }
+      
+} else {
+    print("User has not enrolled into using Biometrics")
+}
+*/
