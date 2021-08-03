@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2874EA1126B7EB2D005D64C4 /* Identity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2874EA0C26B7EB0E005D64C4 /* Identity.framework */; };
+		2874EA1226B7EB2D005D64C4 /* Identity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2874EA0C26B7EB0E005D64C4 /* Identity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E231411626A550F000741657 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231411526A550F000741657 /* HomeViewController.swift */; };
 		E24ECDCE269C663B00C61EF5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECDCD269C663B00C61EF5 /* AppDelegate.swift */; };
 		E24ECDD0269C663B00C61EF5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECDCF269C663B00C61EF5 /* SceneDelegate.swift */; };
@@ -15,21 +17,19 @@
 		E24ECDD7269C663C00C61EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E24ECDD6269C663C00C61EF5 /* Assets.xcassets */; };
 		E24ECDDA269C663C00C61EF5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E24ECDD8269C663C00C61EF5 /* LaunchScreen.storyboard */; };
 		E24ECDF0269C668C00C61EF5 /* IdentityConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = E24ECDEF269C668C00C61EF5 /* IdentityConfiguration.plist */; };
-		E2EE994E269C960B004DF1EF /* Identity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2EE9949269C95EF004DF1EF /* Identity.framework */; };
-		E2EE994F269C960B004DF1EF /* Identity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E2EE9949269C95EF004DF1EF /* Identity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		E2EE9948269C95EF004DF1EF /* PBXContainerItemProxy */ = {
+		2874EA0B26B7EB0E005D64C4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E2EE9943269C95EF004DF1EF /* Identity.xcodeproj */;
+			containerPortal = 2874EA0626B7EB0D005D64C4 /* Identity.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E2C669C226987AAF00E98544;
 			remoteInfo = Identity;
 		};
-		E2EE994A269C95EF004DF1EF /* PBXContainerItemProxy */ = {
+		2874EA0D26B7EB0E005D64C4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E2EE9943269C95EF004DF1EF /* Identity.xcodeproj */;
+			containerPortal = 2874EA0626B7EB0D005D64C4 /* Identity.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = E2C669CB26987AAF00E98544;
 			remoteInfo = IdentityTests;
@@ -43,7 +43,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E2EE994F269C960B004DF1EF /* Identity.framework in Embed Frameworks */,
+				2874EA1226B7EB2D005D64C4 /* Identity.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,6 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2874EA0626B7EB0D005D64C4 /* Identity.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Identity.xcodeproj; path = Identity/Identity.xcodeproj; sourceTree = "<group>"; };
 		E231411526A550F000741657 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E2414FAF269EFF7F00230041 /* IdentityIntegrationApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IdentityIntegrationApp.entitlements; sourceTree = "<group>"; };
 		E24ECDCA269C663A00C61EF5 /* IdentityIntegrationApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IdentityIntegrationApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,7 +63,6 @@
 		E24ECDD9269C663C00C61EF5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E24ECDDB269C663C00C61EF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E24ECDEF269C668C00C61EF5 /* IdentityConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = IdentityConfiguration.plist; sourceTree = "<group>"; };
-		E2EE9943269C95EF004DF1EF /* Identity.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Identity.xcodeproj; path = Identity/Identity.xcodeproj; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,13 +70,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2EE994E269C960B004DF1EF /* Identity.framework in Frameworks */,
+				2874EA1126B7EB2D005D64C4 /* Identity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2874EA0726B7EB0D005D64C4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2874EA0C26B7EB0E005D64C4 /* Identity.framework */,
+				2874EA0E26B7EB0E005D64C4 /* IdentityTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		E24ECDC1269C663A00C61EF5 = {
 			isa = PBXGroup;
 			children = (
@@ -98,7 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				E2414FAF269EFF7F00230041 /* IdentityIntegrationApp.entitlements */,
-				E2EE9943269C95EF004DF1EF /* Identity.xcodeproj */,
+				2874EA0626B7EB0D005D64C4 /* Identity.xcodeproj */,
 				E24ECDCD269C663B00C61EF5 /* AppDelegate.swift */,
 				E24ECDCF269C663B00C61EF5 /* SceneDelegate.swift */,
 				E24ECDD1269C663B00C61EF5 /* ViewController.swift */,
@@ -117,15 +126,6 @@
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		E2EE9944269C95EF004DF1EF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				E2EE9949269C95EF004DF1EF /* Identity.framework */,
-				E2EE994B269C95EF004DF1EF /* IdentityTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,8 +176,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = E2EE9944269C95EF004DF1EF /* Products */;
-					ProjectRef = E2EE9943269C95EF004DF1EF /* Identity.xcodeproj */;
+					ProductGroup = 2874EA0726B7EB0D005D64C4 /* Products */;
+					ProjectRef = 2874EA0626B7EB0D005D64C4 /* Identity.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -188,18 +188,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		E2EE9949269C95EF004DF1EF /* Identity.framework */ = {
+		2874EA0C26B7EB0E005D64C4 /* Identity.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = Identity.framework;
-			remoteRef = E2EE9948269C95EF004DF1EF /* PBXContainerItemProxy */;
+			remoteRef = 2874EA0B26B7EB0E005D64C4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		E2EE994B269C95EF004DF1EF /* IdentityTests.xctest */ = {
+		2874EA0E26B7EB0E005D64C4 /* IdentityTests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = IdentityTests.xctest;
-			remoteRef = E2EE994A269C95EF004DF1EF /* PBXContainerItemProxy */;
+			remoteRef = 2874EA0D26B7EB0E005D64C4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

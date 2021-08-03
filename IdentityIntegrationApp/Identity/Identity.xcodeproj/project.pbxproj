@@ -276,7 +276,6 @@
 			children = (
 				E2C669C426987AAF00E98544 /* Identity */,
 				E2C669CF26987AAF00E98544 /* IdentityTests */,
-				E2C669C326987AAF00E98544 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -287,6 +286,7 @@
 				E2C669CB26987AAF00E98544 /* IdentityTests.xctest */,
 			);
 			name = Products;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		E2C669C426987AAF00E98544 /* Identity */ = {
@@ -310,6 +310,7 @@
 				2899322C26A83AAF00DA4FE3 /* QRAuthEndPointTest.swift */,
 				28519BCB26B07003009F615D /* BiometricsAuthenticatorTest.swift */,
 				285ADAA426B446D200417085 /* QRCodeReaderBuilderTest.swift */,
+				E2C669C326987AAF00E98544 /* Products */,
 			);
 			path = IdentityTests;
 			sourceTree = "<group>";

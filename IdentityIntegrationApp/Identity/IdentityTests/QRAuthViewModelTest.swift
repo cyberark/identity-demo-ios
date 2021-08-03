@@ -43,9 +43,9 @@ class QRAuthViewModelTest: XCTestCase {
         // When
 //        sut.fetchAuthToken(uri: "")
         
-        sut.didReceiveAuth = { result, value in
-            XCTAssertEqual(result, false)
-            XCTAssertEqual(value, error.localizedDescription)
+        sut.didReceiveAuth = { error, value in
+            XCTAssertNotNil(error)
+            XCTAssertNil(value)
         }
         // Sut should display predefined error message
         mockAPIService.featchQRAuth(from: Endpoint(httpMethod: .get, dataType: .JSON)) { [self] result in
@@ -53,7 +53,7 @@ class QRAuthViewModelTest: XCTestCase {
             case .success( _):
                 break
             case .failure( _):
-                sut.didReceiveAuth!(false, error.localizedDescription)
+                sut.didReceiveAuth!(error, nil)
             }
         }
         
@@ -67,8 +67,8 @@ class QRAuthViewModelTest: XCTestCase {
 //        sut.fetchAuthToken(uri: "uri")
         
         // Sut should display predefined error message
-        sut.didReceiveAuth = { result, value in
-            XCTAssertEqual(result, true)
+        sut.didReceiveAuth = { error, value in
+            XCTAssertNil(error)
             XCTAssertEqual(value, "sample_auth")
         }
         
@@ -77,7 +77,7 @@ class QRAuthViewModelTest: XCTestCase {
             case .success(let data):
                 guard let response = data else {
                     print("Test Response Data not valid")
-                    sut.didReceiveAuth!(false, "Response Data not valid")
+                    sut.didReceiveAuth!(APIError.invalidData, nil)
                     return
                 }
                 print("Test QRAuthToken \(String(describing: response.result?.auth))")
@@ -93,18 +93,18 @@ class QRAuthViewModelTest: XCTestCase {
     func test_qrAuthApi_success_InValidData() {
         
         // When
-        sut.fetchAuthToken(uri: "")
+        sut.fetchQRAuthToken(code: "")
         
-        sut.didReceiveAuth = { result, value in
-            XCTAssertEqual(result, false)
-            XCTAssertEqual(value, "Response Data not valid")
+        sut.didReceiveAuth = { error, value in
+            XCTAssertNotNil(error)
+            XCTAssertNil(value)
         }
         
         mockAPIService.featchQRAuth(from: Endpoint(httpMethod: .get, dataType: .JSON)) { [self] result in
             switch result {
             case .success(let data):
                 guard let response = data else {
-                    sut.didReceiveAuth!(false, "Response Data not valid")
+                    sut.didReceiveAuth!(APIError.responseUnsuccessful, nil)
                     return
                 }
                 sut.authResponse = response
@@ -160,32 +160,3 @@ class StubQrAPIAuthGenerator {
         return nil
     }
 }
-
-/*
-let localAuthenticationContext = LAContext()
-localAuthenticationContext.localizedFallbackTitle = "Please use your Passcode"
-
-var authorizationError: NSError?
-let reason = "Authentication is required for you to continue"
-
-if localAuthenticationContext.canEvaluatePolicy(LAPolicy.deviceOwnerAuthentication, error: &authorizationError) {
-    
-    let biometricType = localAuthenticationContext.biometryType == LABiometryType.faceID ? "Face ID" : "Touch ID"
-    print("Supported Biometric type is: \( biometricType )")
-    
-    localAuthenticationContext.evaluatePolicy(LAPolicy.deviceOwnerAuthentication, localizedReason: reason) { (success, evaluationError) in
-        if success {
-            print("Success")
-        } else {
-            print("Error \(evaluationError!)")
-            if let errorObj = evaluationError {
-                let messageToDisplay = self.getErrorDescription(errorCode: errorObj._code)
-                print(messageToDisplay)
-            }
-        }
-    }
-      
-} else {
-    print("User has not enrolled into using Biometrics")
-}
-*/

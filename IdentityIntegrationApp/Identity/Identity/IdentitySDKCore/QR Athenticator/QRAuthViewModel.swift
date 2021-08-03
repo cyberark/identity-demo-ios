@@ -9,12 +9,12 @@ import Foundation
 
 
 protocol QRAuthViewModelProtocol {
-    func fetchAuthToken(code: String)
-    var didReceiveAuth: ((Bool,String) -> Void)? { get set }
+    func fetchQRAuthToken(code: String)
+    var didReceiveAuth: ((Error?, String?) -> Void)? { get set }
 }
 public class QRAuthViewModel {
     private let apiServiceClient : QRCodeAuthClientProtocol
-    public var didReceiveAuth: ((Bool,String) -> Void)?
+    public var didReceiveAuth: ((Error?, String?) -> Void)?
     
     init( apiService: QRCodeAuthClientProtocol = QRCodeAuthClient()) {
         self.apiServiceClient = apiService
@@ -23,14 +23,15 @@ public class QRAuthViewModel {
         didSet {
             print("QR Auth response", authResponse?.result?.auth ?? "")
             if let didReceive = self.didReceiveAuth {
-                didReceive(true, authResponse?.result?.auth ?? "")
+                didReceive(nil, authResponse?.result?.auth)
             }
             
         }
     }
 }
 extension QRAuthViewModel: QRAuthViewModelProtocol {
-    func fetchAuthToken(code: String) {
+
+    func fetchQRAuthToken(code: String) {
         do {
             guard let access_token = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue)?.toString() else {
                 print("Not available accesstoken")
@@ -42,15 +43,19 @@ extension QRAuthViewModel: QRAuthViewModelProtocol {
                 case .success(let data):
                     guard let response = data else {
                         print("Response Data not valid")
-                        self?.didReceiveAuth!(false, "Response Data not valid")
+                        if let receivedAuth = self?.didReceiveAuth {
+                            receivedAuth(APIError.invalidData, nil)
+                        }
+                        
                         return
                     }
                     print("QRAuthToken \(String(describing: response.result?.auth))")
                     self?.authResponse = response
                 case .failure(let error):
-                    print(false, "unable to fecth accesstoken")
-                    self?.didReceiveAuth!(false, error.localizedDescription)
-                    print("the error \(error)")
+                    print(false, error.localizedDescription)
+                    if let didReceive = self?.didReceiveAuth {
+                        didReceive(error, nil)
+                    }
                 }
             }
             
