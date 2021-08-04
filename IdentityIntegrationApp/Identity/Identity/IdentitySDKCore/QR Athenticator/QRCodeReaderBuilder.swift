@@ -50,11 +50,10 @@ public class QRCodeReaderBuilder {
     }
     private func addObserver() {
         viewModel.didReceiveAuth = { [weak self] error, authValue in
-            guard error != nil, let value = authValue else{
+            guard error == nil, let value = authValue else {
                 if let erroString = (error as? APIError)?.localizedDescription {
                     self?.showFailedAlert(message: erroString)
                 }
-                
                 return
             }
             print("Final QRAuthCode \(value)")
