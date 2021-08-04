@@ -93,7 +93,7 @@ class QRAuthViewModelTest: XCTestCase {
     func test_qrAuthApi_success_InValidData() {
         
         // When
-        sut.fetchQRAuthToken(code: "")
+        sut.fetchQRAuthToken(qrCode: "")
         
         sut.didReceiveAuth = { error, value in
             XCTAssertNotNil(error)

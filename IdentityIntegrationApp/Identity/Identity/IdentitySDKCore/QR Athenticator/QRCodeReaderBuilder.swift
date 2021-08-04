@@ -16,19 +16,17 @@ public protocol AVCaptureDeviceProtocl {
 
 public protocol QRCodeReaderBuilderProtocol {
     func authenticateQrCode(presenter: UIViewController)
-    func fetchQrCodeAccessToken(code: String)
+    func fetchQrCodeAccessToken(qrCode: String)
 }
 
 public class QRCodeReaderBuilder {
     private var presenter: UIViewController?
     private var avCaptureDevice: AVCaptureDeviceProtocl!
-    convenience init(captureDevice: AVCaptureDeviceProtocl = QRAVCaptureDevice()){
-        self.init()
-        self.avCaptureDevice = captureDevice
-    }
-    
+    private var sharedApplication: UIApplicationProtocol?
+
     public init() {
         self.avCaptureDevice = QRAVCaptureDevice()
+        self.sharedApplication = QRUIApplication()
     }
     public var viewModel : QRAuthViewModel = {
         let viewModel = QRAuthViewModel()
@@ -39,7 +37,7 @@ public class QRCodeReaderBuilder {
     func navigateSettings() {
         DispatchQueue.main.async {
             if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+                self.sharedApplication?.open(settingsURL)
             }
         }
     }
@@ -74,12 +72,27 @@ public class QRCodeReaderBuilder {
                     return
                 }
                 print("Raviraju QRCode \(code)")
-                self?.fetchQrCodeAccessToken(code: code)
+                self?.fetchQrCodeAccessToken(qrCode: code)
             }
             let presenterVC = self.presenter ?? UIApplication.shared.windows.last?.rootViewController
             presenterVC?.present(readerViewController, animated: true, completion: nil)
         }
     }
+}
+
+extension QRCodeReaderBuilder {
+
+    convenience init (captureDevice: AVCaptureDeviceProtocl = QRAVCaptureDevice(), application: UIApplicationProtocol = QRUIApplication()) {
+        self.init()
+        self.sharedApplication = application
+        self.avCaptureDevice = captureDevice
+    }
+
+    convenience init(captureDevice: AVCaptureDeviceProtocl = QRAVCaptureDevice()){
+        self.init()
+        self.avCaptureDevice = captureDevice
+    }
+
 }
 
 extension QRCodeReaderBuilder: QRCodeReaderBuilderProtocol {
@@ -109,13 +122,22 @@ extension QRCodeReaderBuilder: QRCodeReaderBuilderProtocol {
         }
     }
     
-    public func fetchQrCodeAccessToken(code: String) {
-        viewModel.fetchQRAuthToken(code: code)
+    public func fetchQrCodeAccessToken(qrCode: String) {
+        viewModel.fetchQRAuthToken(qrCode: qrCode)
         addObserver()
     }
     
 }
 
+public protocol UIApplicationProtocol {
+    func open(_ url: URL)
+}
+
+struct QRUIApplication: UIApplicationProtocol {
+    func open(_ url: URL) {
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+}
 
 struct QRAVCaptureDevice: AVCaptureDeviceProtocl {
     func authorizationStatus(for mediaType: AVMediaType) -> AVAuthorizationStatus {
