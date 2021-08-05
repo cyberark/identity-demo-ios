@@ -9,10 +9,10 @@ import Foundation
 
 struct QRAuthEndPoint {
     func endpoint(code: String, access_token: String) -> Endpoint {
-        debugPrint("AccessCode for qrcode endpoint \(access_token)")
-        let auth = "Bearer \(access_token)"
+        let accessToken = "Bearer \(access_token)"
+        debugPrint("AccessCode for qrcode endpoint \(accessToken)")
         let headers = ["X-IDAP-NATIVE-CLIENT" : "true",
-                       "Authorization" : auth]
+                       "Authorization" : accessToken]
         let queryItems = [URLQueryItem]()
         let parameters: [String: String] = [:]
         if let body = try? JSONSerialization.data(withJSONObject: parameters) {
