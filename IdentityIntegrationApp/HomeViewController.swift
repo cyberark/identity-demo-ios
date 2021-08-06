@@ -69,7 +69,14 @@ extension HomeViewController {
         CyberArkAuthProvider.sendRefreshToken()
     }
     func navigateToScanner() {
-        builder.authenticateQrCode(presenter: self)
+        builder.authenticateQrCode(presenter: self, completion: { [weak self] result in
+            switch result {
+            case .success(_):
+                print("QR auth success")
+            case .failure(let error):
+                self?.showAlert(with :"Error", message: error.localizedDescription)
+            }
+        })
     }
 }
 extension HomeViewController {}

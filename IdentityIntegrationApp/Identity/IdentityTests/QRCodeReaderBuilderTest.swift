@@ -23,7 +23,14 @@ class QRCodeReaderBuilderTest: XCTestCase {
         let mockApplication = MockUIApplication()
         let mockSut = MockQRCodeReaderBuilder(captureDevice: mockAVdevice, application: mockApplication)
         let vc = MockPresentingViewController()
-        mockSut.authenticateQrCode(presenter: vc)
+        mockSut.authenticateQrCode(presenter: vc) { result in
+            switch result {
+            case .success(_):
+                break
+            case .failure(_):
+                break
+            }
+        }
         XCTAssertFalse(mockApplication.canopenUrl)
     }
     
@@ -32,7 +39,14 @@ class QRCodeReaderBuilderTest: XCTestCase {
         mockAVdevice.authorizeStatus = .authorized
         let mockSut = MockQRCodeReaderBuilder(captureDevice: mockAVdevice)
         let vc = MockPresentingViewController()
-        mockSut.authenticateQrCode(presenter: vc)
+        mockSut.authenticateQrCode(presenter: vc) { result in
+            switch result {
+            case .success(_):
+                break
+            case .failure(_):
+                break
+            }
+        }
         
         let delayExpectation = expectation(description: "Waiting for QRVC is open")
 
@@ -52,7 +66,14 @@ class QRCodeReaderBuilderTest: XCTestCase {
         mockAVdevice.access = true
         let mockSut = MockQRCodeReaderBuilder(captureDevice: mockAVdevice)
         let vc = MockPresentingViewController()
-        mockSut.authenticateQrCode(presenter: vc)
+        mockSut.authenticateQrCode(presenter: vc) { result in
+            switch result {
+            case .success(_):
+                break
+            case .failure(_):
+                break
+            }
+        }
         let delayExpectation = expectation(description: "Waiting for QRVC is open")
 
         // Fulfill the expectation after 2 seconds
@@ -70,7 +91,14 @@ class QRCodeReaderBuilderTest: XCTestCase {
         mockAVdevice.authorizeStatus = .notDetermined
         let mockSut = MockQRCodeReaderBuilder(captureDevice: mockAVdevice)
         let vc = UIViewController()
-        mockSut.authenticateQrCode(presenter: vc)
+        mockSut.authenticateQrCode(presenter: vc) { result in
+            switch result {
+            case .success(_):
+                break
+            case .failure(_):
+                break
+            }
+        }
         XCTAssertNil(vc.presentedViewController)
     }
     
@@ -80,7 +108,14 @@ class QRCodeReaderBuilderTest: XCTestCase {
         let mockApplication = MockUIApplication()
         let mockSut = MockQRCodeReaderBuilder(captureDevice: mockAVdevice, application: mockApplication)
         let vc = MockPresentingViewController()
-        mockSut.authenticateQrCode(presenter: vc)
+        mockSut.authenticateQrCode(presenter: vc) { result in
+            switch result {
+            case .success(_):
+                break
+            case .failure(_):
+                break
+            }
+        }
         let delayExpectation = expectation(description: "Waiting for QRVC is open")
 
         // Fulfill the expectation after 2 seconds

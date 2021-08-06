@@ -9,21 +9,24 @@ import Foundation
 import AVFoundation
 import UIKit
 
+public typealias ResultHandler = (Result<Bool, APIError>) -> Void
 public protocol AVCaptureDeviceProtocl {
     func authorizationStatus(for mediaType: AVMediaType) -> AVAuthorizationStatus
     func requestAccess(for mediaType: AVMediaType, completionHandler handler: @escaping (Bool) -> Void)
 }
 
-public protocol QRCodeReaderBuilderProtocol {
-    func authenticateQrCode(presenter: UIViewController)
+protocol QRCodeReaderAPIProtocol {
     func fetchQrCodeAccessToken(qrCode: String)
+}
+public protocol QRCodeReaderBuilderProtocol {
+    func authenticateQrCode(presenter: UIViewController, completion: @escaping ResultHandler)
 }
 
 public class QRCodeReaderBuilder {
     private var presenter: UIViewController?
     private var avCaptureDevice: AVCaptureDeviceProtocl!
     private var sharedApplication: UIApplicationProtocol?
-
+    private var handler: ResultHandler!
     public init() {
         self.avCaptureDevice = QRAVCaptureDevice()
         self.sharedApplication = QRUIApplication()
@@ -48,14 +51,16 @@ public class QRCodeReaderBuilder {
     }
     private func addObserver() {
         viewModel.didReceiveAuth = { [weak self] error, authValue in
-            guard error == nil, let value = authValue else {
+            if error == nil, let value = authValue {
+                print("Final QRAuthCode \(value)")
+                UIViewController.showAlertOnRootView(with: self?.presenter, title: "QR Code", message: value)
+                self?.handler(.success(true))
+            } else {
                 if let erroString = (error as? APIError)?.localizedDescription {
                     self?.showFailedAlert(message: erroString)
                 }
-                return
+                self?.handler(.failure((error as? APIError) ?? APIError.invalidData))
             }
-            print("Final QRAuthCode \(value)")
-            UIViewController.showAlertOnRootView(with: self?.presenter, title: "QR Code", message: value)
         }
     }
     
@@ -95,9 +100,10 @@ extension QRCodeReaderBuilder {
 
 }
 
-extension QRCodeReaderBuilder: QRCodeReaderBuilderProtocol {
-    
-    public func authenticateQrCode(presenter: UIViewController) {
+extension QRCodeReaderBuilder: QRCodeReaderBuilderProtocol, QRCodeReaderAPIProtocol {
+    //compltion  error code , error message and success
+    public func authenticateQrCode(presenter: UIViewController, completion: @escaping ResultHandler) {
+        self.handler = completion
         self.presenter = presenter
         switch avCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
