@@ -66,7 +66,7 @@ extension APIClient {
     ///   - request: urlrequest
     ///   - decode: decode object
     ///   - completion: check Result<T, APIError>
-    func fetch<T: Codable>(with request: URLRequest, decode: @escaping (Codable) -> T?, completion: @escaping (Result<T, APIError>) -> Void) {
+    internal func fetch<T: Codable>(with request: URLRequest, decode: @escaping (Codable) -> T?, completion: @escaping (Result<T, APIError>) -> Void) {
         //self.index = 0
         let task = decodingTask(with: request, decodingType: T.self) { (json , error) in
             //MARK: change to main queue

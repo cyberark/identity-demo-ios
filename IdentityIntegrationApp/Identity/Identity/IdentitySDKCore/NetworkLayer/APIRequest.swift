@@ -14,7 +14,7 @@ import Foundation
 /// - body: part of the body stream
 /// - url: as url parameters
 
-struct Endpoint {
+internal struct Endpoint {
     
     /// Relative path of the endpoint we want to call
     var path: String?

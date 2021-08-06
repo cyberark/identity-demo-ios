@@ -9,9 +9,9 @@
 	<key>clientsecret</key>
 	<string></string>
 	<key>domainautho</key>
-	<string>https://aaj7479.my.dev.idaptive.app</string>
+	<string>https://acme2.my.dev.idaptive.app</string>
 	<key>applicationid</key>
-	<string>testapplicationID</string>
+	<string>oauthMFAFlow</string>
 	<key>redirecturi</key>
 	<string>ciamsdkdemo://com.cyberark.ciamsdk</string>
 	<key>scope</key>

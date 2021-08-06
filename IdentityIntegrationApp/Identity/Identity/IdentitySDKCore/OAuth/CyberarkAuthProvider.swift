@@ -33,7 +33,7 @@ public class CyberarkAuthProvider: CyberarkAuthProviderProtocol {
     private var viewModel:AuthenticationViewModel?
 
     // PKCE object creation
-    var pkce: AuthOPKCE?
+    private var pkce: AuthOPKCE?
 
     /// private initializers
     private init(){
@@ -62,7 +62,7 @@ extension CyberarkAuthProvider {
 extension CyberarkAuthProvider {
     
     /// Entrypoint
-    /// Login
+    ///
     ///
     public func login(){
         builder?.build().login(completion: { (status, error) in

@@ -12,7 +12,7 @@ import Foundation
 ///  OAuth + PKCE web based login
 ///
 
-public class OAuthEndPoint {
+internal class OAuthEndPoint {
     
     /// clientId configured in the server
     var clientId: String? = nil

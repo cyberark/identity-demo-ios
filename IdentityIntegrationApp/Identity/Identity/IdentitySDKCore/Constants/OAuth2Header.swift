@@ -29,6 +29,4 @@ enum OAuth2Header: String {
     case tokenType = "token_type"
     case tokenExpiresIn = "expires_in"
     case postLogoutRedirectUri = "post_logout_redirect_uri"
-
-    
 }

@@ -20,6 +20,10 @@ class HomeViewController: UIViewController {
         addObserver()
         addLogoutObserver()
     }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationItem.hidesBackButton = true
+    }
 }
 extension HomeViewController {
     @IBAction func do_click(_ sender: Any) {

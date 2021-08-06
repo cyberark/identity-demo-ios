@@ -28,7 +28,7 @@ public typealias didFinishingbrowserOperationCallback = (_ result: String?, _ er
 
 public class CyberArkBrowser: NSObject {
     
-    var type: WebType?
+     var type: WebType?
 
     var browserCallback: didFinishingbrowserOperationCallback?
     

@@ -20,7 +20,7 @@ class ViewController: UIViewController {
         }
     }
     var loginTypes = [
-        "Login(OAuth+PKCE)"
+        "Login"
         //"Refresh Token",
         //"End Session/Logout"
     ]
@@ -49,6 +49,9 @@ class ViewController: UIViewController {
 //                }
 //            }
 //        }
+    }
+    @IBAction func login_click(_ sender: Any) {
+        navigateToLogin()
     }
     func addQRAuth() {
         do  {
@@ -95,18 +98,25 @@ extension ViewController {
             navigateToScanner()
         }
     }
-
+    
+    /// Launches the extrenal safari view controller based on the configuration
+    /// Setup the initial configuration
+    /// Custom browser Parameters
+    ///
     func navigateToLogin() {
         guard let _ = plistValues(bundle: Bundle.main) else { return }
-        CyberArkAuthProvider.webAuth()?.set(presentingViewController: self)
+        CyberArkAuthProvider.webAuth()?
+            .set(presentingViewController: self)
             .setCustomParam(key: "", value: "")
+            .set(webType: .sfsafari)
             .build()
             .login(completion: { (result, error) in
                 if((result) != nil) {
                     
                 }
-        })
+            })
     }
+    
     func addObserver(){
         CyberArkAuthProvider.viewmodel()?.didReceiveAccessToken = { (result, accessToken) in
             if result {

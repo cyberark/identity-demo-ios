@@ -1,49 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QSu-nY-VJ1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QSu-nY-VJ1">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--IdentitySDK-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hvu-Nx-fbZ">
-                                <rect key="frame" x="30" y="217" width="354" height="620"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hvu-Nx-fbZ">
+                                <rect key="frame" x="30" y="257" width="354" height="492"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </tableView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cyberarklogo" translatesAutoresizingMaskIntoConstraints="NO" id="ot4-nc-oZT">
-                                <rect key="frame" x="87" y="60" width="240" height="128"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="acmelogo" translatesAutoresizingMaskIntoConstraints="NO" id="ot4-nc-oZT">
+                                <rect key="frame" x="87" y="100" width="240" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="8S6-m3-hoJ"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="063-R7-FSN">
+                                <rect key="frame" x="30" y="278" width="354" height="34"/>
+                                <color key="backgroundColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="bwM-Pk-ITT"/>
+                                </constraints>
+                                <state key="normal" title="Login"/>
+                                <connections>
+                                    <action selector="login_click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="h8D-Tk-GbJ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hvu-Nx-fbZ" secondAttribute="bottom" constant="25" id="1yi-DW-Jzs"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="063-R7-FSN" secondAttribute="trailing" constant="30" id="8Eg-73-tVJ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hvu-Nx-fbZ" secondAttribute="trailing" constant="30" id="S73-nJ-2Bm"/>
                             <constraint firstItem="hvu-Nx-fbZ" firstAttribute="top" secondItem="ot4-nc-oZT" secondAttribute="bottom" constant="29" id="XJA-TD-45J"/>
                             <constraint firstItem="ot4-nc-oZT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="c2s-gc-Tpx"/>
+                            <constraint firstItem="063-R7-FSN" firstAttribute="top" secondItem="ot4-nc-oZT" secondAttribute="bottom" constant="50" id="fC2-EF-bzI"/>
                             <constraint firstItem="hvu-Nx-fbZ" firstAttribute="top" secondItem="ot4-nc-oZT" secondAttribute="bottom" constant="29" id="gqo-0d-THh"/>
                             <constraint firstItem="hvu-Nx-fbZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="ibl-Pg-H0I"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ot4-nc-oZT" secondAttribute="trailing" constant="87" id="t9J-7x-CS0"/>
-                            <constraint firstItem="ot4-nc-oZT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="16" id="wLE-xr-kBQ"/>
+                            <constraint firstItem="ot4-nc-oZT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="wLE-xr-kBQ"/>
+                            <constraint firstItem="063-R7-FSN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="xfp-6A-4vJ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="t1F-lD-hZu"/>
+                    <navigationItem key="navigationItem" title="IdentitySDK" id="t1F-lD-hZu"/>
                     <connections>
                         <outlet property="tableView" destination="hvu-Nx-fbZ" id="bi6-Wy-Ipk"/>
                         <segue destination="kMM-q3-Uhg" kind="show" identifier="HomeViewSegueIdentifier" id="Jye-4a-qsj"/>
@@ -51,57 +63,44 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="790" y="70"/>
+            <point key="canvasLocation" x="789.85507246376812" y="69.642857142857139"/>
         </scene>
-        <!--Home View Controller-->
+        <!--IdentitySDK-->
         <scene sceneID="CtB-5G-rrn">
             <objects>
                 <viewController id="kMM-q3-Uhg" customClass="HomeViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YeJ-3w-amo">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cyberarklogo" translatesAutoresizingMaskIntoConstraints="NO" id="Hqs-JV-5xX">
-                                <rect key="frame" x="87" y="60" width="240" height="128"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="acmelogo" translatesAutoresizingMaskIntoConstraints="NO" id="Hqs-JV-5xX">
+                                <rect key="frame" x="87" y="16" width="240" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="128" id="IHn-fT-6xU"/>
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="1mL-jD-OLA">
-                                <rect key="frame" x="30" y="228" width="354" height="164"/>
+                                <rect key="frame" x="30" y="184" width="354" height="164"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="naz-wQ-Rhn">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nkr-kt-nEv">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="34"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nkr-kt-nEv">
-                                                <rect key="frame" x="0.0" y="0.0" width="162" height="34"/>
-                                                <color key="backgroundColor" name="AccentColor"/>
-                                                <state key="normal" title="Enroll"/>
-                                                <connections>
-                                                    <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="4t5-OF-y3e"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ew-GS-P8B">
-                                                <rect key="frame" x="192" y="0.0" width="162" height="34"/>
-                                                <color key="backgroundColor" name="AccentColor"/>
-                                                <state key="normal" title="QR Authenticator"/>
-                                                <connections>
-                                                    <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="NQB-UH-NxN"/>
-                                                </connections>
-                                            </button>
-                                        </subviews>
-                                    </stackView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LUa-cc-g6E">
-                                        <rect key="frame" x="0.0" y="65" width="354" height="34"/>
-                                        <color key="backgroundColor" name="AccentColor"/>
-                                        <state key="normal" title="Refresh Token"/>
+                                        <color key="backgroundColor" red="0.0" green="0.36470588235294116" blue="0.67450980392156867" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Enroll"/>
                                         <connections>
-                                            <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="pNw-mO-Ol1"/>
+                                            <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="4t5-OF-y3e"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ew-GS-P8B">
+                                        <rect key="frame" x="0.0" y="65" width="354" height="34"/>
+                                        <color key="backgroundColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="QR Authenticator"/>
+                                        <connections>
+                                            <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="NQB-UH-NxN"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rws-De-Qwn">
                                         <rect key="frame" x="0.0" y="130" width="354" height="34"/>
-                                        <color key="backgroundColor" name="AccentColor"/>
+                                        <color key="backgroundColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
                                         <state key="normal" title="Logout"/>
                                         <connections>
                                             <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="0Cm-ND-uUo"/>
@@ -111,7 +110,7 @@
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="LWo-6j-NfF"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Hqs-JV-5xX" firstAttribute="top" secondItem="LWo-6j-NfF" secondAttribute="top" constant="16" id="89K-Cx-6JE"/>
                             <constraint firstItem="LWo-6j-NfF" firstAttribute="trailing" secondItem="1mL-jD-OLA" secondAttribute="trailing" constant="30" id="IXM-Ba-wpe"/>
@@ -121,12 +120,11 @@
                             <constraint firstItem="1mL-jD-OLA" firstAttribute="leading" secondItem="LWo-6j-NfF" secondAttribute="leading" constant="30" id="xp7-hi-7DL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="miC-1a-Unv"/>
+                    <navigationItem key="navigationItem" title="IdentitySDK" id="miC-1a-Unv"/>
                     <connections>
                         <outlet property="QR_button" destination="6ew-GS-P8B" id="zgn-2U-YGo"/>
                         <outlet property="enroll_button" destination="Nkr-kt-nEv" id="zVn-70-Eq4"/>
                         <outlet property="logout_button" destination="rws-De-Qwn" id="G7t-Sv-CLz"/>
-                        <outlet property="refresh_button" destination="LUa-cc-g6E" id="AXP-oW-eOI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UnQ-6Q-UNq" sceneMemberID="firstResponder"/>
@@ -136,11 +134,16 @@
         <!--Navigation Controller-->
         <scene sceneID="bc2-xw-bqx">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="QSu-nY-VJ1" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QSu-nY-VJ1" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oFO-qw-uTc">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="oFO-qw-uTc">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -153,12 +156,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cyberarklogo" width="50" height="50"/>
-        <namedColor name="AccentColor">
-            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="acmelogo" width="179.5" height="54.5"/>
     </resources>
 </document>

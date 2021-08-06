@@ -19,6 +19,8 @@ public protocol AuthenticationViewModelProtocol {
 
     var didLoggedOut: ((Bool, String) -> Void)? { get set }
 
+    var didDeviceEnrolled: ((Bool, String) -> Void)?  { get set }
+    
     func fetchAuthToken(code: String, pkce: AuthOPKCE?)
 }
 
@@ -33,6 +35,8 @@ public class AuthenticationViewModel: AuthenticationViewModelProtocol {
     
     public var didReceiveRefreshToken: ((Bool, String) -> Void)?
     
+    public var didDeviceEnrolled: ((Bool, String) -> Void)?
+
     public var didLoggedOut: ((Bool, String) -> Void)?
 
     var refreshTokenResponse: AccessToken? {
@@ -114,6 +118,33 @@ extension AuthenticationViewModel {
                 self?.refreshTokenResponse = response
             case .failure(let error):
                 self?.didReceiveRefreshToken!(false, "unable to fecth accesstoken")
+                print("the error \(error)")
+            }
+        }
+
+    }
+}
+// To Enroll the device
+extension AuthenticationViewModel {
+
+    /// To close the current session
+    /// - Parameters:
+    ///   - code: code
+    ///   - pkce: pkce
+    public func enrollDevice(code: String, refreshToken: String, pkce: AuthOPKCE?) {
+
+        let endpoint: Endpoint = OAuthEndPoint(pkce: pkce).getRefreshTokenEndpoint(code: code, refreshToken: refreshToken)
+        
+        client.endSession(with: endpoint) { [weak self] result in
+                  switch result {
+            case .success(let loginFeedResult):
+                guard let response = loginFeedResult else {
+                    self?.didDeviceEnrolled!(false, "unable to fecth accesstoken")
+                    return
+                }
+                self?.refreshTokenResponse = response
+            case .failure(let error):
+                self?.didDeviceEnrolled!(false, "unable to fecth accesstoken")
                 print("the error \(error)")
             }
         }
