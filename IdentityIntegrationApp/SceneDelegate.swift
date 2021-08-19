@@ -4,6 +4,20 @@
 //
 //  Created by Mallikarjuna Punuru on 12/07/21.
 //
+/* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 import UIKit
 import Identity
@@ -16,7 +30,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        configureInitialScreen(windowScene: windowScene)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -59,7 +74,7 @@ extension SceneDelegate {
         for context in URLContexts {
             do {
                 process(with: context.url)
-            } catch {
+            } catch let error {
                 print("Unable to read file.")
                 print(error)
             }
@@ -70,6 +85,32 @@ extension SceneDelegate {
     /// - Parameter url: context URL
     func process(with url: URL) {
         CyberArkAuthProvider.resume(url: url)
+    }
+}
+
+extension SceneDelegate {
+    
+    func configureInitialScreen(windowScene: UIWindowScene) {
+        do {
+            UINavigationBar.appearance().backgroundColor = UIColor(red: 0.0/255.0, green: 115.0/255.0, blue: 186.0/255.0, alpha: 1.0)
+            UINavigationBar.appearance().barTintColor = UIColor(red: 0.0/255.0, green: 115.0/255.0, blue: 186.0/255.0, alpha: 1.0)
+            UINavigationBar.appearance().titleTextAttributes = [.foregroundColor : UIColor.white,
+                                                                .font : UIFont.systemFont(ofSize: 16.0)]
+            let story = UIStoryboard(name: "Main", bundle:nil)
+            var vc: UIViewController = UIViewController()
+            if (try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue)) != nil {
+                vc = story.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+            }else {
+                vc = story.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+            }
+            let window = UIWindow(windowScene: windowScene)
+            let navController = UINavigationController.init(rootViewController: vc)
+            window.rootViewController = navController
+            self.window = window
+            window.makeKeyAndVisible()
+        } catch {
+            print("Unexpected error: \(error)")
+        }
     }
 }
 

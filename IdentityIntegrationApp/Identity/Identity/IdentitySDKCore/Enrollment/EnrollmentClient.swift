@@ -1,8 +1,8 @@
 //
-//  QRCodeAuthClient.swift
+//  EnrollmentClient.swift
 //  Identity
 //
-//  Created by Raviraju Vysyaraju on 13/07/21.
+//  Created by Mallikarjuna Punuru on 11/08/21.
 //
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
@@ -20,10 +20,18 @@
 */
 
 import Foundation
-protocol QRCodeAuthClientProtocol {
-    func featchQRAuth(from endpoint: Endpoint, completion: @escaping (Result<QRAuthModel?, APIError>) -> Void)
+
+/// Protocol for enroll device
+///
+protocol EnrollmentClientProtocol {
+    
+    /// Enroll device api handler
+    /// - Parameters:
+    ///   - endpoint: endpoint
+    ///   - completion: completion
+    func enrollDevice(from endpoint: Endpoint, completion: @escaping (Result<EnrollResponse?, APIError>) -> Void)
 }
-class QRCodeAuthClient: APIClient {
+class EnrollmentClient: APIClient {
     let session: URLSession
     init(configuration: URLSessionConfiguration) {
         self.session = URLSession(configuration: configuration)
@@ -32,13 +40,12 @@ class QRCodeAuthClient: APIClient {
         self.init(configuration: .default)
     }
 }
-
-extension QRCodeAuthClient: QRCodeAuthClientProtocol {
-    func featchQRAuth(from endpoint: Endpoint, completion: @escaping (Result<QRAuthModel?, APIError>) -> Void) {
+// MARK: - API Request calls
+extension EnrollmentClient: EnrollmentClientProtocol {
+    func enrollDevice(from endpoint: Endpoint, completion: @escaping (Result<EnrollResponse?, APIError>) -> Void) {
         let request = endpoint.request
-        print("endpoint request \(request)")
-        fetch(with: request, decode: { json -> QRAuthModel? in
-            guard let acccessToken = json as? QRAuthModel else { return  nil }
+        fetch(with: request, decode: { json -> EnrollResponse? in
+            guard let acccessToken = json as? EnrollResponse else { return  nil }
             return acccessToken
         }, completion: completion)
     }

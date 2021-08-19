@@ -4,12 +4,26 @@
 //
 //  Created by Mallikarjuna Punuru on 07/07/21.
 //
+/* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 import UIKit
 import Identity
 
 class ViewController: UIViewController {
-    let scannerBuilder = QRCodeReaderBuilder()
+    let scannerBuilder = QRAuthenticationProvider()
     
     let homeViewSegueIdentifier = "HomeViewSegueIdentifier"
     
@@ -33,22 +47,7 @@ class ViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        //addQRAuth()
-//        BiometricsAuthenticator().authenticateUser { (response) in
-//            switch response {
-//            case .success(let success):
-//                print("Success \(success)")
-//            case .failure(let error):
-//                DispatchQueue.main.async {
-//                    print("Error for Biometric enrole\(error.localizedDescription)")
-//                    let mesage = error.localizedDescription
-//                    let alertController = UIAlertController(title: "BioMetric Error", message: mesage, preferredStyle: .alert)
-//                    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-//                    alertController.addAction(action)
-//                    self.present(alertController, animated: true, completion: nil)
-//                }
-//            }
-//        }
+        
     }
     @IBAction func login_click(_ sender: Any) {
         navigateToLogin()
@@ -104,17 +103,21 @@ extension ViewController {
     /// Custom browser Parameters
     ///
     func navigateToLogin() {
-        guard let _ = plistValues(bundle: Bundle.main) else { return }
-        CyberArkAuthProvider.webAuth()?
-            .set(presentingViewController: self)
-            .setCustomParam(key: "", value: "")
-            .set(webType: .sfsafari)
-            .build()
-            .login(completion: { (result, error) in
-                if((result) != nil) {
-                    
-                }
-            })
+        
+        guard let config = plistValues(bundle: Bundle.main) else { return }
+        
+        guard let account =  CyberArkAuthProvider.webAuth()?
+                .set(clientId: config.clientId)
+                .set(domain: config.domain)
+                .set(redirectUri: config.redirectUri)
+                .set(applicationID: config.applicationID)
+                .set(presentingViewController: self)
+                .setCustomParam(key: "", value: "")
+                .set(scope: config.scope)
+                .set(webType: .sfsafari)
+                .build() else { return }
+        CyberArkAuthProvider.login(account: account)
+            
     }
     
     func addObserver(){
@@ -131,15 +134,19 @@ extension ViewController {
         }
     }
     func closeSession() {
-        guard let _ = plistValues(bundle: Bundle.main) else { return }
-        CyberArkAuthProvider.webAuth()?.set(presentingViewController: self)
-            .setCustomParam(key: "", value: "")
-            .build()
-            .closeSession(completion: { (result, error) in
-                if((result) != nil) {
-                    self.addQRAuth()
-                }
-            })
+        guard let config = plistValues(bundle: Bundle.main) else { return }
+        
+        guard let account =  CyberArkAuthProvider.webAuth()?
+                .set(clientId: config.clientId)
+                .set(domain: config.domain)
+                .set(redirectUri: config.redirectUri)
+                .set(applicationID: config.applicationID)
+                .set(presentingViewController: self)
+                .setCustomParam(key: "", value: "")
+                .set(webType: .sfsafari)
+                .build() else { return }
+        CyberArkAuthProvider.closeSession(account: account)
+        
     }
     func refreshToken() {
         CyberArkAuthProvider.sendRefreshToken()
@@ -160,13 +167,12 @@ extension ViewController {
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == homeViewSegueIdentifier) {
-            let controller = segue.destination as! HomeViewController
+            _ = segue.destination as! HomeViewController
         }
     }
 }
-//MARK:- read from plist
 extension ViewController {
-    func plistValues(bundle: Bundle) -> (clientId: String, domain: String, domain_auth0: String)? {
+    func plistValues(bundle: Bundle) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logouturi: String)? {
         guard
             let path = bundle.path(forResource: "IdentityConfiguration", ofType: "plist"),
             let values = NSDictionary(contentsOfFile: path) as? [String: Any]
@@ -176,12 +182,11 @@ extension ViewController {
         }
         guard
             let clientId = values["clientid"] as? String,
-            let domain = values["domainautho"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String,let applicationID = values["applicationid"] as? String, let threshold = values["threshold"] as? Int
+            let domain = values["domainautho"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String
         else {
             print("IdentityConfiguration.plist file at \(path) is missing 'ClientId' and/or 'Domain' values!")
             return nil
         }
-        return (clientId: clientId, domain: domain, domain_auth0:domain)
+        return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, threshold: threshold, applicationID: applicationID, logouturi: logouturi)
     }
-
 }

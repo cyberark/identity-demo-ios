@@ -4,6 +4,20 @@
 //
 //  Created by Mallikarjuna Punuru on 05/07/21.
 //
+/* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 import Foundation
 
@@ -31,6 +45,8 @@ internal class OAuthEndPoint {
     /// logoutUri configured in the server
     var logoutUri: String? = nil
 
+    var cyberarkAccount: CyberarkAccount? = nil
+
     /*public convenience init(pkce: AuthOPKCE?) {
      self.init()
      self.pkce = pkce
@@ -38,6 +54,23 @@ internal class OAuthEndPoint {
     init (pkce: AuthOPKCE?) {
         config()
         self.pkce = pkce
+    }
+    
+    
+    /*public convenience init(pkce: AuthOPKCE?) {
+     self.init()
+     self.pkce = pkce
+     }*/
+    init (cyberarkAccount: CyberarkAccount?) {
+        self.cyberarkAccount = cyberarkAccount
+        self.applicationID = self.cyberarkAccount?.applicationID
+        self.clientId = self.cyberarkAccount?.clientId
+        self.domain = self.cyberarkAccount?.domain
+        self.scope = self.cyberarkAccount?.scope
+        self.threshold = self.cyberarkAccount?.threshold
+        self.logoutUri = self.cyberarkAccount?.logoutUri
+        self.redirectUri = self.cyberarkAccount?.redirectUri
+        self.pkce = self.cyberarkAccount?.pkce
     }
     
     /// Initial Configuration

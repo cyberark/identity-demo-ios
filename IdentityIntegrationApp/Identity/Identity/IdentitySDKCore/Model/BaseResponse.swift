@@ -1,8 +1,9 @@
 //
-//  QRAuthModel.swift
-//  QRScanner
+//  BaseResponse.swift
+//  Identity
 //
-//  Created by Raviraju Vysyaraju on 07/07/21.
+//  Created by Mallikarjuna Punuru on 12/08/21.
+//
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,9 +19,13 @@
 * limitations under the License.
 */
 
-
 import Foundation
-struct QRAuthModel : Codable {
+
+/// Base Api response
+/// Every model class should be derived from this class
+
+public class BaseAPIResponse: Codable {
+    
     let errorCode : String?
     let errorID : String?
     let exception : String?
@@ -28,7 +33,6 @@ struct QRAuthModel : Codable {
     let isSoftError : Bool?
     let message : String?
     let messageID : String?
-    let result : QRAuthResultModel?
     let success : Bool?
     
     enum CodingKeys: String, CodingKey {
@@ -39,9 +43,19 @@ struct QRAuthModel : Codable {
         case isSoftError = "IsSoftError"
         case message = "Message"
         case messageID = "MessageID"
-        case result = "Result"
         case success = "success"
     }
+    
+    required public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        errorCode = try values.decodeIfPresent(String.self, forKey: .errorCode)
+        errorID = try values.decodeIfPresent(String.self, forKey: .errorID)
+        exception = try values.decodeIfPresent(String.self, forKey: .exception)
+        innerExceptions = try values.decodeIfPresent(String.self, forKey: .innerExceptions)
+        isSoftError = try values.decodeIfPresent(Bool.self, forKey: .isSoftError)
+        message = try values.decodeIfPresent(String.self, forKey: .message)
+        messageID = try values.decodeIfPresent(String.self, forKey: .messageID)
+        success = try values.decodeIfPresent(Bool.self, forKey: .success)
+    }
+    
 }
-
-

@@ -4,6 +4,20 @@
 //
 //  Created by Mallikarjuna Punuru on 06/07/21.
 //
+/* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 import Foundation
 import UIKit
@@ -30,6 +44,28 @@ public class CyberArkBrowserBuilder: NSObject {
     
     var pkce: AuthOPKCE?
 
+    /// clientId configured in the server
+    var clientId: String? = nil
+    
+    /// domain configured in the server
+    var domain: String? = nil
+    
+    /// scope configured in the server
+    var scope: String? = nil
+    
+    /// redirectUri configured in the server
+    var redirectUri: String? = nil
+    
+    /// threshold configured in the server
+    var threshold: Int? = 60
+    
+    /// applicationID configured in the server
+    var applicationID: String? = nil
+    
+    /// applicationID configured in the server
+    var logoutUri: String? = nil
+
+    
     init(_ oAuthEndPoint: OAuthEndPoint? = nil, pkce: AuthOPKCE? = nil) {
         self.oAuthEndPoint = oAuthEndPoint ?? OAuthEndPoint(pkce: pkce)
         self.pkce = pkce
@@ -64,11 +100,66 @@ public class CyberArkBrowserBuilder: NSObject {
         return self
     }
     
+    /// Sets custom URL Query parameters to be added to /authorize request
+    /// - Parameters:
+    ///   - key: URL Query parameter key
+    ///   - value: URL Query parameter value
+    /// - Returns: BrowserBuilder object to progressively build Browser object
+    @discardableResult @objc(setDomain:) public func set(domain: String) -> CyberArkBrowserBuilder {
+        self.domain = domain
+        return self
+    }
+    
+    /// Sets custom URL Query parameters to be added to /authorize request
+    /// - Parameters:
+    ///   - key: URL Query parameter key
+    ///   - value: URL Query parameter value
+    /// - Returns: BrowserBuilder object to progressively build Browser object
+    @discardableResult @objc(setScope:) public func set(scope: String) -> CyberArkBrowserBuilder {
+        self.scope = scope
+        return self
+    }
+    
+    /// Sets custom URL Query parameters to be added to /authorize request
+    /// - Parameters:
+    ///   - key: URL Query parameter key
+    ///   - value: URL Query parameter value
+    /// - Returns: BrowserBuilder object to progressively build Browser object
+    @discardableResult @objc(setClientId:) public func set(clientId: String) -> CyberArkBrowserBuilder {
+        self.clientId = clientId
+        return self
+    }
+    /// Sets custom URL Query parameters to be added to /authorize request
+    /// - Parameters:
+    ///   - key: URL Query parameter key
+    ///   - value: URL Query parameter value
+    /// - Returns: BrowserBuilder object to progressively build Browser object
+    @discardableResult @objc(setRedirectUri:) public func set(redirectUri: String) -> CyberArkBrowserBuilder {
+        self.redirectUri = redirectUri
+        return self
+    }
+    /// Sets custom URL Query parameters to be added to /authorize request
+    /// - Parameters:
+    ///   - key: URL Query parameter key
+    ///   - value: URL Query parameter value
+    /// - Returns: BrowserBuilder object to progressively build Browser object
+    @discardableResult @objc(setApplicationID:) public func set(applicationID: String) -> CyberArkBrowserBuilder {
+        self.applicationID = applicationID
+        return self
+    }
+    /// Sets custom URL Query parameters to be added to /authorize request
+    /// - Parameters:
+    ///   - key: URL Query parameter key
+    ///   - value: URL Query parameter value
+    /// - Returns: BrowserBuilder object to progressively build Browser object
+    @discardableResult @objc(setlLogoutUri:) public func set(logoutUri: String) -> CyberArkBrowserBuilder {
+        self.logoutUri = logoutUri
+        return self
+    }
+    
     /// builds the  Browser
     /// - Returns: the browser object
-    @objc public func build() -> CyberArkBrowser {
-        let browser = CyberArkBrowser(type: self.webType, presentingViewController: self.presentingViewController, oauthEndPoint: self.oAuthEndPoint, pkce: self.pkce)
-        return browser
+    @objc public func build() -> CyberarkAccount {
+        return CyberarkAccount(clientId: self.clientId ?? "", domain: self.domain ?? "", scope: self.scope ?? "", redirectUri: self.redirectUri ?? "", threshold: self.threshold ?? 0, applicationID: self.applicationID ?? "", logoutUri: self.logoutUri ?? "", pkce: self.pkce ?? AuthOPKCE(), presentingViewController: self.presentingViewController ?? UIViewController())
     }
-
 }

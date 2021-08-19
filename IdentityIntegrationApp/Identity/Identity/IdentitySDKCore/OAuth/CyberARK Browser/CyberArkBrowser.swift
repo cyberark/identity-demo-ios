@@ -4,12 +4,24 @@
 //
 //  Created by Mallikarjuna Punuru on 05/07/21.
 //
+/* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 import Foundation
 import AuthenticationServices
 import SafariServices
-
-
 
 
 @objc public enum WebType: Int {
@@ -43,8 +55,9 @@ public class CyberArkBrowser: NSObject {
     var activeController: Any?
     
     var oAuthEndPoint: OAuthEndPoint?
-
     
+    var account: CyberarkAccount?
+
     /// Initializer needed to construct the prarams to pass to the broswer
     /// - Parameters:
     ///   - type:WebType
@@ -58,6 +71,13 @@ public class CyberArkBrowser: NSObject {
         self.oAuthEndPoint = oauthEndPoint
         self.pkce = pkce
     }
+    init(type: WebType? = .sfsafari, account: CyberarkAccount?) {
+        self.type = type
+        self.account = account
+        self.presentingViewController = account?.presentingViewController
+        self.oAuthEndPoint = OAuthEndPoint(cyberarkAccount: self.account)
+    }
+
     
     /// Navigate to broswer
     /// - Parameter completion: to get the callback

@@ -4,6 +4,20 @@
 //
 //  Created by Mallikarjuna Punuru on 06/07/21.
 //
+/* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 import Foundation
 
@@ -16,7 +30,7 @@ public enum KeychainError: Error {
     /// Error for operation
     case operation_error
 }
-enum KeyChainStorageKeys: String {
+public enum KeyChainStorageKeys: String {
     case accessToken = "access_token"
     case grantCode = "grant_code"
     case refreshToken = "refresh_code"
@@ -47,16 +61,20 @@ public class KeyChainWrapper {
     ///   - data: data
     /// - Throws: erro
     public func save(key: String, data: Data) throws {
-        let status = SecItemAdd([
+        
+        let query = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrAccount: key,
             kSecAttrService: serviceName,
-            //kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlock,
             kSecValueData: data,
-        ] as NSDictionary, nil)
+        ] as [String : Any]
+        
+        SecItemDelete(query as CFDictionary)
+        
+        let status = SecItemAdd(query as NSDictionary, nil)
+        
         guard status == errSecSuccess else { throw KeychainError.operation_error }
     }
-    
     /// To fetch the keys
     /// - Parameter key: key
     /// - Throws: data
@@ -92,16 +110,15 @@ public class KeyChainWrapper {
     /// To delete the account with key
     /// - Parameter account: account
     /// - Throws: error
-    func delete(account: String) throws {
-        /// Status for the query
+    func delete(key: String) throws {
         let status = SecItemDelete([
             kSecClass: kSecClassGenericPassword,
-            kSecAttrAccount: account,
+            kSecAttrAccount: key,
             kSecAttrService: serviceName,
-        ] as NSDictionary)
+        ] as CFDictionary)
         guard status == errSecSuccess else { throw KeychainError.operation_error }
     }
-    
+    /// To f
     /// To delete all the
     /// - Throws: error
     func deleteAll() throws {
