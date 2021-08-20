@@ -57,6 +57,7 @@
 		E25C431C26C69CAA00800764 /* Dictionary+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25C431B26C69CAA00800764 /* Dictionary+Helper.swift */; };
 		E25C433326CA4DF900800764 /* CyberarkAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25C433226CA4DF900800764 /* CyberarkAccount.swift */; };
 		E25C43AC26CE54BD00800764 /* GlobalHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25C43AB26CE54BD00800764 /* GlobalHelper.swift */; };
+		E25C449F26CF844A00800764 /* Date+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25C449E26CF844A00800764 /* Date+Helper.swift */; };
 		E27237DB26C51DC800F748B8 /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27237DA26C51DC800F748B8 /* DeviceManager.swift */; };
 		E27237DF26C5503600F748B8 /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27237DE26C5503600F748B8 /* BaseResponse.swift */; };
 		E27237E326C551AC00F748B8 /* EnrollDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27237E226C551AC00F748B8 /* EnrollDevice.swift */; };
@@ -131,6 +132,7 @@
 		E25C431B26C69CAA00800764 /* Dictionary+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Helper.swift"; sourceTree = "<group>"; };
 		E25C433226CA4DF900800764 /* CyberarkAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyberarkAccount.swift; sourceTree = "<group>"; };
 		E25C43AB26CE54BD00800764 /* GlobalHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalHelper.swift; sourceTree = "<group>"; };
+		E25C449E26CF844A00800764 /* Date+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Helper.swift"; sourceTree = "<group>"; };
 		E27237DA26C51DC800F748B8 /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
 		E27237DE26C5503600F748B8 /* BaseResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
 		E27237E226C551AC00F748B8 /* EnrollDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollDevice.swift; sourceTree = "<group>"; };
@@ -192,7 +194,6 @@
 				28519BC026B00E7E009F615D /* Biometric */,
 				E24ECD45269C63B100C61EF5 /* QR Athenticator */,
 				E24ECD3F269C63B100C61EF5 /* NetworkLayer */,
-				E24ECD33269C63B100C61EF5 /* OIDC */,
 				E24ECD38269C63B100C61EF5 /* Model */,
 				E24ECD32269C63B100C61EF5 /* Constants */,
 				E24ECD4B269C63B100C61EF5 /* Helper */,
@@ -232,13 +233,6 @@
 				E24ECD40269C63B100C61EF5 /* APIError.swift */,
 			);
 			path = Constants;
-			sourceTree = "<group>";
-		};
-		E24ECD33269C63B100C61EF5 /* OIDC */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = OIDC;
 			sourceTree = "<group>";
 		};
 		E24ECD38269C63B100C61EF5 /* Model */ = {
@@ -303,6 +297,7 @@
 				E27237DA26C51DC800F748B8 /* DeviceManager.swift */,
 				E25C431B26C69CAA00800764 /* Dictionary+Helper.swift */,
 				E25C43AB26CE54BD00800764 /* GlobalHelper.swift */,
+				E25C449E26CF844A00800764 /* Date+Helper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -515,6 +510,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E25C449F26CF844A00800764 /* Date+Helper.swift in Sources */,
 				28352390269DADF100AE1BBB /* QRCodeAuthClient.swift in Sources */,
 				E27237E326C551AC00F748B8 /* EnrollDevice.swift in Sources */,
 				E24ECD63269C63B100C61EF5 /* OAuthClient.swift in Sources */,

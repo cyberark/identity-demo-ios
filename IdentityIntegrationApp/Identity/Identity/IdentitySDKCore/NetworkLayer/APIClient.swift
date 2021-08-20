@@ -34,6 +34,7 @@ extension APIClient {
     var connectionTimout: Float {
         get { return 60.0 }
     }
+    /// JSONTaskCompletionHandler
     typealias JSONTaskCompletionHandler = (Codable?, APIError?) -> Void
     
     /// To make the a request along with the decoder with the given data
@@ -64,7 +65,7 @@ extension APIClient {
                     completion(nil, .invalidData)
                 }
             }else if httpResponse.status! == .unauthorized {
-                debugPrint(data?.toString())
+                debugPrint(data?.toString() ?? "")
                 completion(nil, .unauthorized)
             }
             

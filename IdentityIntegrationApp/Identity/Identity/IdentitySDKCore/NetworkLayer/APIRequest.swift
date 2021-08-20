@@ -21,7 +21,7 @@
 
 import Foundation
 
-/// or as a classic class object for each kind of request.
+/// A classic class object for each kind of request.
 /// Define parameters to pass along with the request and how
 /// they are encapsulated into the http request itself.
 ///
@@ -51,6 +51,7 @@ internal struct Endpoint {
     /// What kind of data we expect as response
     var dataType: DataType
 
+    /// Base URL
     var base: String? = APIRequestConstants.ciamDevURL
 
 }

@@ -93,7 +93,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ew-GS-P8B">
                                         <rect key="frame" x="0.0" y="0.0" width="354" height="34"/>
                                         <color key="backgroundColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
-                                        <state key="normal" title="Opt in for QR Authenticator"/>
+                                        <state key="normal" title="Opt in for QR code Authenticator"/>
                                         <connections>
                                             <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="NQB-UH-NxN"/>
                                         </connections>
@@ -112,7 +112,7 @@
                                 <rect key="frame" x="30" y="659" width="354" height="85"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="yc5-Ds-1z1">
-                                        <rect key="frame" x="0.0" y="0.0" width="238" height="31"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="242" height="31"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kL9-BG-OYU">
                                                 <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
@@ -121,8 +121,8 @@
                                                     <action selector="enableApplaunch:" destination="kMM-q3-Uhg" eventType="valueChanged" id="k72-PR-ILe"/>
                                                 </connections>
                                             </switch>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invoke Biometrics in app launch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9lm-Tp-QAC">
-                                                <rect key="frame" x="59" y="0.0" width="179" height="31"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invoke Biometrics on app launch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9lm-Tp-QAC">
+                                                <rect key="frame" x="59" y="0.0" width="183" height="31"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -130,7 +130,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="3mg-lC-vxP">
-                                        <rect key="frame" x="0.0" y="54" width="307.5" height="31"/>
+                                        <rect key="frame" x="0.0" y="54" width="314.5" height="31"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Ql-J9-2Kj">
                                                 <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
@@ -139,8 +139,8 @@
                                                     <action selector="enableOnAccesstokeExpires:" destination="kMM-q3-Uhg" eventType="valueChanged" id="1t0-C2-D6i"/>
                                                 </connections>
                                             </switch>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invoke Biometrics when acess token expires" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IAQ-6o-Hgu">
-                                                <rect key="frame" x="59" y="0.0" width="248.5" height="31"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invoke Biometrics when access token expires" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IAQ-6o-Hgu">
+                                                <rect key="frame" x="59" y="0.0" width="255.5" height="31"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>

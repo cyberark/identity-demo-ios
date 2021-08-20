@@ -133,7 +133,10 @@ extension AuthenticationViewModel: AuthenticationViewModelProtocol {
             if let refreshToken = self.authResponse?.refresh_token {
                 try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.refreshToken.rawValue, data: refreshToken.toData() ?? Data())
             }
-
+            if let expiresIn = self.authResponse?.expires_in {
+                let date = Date().epirationDate(with: expiresIn)
+                try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.access_token_expiresIn.rawValue, data: Data.init(from: date))
+            }
         } catch {
             print("Unexpected error: \(error)")
         }

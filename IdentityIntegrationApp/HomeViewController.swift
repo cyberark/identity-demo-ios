@@ -50,35 +50,11 @@ class HomeViewController: UIViewController {
         super.viewWillDisappear(animated)
         removeOberver()
     }
-    func setupDefaults(){
-        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue) {
-            enroll_button.isEnabled = false
-            QR_button.isEnabled = true
-        }else{
-            enroll_button.isEnabled = true
-            QR_button.isEnabled = false
-        }
     }
-    func addBiometrics() {
-        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue) {
-            BiometricsAuthenticator().authenticateUser { (response) in
-                switch response {
-                case .success(let success):
-                    print("Success \(success)")
-                    self.isAuthenticated = true
-                case .failure(let error):
-                    self.isAuthenticated = false
-                    DispatchQueue.main.async {
-                        print("Error for Biometric enrole\(error.localizedDescription)")
-                        let mesage = error.localizedDescription
-                        let alertController = UIAlertController(title: "BioMetric Error", message: mesage, preferredStyle: .alert)
-                        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-                        alertController.addAction(action)
-                        self.present(alertController, animated: true, completion: nil)
-                    }
-                }
-            }
-        }
+//MARK:- UI Handlers
+extension HomeViewController {
+    @IBAction func do_click(_ sender: Any) {
+        navigate(button: sender as! UIButton)
     }
     @IBAction func enableApplaunch(_ sender: Any) {
         appLaunch_switch.isSelected = !appLaunch_switch.isSelected
@@ -88,11 +64,19 @@ class HomeViewController: UIViewController {
         accessToken_Switch.isSelected = !accessToken_Switch.isSelected
         UserDefaults.standard.set(accessToken_Switch.isSelected, forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
     }
+}
+//MARK:- Configurations
+extension HomeViewController {
     func configureBiometricsUI() {
-        appLaunch_switch.isSelected = true
-        accessToken_Switch.isSelected = true
-        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue)
-        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
+        if(UserDefaults.standard.object(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue) != nil) {
+            appLaunch_switch.isSelected =  UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue)
+            accessToken_Switch.isSelected = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
+        }else {
+            UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue)
+            UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
+            appLaunch_switch.isSelected =  UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue)
+            accessToken_Switch.isSelected = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
+        }
     }
     @objc func applicationDidBecomeActive() {
         if (!isAuthenticated) {
@@ -110,10 +94,62 @@ class HomeViewController: UIViewController {
     func removeOberver() {
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
     }
-}
-extension HomeViewController {
-    @IBAction func do_click(_ sender: Any) {
-        navigate(button: sender as! UIButton)
+    func setupDefaults(){
+        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue) {
+            enroll_button.isEnabled = false
+            QR_button.isEnabled = true
+        }else{
+            enroll_button.isEnabled = true
+            QR_button.isEnabled = false
+        }
+    }
+    func addBiometrics() {
+        
+        let isAcessTokenExpired = checkForAccessTokenExpiry()
+        if ( UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue) || isAcessTokenExpired) {
+            DispatchQueue.main.async {
+                self.addBlurrView()
+            }
+            BiometricsAuthenticator().authenticateUser { (response) in
+                switch response {
+                case .success(let success):
+                    print("Success \(success)")
+                    self.isAuthenticated = true
+                    if isAcessTokenExpired {
+                        self.refreshToken()
+                    }
+                case .failure(let error):
+                    self.isAuthenticated = false
+                    DispatchQueue.main.async {
+                        print("Error for Biometric enrole\(error.localizedDescription)")
+                        let mesage = error.localizedDescription
+                        let alertController = UIAlertController(title: "BioMetric Error", message: mesage, preferredStyle: .alert)
+                        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                        alertController.addAction(action)
+                        self.present(alertController, animated: true, completion: nil)
+                    }
+                    
+                }
+                DispatchQueue.main.async {
+                    self.removeBlurrView()
+                }
+            }
+        }
+    }
+    func checkForAccessTokenExpiry() -> Bool {
+        do {
+            guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.access_token_expiresIn.rawValue) else {
+                return false
+            }
+            let expirationDate = data.to(type: Date.self)
+            if Date().isGreaterThan(expirationDate) {
+                return true
+            }
+            return false
+        } catch {
+            print("Unexpected error: \(error)")
+        }
+        return false
     }
 }
 //MARK: Weblogin
@@ -158,6 +194,7 @@ extension HomeViewController {
 }
 extension HomeViewController {
     func closeSession() {
+        removePersistantStorage()
         guard let config = plistValues(bundle: Bundle.main) else { return }
         
         guard let account =  CyberArkAuthProvider.webAuth()?
@@ -201,6 +238,10 @@ extension HomeViewController {
         }
         return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, threshold: threshold, applicationID: applicationID, logouturi: logouturi)
     }
+    func removePersistantStorage() {
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
+    }
 }
 extension HomeViewController
 {
@@ -235,5 +276,19 @@ extension UIViewController {
         
         guard let delegate = UIApplication.shared.delegate as? AppDelegate, let window = delegate.window else { return nil }
         return window
+    }
+    func addBlurrView() {
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+    }
+    /// Remove UIBlurEffect from UIView
+    func removeBlurrView() {
+        let blurredEffectViews = self.view.subviews.filter{$0 is UIVisualEffectView}
+        blurredEffectViews.forEach{ blurView in
+            blurView.removeFromSuperview()
+        }
     }
 }

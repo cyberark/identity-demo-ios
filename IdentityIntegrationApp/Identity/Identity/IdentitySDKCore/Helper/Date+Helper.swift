@@ -1,8 +1,8 @@
 //
-//  Dictionary+Helper.swift
+//  Date+.swift
 //  Identity
 //
-//  Created by Mallikarjuna Punuru on 13/08/21.
+//  Created by Mallikarjuna Punuru on 20/08/21.
 //
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
@@ -20,14 +20,20 @@
 */
 import Foundation
 
-extension Dictionary {
-    
-    var jsonData: Data? {
-        do {
-            return try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
-        } catch let error as NSError {
-            debugPrint("Unable to parse the JSON : The error: \(error)")
-            return nil
-        }
+public extension Date {
+    func isEqualTo(_ date: Date) -> Bool {
+        return self == date
+    }
+    func isGreaterThan(_ date: Date) -> Bool {
+        return self > date
+    }
+    func isSmallerThan(_ date: Date) -> Bool {
+        return self < date
+    }
+}
+public extension Date {
+    func epirationDate(with timestamp: Int) -> Date {
+        let date = self.addingTimeInterval(TimeInterval(timestamp))
+        return date
     }
 }

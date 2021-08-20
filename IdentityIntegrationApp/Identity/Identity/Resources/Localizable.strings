@@ -5,3 +5,9 @@
   Created by Mallikarjuna Punuru on 13/08/21.
   
 */
+"header_title" = "Identity SDK Demo app";
+"login_title" = "Login";
+"logout_title" = "Logout";
+"qr_authenticator_optin_title" = "Opt in for QR Authenticator";
+"invoke_Biometrics_app_launch_title" = "Invoke Biometrics in app launch";
+"invoke_Biometrics_when_accesstoken_expired" = "Invoke Biometrics when access token expired";
