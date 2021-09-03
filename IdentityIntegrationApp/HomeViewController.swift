@@ -1,9 +1,4 @@
-//
-//  HomeViewController.swift
-//  IdentityIntegrationApp
-//
-//  Created by Mallikarjuna Punuru on 19/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,24 +17,25 @@
 import UIKit
 import Identity
 
-
+/*
+ /// HomeViewController
+ */
 class HomeViewController: UIViewController {
     
     @IBOutlet weak var enroll_button: UIButton!
     @IBOutlet weak var QR_button: UIButton!
     @IBOutlet weak var logout_button: UIButton!
     @IBOutlet weak var refresh_button: UIButton!
-    let builder = QRAuthenticationProvider()
-    
+    let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
     @IBOutlet weak var accessToken_Switch: UISwitch!
     @IBOutlet weak var appLaunch_switch: UISwitch!
     var isAuthenticated = false
+    let builder = QRAuthenticationProvider()
+    let enrollProvider = EnrollmentProvider()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        addObserver()
-        addLogoutObserver()
-        configureBiometricsUI()
-        addDidBecomeActiveObserver()
+        configure()
     }
    
     override func viewWillAppear(_ animated: Bool) {
@@ -50,9 +46,18 @@ class HomeViewController: UIViewController {
         super.viewWillDisappear(animated)
         removeOberver()
     }
-    }
+}
 //MARK:- UI Handlers
 extension HomeViewController {
+    func configure() {
+        addObserver()
+        addLogoutObserver()
+        configureBiometricsUI()
+        addDidBecomeActiveObserver()
+        configureEnrollButton()
+        addEnrollObserver()
+        showActivityIndicator(on: self.view)
+    }
     @IBAction func do_click(_ sender: Any) {
         navigate(button: sender as! UIButton)
     }
@@ -78,31 +83,34 @@ extension HomeViewController {
             accessToken_Switch.isSelected = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
         }
     }
-    @objc func applicationDidBecomeActive() {
-        if (!isAuthenticated) {
-            addBiometrics()
-        } else {
-            isAuthenticated = false
-        }
-    }
     func addDidBecomeActiveObserver() {
         NotificationCenter.default.addObserver(self,
             selector: #selector(applicationDidBecomeActive),
             name: UIApplication.didBecomeActiveNotification,
             object: nil)
     }
+    @objc func applicationDidBecomeActive() {
+        if (!isAuthenticated) {
+            addBiometrics()
+        } else {
+            isAuthenticated = false
+        }
+        configureEnrollButton()
+    }
+   
     func removeOberver() {
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
     }
-    func setupDefaults(){
+    func configureEnrollButton(){
+        
         if UserDefaults.standard.bool(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue) {
-            enroll_button.isEnabled = false
-            QR_button.isEnabled = true
-        }else{
-            enroll_button.isEnabled = true
-            QR_button.isEnabled = false
+            QR_button.setTitle("QR Code Authenticator", for: .normal)
+
+        } else {
+            QR_button.setTitle("Opt in for QR Code Authenticator", for: .normal)
         }
     }
+    
     func addBiometrics() {
         
         let isAcessTokenExpired = checkForAccessTokenExpiry()
@@ -156,33 +164,39 @@ extension HomeViewController {
 extension HomeViewController {
     func navigate(button: UIButton) {
         if button == enroll_button {
-            CyberArkAuthProvider.enrollDevice()
         }  else if button == refresh_button {
             refreshToken()
         }else if button == logout_button {
             closeSession()
         }else {
-            navigateToScanner()
+            configureEnrollment()
         }
     }
-
+    
     func addObserver(){
         CyberArkAuthProvider.viewmodel()?.didReceiveRefreshToken = { (result, accessToken) in
             if result {
                 DispatchQueue.main.async {
                     //self.dismiss(animated: true) {
-                        self.showAlert(with :"Refresh Token: ", message: accessToken)
-                   // }
+                    //self.showAlert(with :"Refresh Token: ", message: accessToken)
+                    // }
                 }
             }
         }
     }
-  
+    
+    func configureEnrollment() {
+        if UserDefaults.standard.bool(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue) {
+            navigateToScanner()
+        } else {
+            enrollDevice()
+        }
+    }
     func refreshToken() {
         CyberArkAuthProvider.sendRefreshToken()
     }
     func navigateToScanner() {
-        builder.authenticateQrCode(presenter: self, completion: { [weak self] result in
+        builder.authenticateWithQRCode(presenter: self, completion: { [weak self] result in
             switch result {
             case .success(_):
                 print("QR auth success")
@@ -208,6 +222,7 @@ extension HomeViewController {
                 .build() else { return }
         
         CyberArkAuthProvider.closeSession(account: account)
+        addBlurrView()
     }
     func addLogoutObserver(){
         CyberArkAuthProvider.viewmodel()?.didLoggedOut = { (result, accessToken) in
@@ -215,10 +230,10 @@ extension HomeViewController {
                 DispatchQueue.main.async {
                     self.dismiss(animated: true) {
                         self.configureInitialScreen()
-                        //self.navigationController?.popViewController(animated: true)
                     }
                 }
             }
+            self.removeBlurrView()
         }
     }
     func plistValues(bundle: Bundle) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logouturi: String)? {
@@ -256,39 +271,40 @@ extension HomeViewController
             print("Unexpected error: \(error)")
         }
     }
+    func enrollDevice() {
+        activityIndicator.startAnimating()
+
+        do {
+            guard let config = plistValues(bundle: Bundle.main) else { return }
+
+            guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.grantCode.rawValue), let code = data.toString() , let refreshTokenData = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.refreshToken.rawValue),let refreshToken = refreshTokenData.toString() else {
+                return
+            }
+            enrollProvider.enroll(baseURL: config.domain)
+            
+        } catch  {
+        }
+    }
+    func addEnrollObserver(){
+        enrollProvider.didReceiveEnrollmentApiResponse = { (result, accessToken) in
+            if result {
+                self.configureEnrollButton()
+            }else {
+                self.showAlert(message: accessToken)
+            }
+            self.activityIndicator.stopAnimating()
+        }
+    }
 }
-extension UIViewController {
-    var appDelegate: AppDelegate {
-        return UIApplication.shared.delegate as! AppDelegate
-    }
-    
-    var sceneDelegate: SceneDelegate? {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let delegate = windowScene.delegate as? SceneDelegate else { return nil }
-        return delegate
-    }
-    var window: UIWindow? {
-        if #available(iOS 13, *) {
-            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                  let delegate = windowScene.delegate as? SceneDelegate, let window = delegate.window else { return nil }
-            return window
-        }
-        
-        guard let delegate = UIApplication.shared.delegate as? AppDelegate, let window = delegate.window else { return nil }
-        return window
-    }
-    func addBlurrView() {
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.dark)
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(blurEffectView)
-    }
-    /// Remove UIBlurEffect from UIView
-    func removeBlurrView() {
-        let blurredEffectViews = self.view.subviews.filter{$0 is UIVisualEffectView}
-        blurredEffectViews.forEach{ blurView in
-            blurView.removeFromSuperview()
-        }
+
+extension HomeViewController {
+    func showActivityIndicator(on parentView: UIView) {
+        activityIndicator.color = .gray
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        parentView.addSubview(activityIndicator)
+        NSLayoutConstraint.activate([
+            activityIndicator.centerXAnchor.constraint(equalTo: parentView.centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: parentView.centerYAnchor),
+        ])
     }
 }

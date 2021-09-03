@@ -59,6 +59,7 @@
                     <connections>
                         <outlet property="tableView" destination="hvu-Nx-fbZ" id="bi6-Wy-Ipk"/>
                         <segue destination="kMM-q3-Uhg" kind="show" identifier="HomeViewSegueIdentifier" id="Jye-4a-qsj"/>
+                        <segue destination="YaR-Sc-Cjp" kind="show" identifier="SettingsSugueidentifier" id="Hr2-ij-fMP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -199,6 +200,57 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fLa-5a-nxe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="18.840579710144929" y="69.642857142857139"/>
+        </scene>
+        <!--Identity SDK demo app-->
+        <scene sceneID="YaD-Yt-Mjd">
+            <objects>
+                <viewController storyboardIdentifier="SettingsViewController" id="YaR-Sc-Cjp" customClass="SettingsViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IXk-Td-VS8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="acmelogo" translatesAutoresizingMaskIntoConstraints="NO" id="FE0-ng-akd">
+                                <rect key="frame" x="87" y="100" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="fve-12-Swv"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qLw-DR-ILF">
+                                <rect key="frame" x="40" y="236" width="334" height="55"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tenant URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37D-Jx-lSM">
+                                        <rect key="frame" x="0.0" y="0.0" width="334" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ots-lJ-k5d">
+                                        <rect key="frame" x="0.0" y="28.5" width="334" height="26.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                    </textField>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="kd6-eM-B4C"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="kd6-eM-B4C" firstAttribute="trailing" secondItem="FE0-ng-akd" secondAttribute="trailing" constant="87" id="4Ic-LB-OdX"/>
+                            <constraint firstItem="qLw-DR-ILF" firstAttribute="top" secondItem="FE0-ng-akd" secondAttribute="bottom" constant="8" symbolic="YES" id="5C8-EL-5ib"/>
+                            <constraint firstItem="FE0-ng-akd" firstAttribute="leading" secondItem="kd6-eM-B4C" secondAttribute="leading" constant="87" id="Gbc-Yt-PqW"/>
+                            <constraint firstItem="kd6-eM-B4C" firstAttribute="trailing" secondItem="qLw-DR-ILF" secondAttribute="trailing" constant="40" id="OiI-Yp-Mch"/>
+                            <constraint firstItem="FE0-ng-akd" firstAttribute="top" secondItem="kd6-eM-B4C" secondAttribute="top" constant="100" id="gBy-ty-jdh"/>
+                            <constraint firstItem="qLw-DR-ILF" firstAttribute="leading" secondItem="kd6-eM-B4C" secondAttribute="leading" constant="40" id="sDG-te-MLw"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Identity SDK demo app" id="UWJ-iO-O6h"/>
+                    <connections>
+                        <outlet property="tenant_textfeild" destination="Ots-lJ-k5d" id="QPE-Mi-sCo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M2X-bf-Wnk" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="771.01449275362324" y="-599.33035714285711"/>
         </scene>
     </scenes>
     <resources>
