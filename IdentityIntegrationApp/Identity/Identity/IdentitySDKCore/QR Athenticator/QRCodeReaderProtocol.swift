@@ -16,6 +16,11 @@
 
 import UIKit
 
+/*
+/// QRCodeReaderProtocol
+/// Responsible for the Qr scanner related operations
+///
+ */
 protocol QRCodeReaderProtocol {
     func startReading(completion: @escaping (String?) -> Void)
     func stopReading()

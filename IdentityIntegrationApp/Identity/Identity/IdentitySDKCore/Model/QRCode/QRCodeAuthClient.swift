@@ -1,9 +1,4 @@
-//
-//  QRCodeAuthClient.swift
-//  Identity
-//
-//  Created by Raviraju Vysyaraju on 13/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +16,8 @@
 
 import Foundation
 protocol QRCodeAuthClientProtocol {
-    func featchQRAuth(from endpoint: Endpoint, completion: @escaping (Result<QRAuthModel?, APIError>) -> Void)
+    
+    func performQRAuthentication(from qrCode: String, access_token: String, completion: @escaping (Result<QRAuthModel?, APIError>) -> Void)
 }
 class QRCodeAuthClient: APIClient {
     let session: URLSession
@@ -34,8 +30,9 @@ class QRCodeAuthClient: APIClient {
 }
 
 extension QRCodeAuthClient: QRCodeAuthClientProtocol {
-    func featchQRAuth(from endpoint: Endpoint, completion: @escaping (Result<QRAuthModel?, APIError>) -> Void) {
-        let request = endpoint.request
+    func performQRAuthentication(from qrCode: String, access_token: String, completion: @escaping (Result<QRAuthModel?, APIError>) -> Void) {
+        let endPoint: Endpoint = QRAuthEndPoint().endpoint(code: qrCode, access_token: access_token)
+        let request = endPoint.request
         print("endpoint request \(request)")
         fetch(with: request, decode: { json -> QRAuthModel? in
             guard let acccessToken = json as? QRAuthModel else { return  nil }

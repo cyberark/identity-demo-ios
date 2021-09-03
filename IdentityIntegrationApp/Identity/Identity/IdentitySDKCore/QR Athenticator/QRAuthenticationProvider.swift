@@ -1,9 +1,4 @@
-//
-//  QRCodeReaderBuilder.swift
-//  QRCodeScanner
-//
-//  Created by Raviraju Vysyaraju on 09/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,18 +19,44 @@ import AVFoundation
 import UIKit
 
 public typealias ResultHandler = (Result<Bool, APIError>) -> Void
+
+/*
+/// AVCaptureDeviceProtocl
+/// This Protocol resposible for QR Scanner
+///
+///
+ */
 public protocol AVCaptureDeviceProtocl {
     func authorizationStatus(for mediaType: AVMediaType) -> AVAuthorizationStatus
     func requestAccess(for mediaType: AVMediaType, completionHandler handler: @escaping (Bool) -> Void)
 }
 
+/*
+/// QRCodeReaderAPIProtocol
+/// This Protocol resposible for QR Scanner
+///
+///
+ */
 protocol QRCodeReaderAPIProtocol {
-    func fetchQrCodeAccessToken(qrCode: String)
-}
-public protocol QRCodeReaderBuilderProtocol {
-    func authenticateQrCode(presenter: UIViewController, completion: @escaping ResultHandler)
+    func fetchAccessTokenWithQRCode(qrCode: String)
 }
 
+/*
+/// QRCodeReaderBuilderProtocol
+/// This Protocol resposible for Builder protocol
+///
+///
+ */
+public protocol QRCodeReaderBuilderProtocol {
+    func authenticateWithQRCode(presenter: UIViewController, completion: @escaping ResultHandler)
+}
+
+/*
+/// QRAuthenticationProvider
+/// This class resposible for Qr authenticator related operations
+/// Scans the QR code and provdes the result
+///
+ */
 public class QRAuthenticationProvider {
     private var presenter: UIViewController?
     private var avCaptureDevice: AVCaptureDeviceProtocl!
@@ -78,10 +99,10 @@ public class QRAuthenticationProvider {
         }
     }
     
-    private func launchQrCodeReader() {
-        setupQrCodeReaderView()
+    private func launchQRCodeScanner() {
+        setupQRScannerView()
     }
-    private func setupQrCodeReaderView() {
+    private func setupQRScannerView() {
         DispatchQueue.main.async {
             let readerViewController = QRCodeReaderViewController.qrCodeReaderView()
             readerViewController.codeReader = AVCodeReader()
@@ -90,15 +111,15 @@ public class QRAuthenticationProvider {
                     self?.showFailedAlert(message: "QR code not found")
                     return
                 }
-                print("Raviraju QRCode \(code)")
-                self?.fetchQrCodeAccessToken(qrCode: code)
+                print("QRCode \(code)")
+                self?.fetchAccessTokenWithQRCode(qrCode: code)
             }
             let presenterVC = self.presenter ?? UIApplication.shared.windows.last?.rootViewController
             presenterVC?.present(readerViewController, animated: true, completion: nil)
         }
     }
 }
-
+//MARK:- QR initialization
 extension QRAuthenticationProvider {
 
     convenience init (captureDevice: AVCaptureDeviceProtocl = QRAVCaptureDevice(), application: UIApplicationProtocol = QRUIApplication()) {
@@ -114,19 +135,20 @@ extension QRAuthenticationProvider {
 
 }
 
+//MARK:- QR Authentication
 extension QRAuthenticationProvider: QRCodeReaderBuilderProtocol, QRCodeReaderAPIProtocol {
     //compltion  error code , error message and success
-    public func authenticateQrCode(presenter: UIViewController, completion: @escaping ResultHandler) {
+    public func authenticateWithQRCode(presenter: UIViewController, completion: @escaping ResultHandler) {
         self.handler = completion
         self.presenter = presenter
         switch avCaptureDevice.authorizationStatus(for: .video) {
         case .authorized:
-            self.launchQrCodeReader()
+            self.launchQRCodeScanner()
         // The user has previously granted access to the camera.
         case .notDetermined: // The user has not yet been asked for camera access.
             avCaptureDevice.requestAccess(for: .video) { [weak self] granted in
                 if granted {
-                    self?.launchQrCodeReader()
+                    self?.launchQRCodeScanner()
                 } else {
                     print("not granted")
                     self?.navigateSettings()
@@ -142,8 +164,8 @@ extension QRAuthenticationProvider: QRCodeReaderBuilderProtocol, QRCodeReaderAPI
         }
     }
     
-    public func fetchQrCodeAccessToken(qrCode: String) {
-        viewModel.fetchQRAuthToken(qrCode: qrCode)
+    public func fetchAccessTokenWithQRCode(qrCode: String) {
+        viewModel.performQRAuthentication(qrCode: qrCode)
         addObserver()
     }
     

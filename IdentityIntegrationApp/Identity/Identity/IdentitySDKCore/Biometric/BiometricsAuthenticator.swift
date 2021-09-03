@@ -1,9 +1,4 @@
-//
-//  BiometricsAuthenticator.swift
-//  Identity
-//
-//  Created by Raviraju Vysyaraju on 27/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,12 +17,21 @@
 import Foundation
 import LocalAuthentication
 
-
+/*
+/// LAContextProtocol
+/// Class resposible for biometrics
+/// A Protocol for the biometrics
+ */
 public protocol LAContextProtocol {
     func canEvaluatePolicy(_ : LAPolicy, error: NSErrorPointer) -> Bool
     func evaluatePolicy(_ policy: LAPolicy, localizedReason: String, reply: @escaping (Bool, Error?) -> Void)
 }
-
+/*
+/// BiometricError
+/// Class resposible for OAuth entry Point
+/// Shared instance
+/// A Protocol for th EnrollmentProvider
+ */
 public enum BiometricError: LocalizedError {
     case authenticationFailed
     case userCancel

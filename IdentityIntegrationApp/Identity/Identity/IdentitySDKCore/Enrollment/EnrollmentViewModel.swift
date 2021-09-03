@@ -1,9 +1,4 @@
-//
-//  EnrollmentViewModel.swift
-//  Identity
-//
-//  Created by Mallikarjuna Punuru on 11/08/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,10 +15,11 @@
 */
 
 import Foundation
-
+/*
 /// EnrollmentViewModelProtocol
 /// Responsible for the api client and all the data related operations
 /// Viewmodel protocol
+ */
 internal protocol EnrollmentViewModelProtocol {
     /// Completion block which will notify when the acccess token api is finished loading
     /// To get the accesstoken
@@ -35,10 +31,11 @@ internal protocol EnrollmentViewModelProtocol {
     /// To enroll device
     func enrollDevice(baseURL: String)
 }
-//MARK:- ViewModel
+/*
 /// AuthenticationViewModel
 /// Responsible for the api client and all the data related operations
 ///
+ */
  internal class EnrollmentViewModel {
    
     private let client : EnrollmentClientProtocol
@@ -64,8 +61,7 @@ extension EnrollmentViewModel: EnrollmentViewModelProtocol {
             guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue), let accessToken = data.toString() else {
                 return
             }
-            let endpoint: Endpoint = EnrollEndPoint().getEnrollDeviceEndpoint(accesstoken: accessToken, baseURL: baseURL)
-            client.enrollDevice(from: endpoint) { [weak self] result in
+            client.enrollDevice(from: accessToken, baseURL: baseURL) { [weak self] result in
                 switch result {
                 case .success(let loginFeedResult):
                     guard let response = loginFeedResult else {

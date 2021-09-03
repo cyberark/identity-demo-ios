@@ -1,9 +1,4 @@
-//
-//  EnrollEndpoint.swift
-//  Identity
-//
-//  Created by Mallikarjuna Punuru on 23/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,9 +22,11 @@ internal enum EnrollHeader: String {
     case name = "Name"
     case udid = "Udid"
 }
+/*
 /// This class constructs Enroll URL Request
 /// Enrollment endoint
 ///
+ */
 internal class EnrollEndPoint {
     /// udid of the device
     var udid: String? = nil

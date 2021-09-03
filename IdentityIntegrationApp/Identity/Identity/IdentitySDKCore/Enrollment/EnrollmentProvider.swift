@@ -1,9 +1,4 @@
-//
-//  EnrollmentManager.swift
-//  Identity
-//
-//  Created by Mallikarjuna Punuru on 12/08/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,28 +15,35 @@
 */
 
 import Foundation
-
+/*
+/// EnrollmentProviderProtocol
 /// Class resposible for OAuth entry Point
 /// Shared instance
 /// A Protocol for th EnrollmentProvider
-internal protocol EnrollmentProviderProtocol {
+ */
+public protocol EnrollmentProviderProtocol {
     func enroll(baseURL: String)
+    var didReceiveEnrollmentApiResponse: ((Bool,String) -> Void)? { get set }
+
 }
+/*
 /// A class resposible for OAuth entry Point
-internal class EnrollmentProvider: EnrollmentProviderProtocol {
+ */
+public class EnrollmentProvider: EnrollmentProviderProtocol {
     
+    public var didReceiveEnrollmentApiResponse: ((Bool, String) -> Void)?
+
     //ViewModel
     internal var viewModel:EnrollmentViewModel?
     
     /// initializers
-    init(){
+    public init(){
         viewModel = EnrollmentViewModel()
         addObserver()
     }
     func addObserver(){
         viewModel?.didReceiveEnrollmentApiResponse = { (result, accessToken) in
-            if result {
-            }
+            self.didReceiveEnrollmentApiResponse!(result, accessToken)
         }
     }
 }
@@ -52,10 +54,7 @@ extension EnrollmentProvider {
     internal func viewmodel() -> EnrollmentViewModel? {
         return viewModel
     }
-    internal func enroll(baseURL: String) {
-        viewmodel()?.enrollDevice(baseURL: baseURL)
-    }
-    internal func unEnroll(baseURL: String) {
+    public func enroll(baseURL: String) {
         viewmodel()?.enrollDevice(baseURL: baseURL)
     }
 }

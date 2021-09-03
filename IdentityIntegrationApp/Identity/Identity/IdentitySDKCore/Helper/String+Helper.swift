@@ -1,9 +1,4 @@
-//
-//  String+Helper.swift
-//  CIAMSDK
-//
-//  Created by Mallikarjuna Punuru on 07/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +16,7 @@
 
 import Foundation
 
-extension String {
+public extension String {
     /// Encode the string
     /// - Returns: encoded string
     func encodeUrl() -> String? {
@@ -32,7 +27,18 @@ extension String {
     func decodeUrl() -> String? {
         return self.removingPercentEncoding
     }
-    func toData() -> Data? {
+    public func toData() -> Data? {
         return self.data(using: .utf8)
+    }
+}
+public extension String {
+    var isValidURL: Bool {
+        let detector = try! NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+        if let match = detector.firstMatch(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count)) {
+            // it is a link, if the match covers the whole string
+            return match.range.length == self.utf16.count
+        } else {
+            return false
+        }
     }
 }

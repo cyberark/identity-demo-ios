@@ -1,9 +1,4 @@
-//
-//  OAuthClient.swift
-//  CIAMSDK
-//
-//  Created by Mallikarjuna Punuru on 08/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,9 +16,13 @@
 
 import Foundation
 
+/*
+/// OAuthClientProtocol
+/// This class resposible for fetch access token
+ */
 protocol OAuthClientProtocol {
-    func fetchAccessToken(from endpoint: Endpoint, completion: @escaping (Result<AccessToken?, APIError>) -> Void)
-    func endSession(with endpoint: Endpoint, completion: @escaping (Result<AccessToken?, APIError>) -> Void)
+    func fetchAccessToken(from pkce: AuthOPKCE, code: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void)
+    func fetchRefreshToken(with pkce: AuthOPKCE, code: String, refreshToken: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void)
 }
 
 class OAuthClient: APIClient {
@@ -37,14 +36,16 @@ class OAuthClient: APIClient {
 }
 // MARK: - API Request calls
 extension OAuthClient: OAuthClientProtocol {
-    func fetchAccessToken(from endpoint: Endpoint, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {
+    func fetchAccessToken(from pkce: AuthOPKCE, code: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {
+        let endpoint: Endpoint = OAuthEndPoint(pkce: pkce).getAuthenticationEndpoint(code: code)
         let request = endpoint.request
         fetch(with: request, decode: { json -> AccessToken? in
             guard let acccessToken = json as? AccessToken else { return  nil }
             return acccessToken
         }, completion: completion)
     }
-    func endSession(with endpoint: Endpoint, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {
+    func fetchRefreshToken(with pkce: AuthOPKCE, code: String, refreshToken: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {
+        let endpoint: Endpoint = OAuthEndPoint(pkce: pkce).getRefreshTokenEndpoint(code: code, refreshToken: refreshToken)
         let request = endpoint.request
         fetch(with: request, decode: { json -> AccessToken? in
             guard let acccessToken = json as? AccessToken else { return  nil }

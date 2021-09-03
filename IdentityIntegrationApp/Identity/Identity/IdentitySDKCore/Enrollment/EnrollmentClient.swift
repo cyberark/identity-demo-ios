@@ -1,9 +1,4 @@
-//
-//  EnrollmentClient.swift
-//  Identity
-//
-//  Created by Mallikarjuna Punuru on 11/08/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,16 +16,24 @@
 
 import Foundation
 
+/*
+/// EnrollmentClientProtocol
 /// Protocol for enroll device
 ///
+ */
 protocol EnrollmentClientProtocol {
     
     /// Enroll device api handler
     /// - Parameters:
     ///   - endpoint: endpoint
     ///   - completion: completion
-    func enrollDevice(from endpoint: Endpoint, completion: @escaping (Result<EnrollResponse?, APIError>) -> Void)
+    func enrollDevice(from accesstoken: String, baseURL: String, completion: @escaping (Result<EnrollResponse?, APIError>) -> Void)
 }
+/*
+/// EnrollmentClient
+/// for enroll device
+///
+ */
 class EnrollmentClient: APIClient {
     let session: URLSession
     init(configuration: URLSessionConfiguration) {
@@ -42,7 +45,8 @@ class EnrollmentClient: APIClient {
 }
 // MARK: - API Request calls
 extension EnrollmentClient: EnrollmentClientProtocol {
-    func enrollDevice(from endpoint: Endpoint, completion: @escaping (Result<EnrollResponse?, APIError>) -> Void) {
+    func enrollDevice(from accesstoken: String, baseURL: String, completion: @escaping (Result<EnrollResponse?, APIError>) -> Void) {
+        let endpoint: Endpoint = EnrollEndPoint().getEnrollDeviceEndpoint(accesstoken: accesstoken, baseURL: baseURL)
         let request = endpoint.request
         fetch(with: request, decode: { json -> EnrollResponse? in
             guard let acccessToken = json as? EnrollResponse else { return  nil }

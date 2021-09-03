@@ -1,9 +1,4 @@
-//
-//  WebBrowserBuilder.swift
-//  CIAMSDK
-//
-//  Created by Mallikarjuna Punuru on 06/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +17,8 @@
 import Foundation
 import UIKit
 
+/*
+/// CyberArkBrowserBuilder
 /// This is created for
 /// building the browser object.
 ///
@@ -29,7 +26,7 @@ import UIKit
 /// - customParam: as custom parameters
 /// - oAuthEndPoint: url components
 /// - presentingViewController: presentingViewController
-
+*/
 public class CyberArkBrowserBuilder: NSObject {
     
     var webType: WebType? = .sfsafari

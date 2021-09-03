@@ -1,9 +1,4 @@
-//
-//  AuthenticationViewModel.swift
-//  CIAMSDK
-//
-//  Created by Mallikarjuna Punuru on 08/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,10 +16,11 @@
 
 import Foundation
 
-
+/*
 /// AuthenticationViewModelProtocol
 /// Responsible for the api client and all the data related operations
 /// Viewmodel protocol
+ */
 public protocol AuthenticationViewModelProtocol {
     
     /// Completion block which will notify when the acccess token api is finished loading
@@ -32,7 +28,7 @@ public protocol AuthenticationViewModelProtocol {
     /// - Parameters:
     ///   - Bool: result
     ///   - String: error or success message
-    var didReceiveAccessToken: ((Bool,String) -> Void)? { get set }
+    var didReceiveAccessToken: ((Bool,String, AccessToken?) -> Void)? { get set }
     
     /// Completion block which will notify when the acccess token api finished loading
     /// To get the refreshtoken
@@ -62,14 +58,16 @@ public protocol AuthenticationViewModelProtocol {
     func fetchAuthToken(code: String, pkce: AuthOPKCE?)
 }
 //MARK:- ViewModel
+/*
 /// AuthenticationViewModel
 /// Responsible for the api client and all the data related operations
 ///
+ */
 public class AuthenticationViewModel {
    
     private let client : OAuthClientProtocol
     
-    public var didReceiveAccessToken: ((Bool,String) -> Void)?
+    public var didReceiveAccessToken: ((Bool,String, AccessToken?) -> Void)?
     
     public var didReceiveRefreshToken: ((Bool, String) -> Void)?
     
@@ -84,7 +82,7 @@ public class AuthenticationViewModel {
     }
     var authResponse: AccessToken? {
         didSet {
-            self.didReceiveAccessToken!(true,authResponse?.access_token ?? "")
+            self.didReceiveAccessToken!(true,authResponse?.access_token ?? "", authResponse)
         }
     }
     init(apiClient: OAuthClientProtocol = OAuthClient()) {
@@ -105,20 +103,17 @@ extension AuthenticationViewModel: AuthenticationViewModelProtocol {
         } catch {
             print("Unexpected error: \(error)")
         }
-        let endpoint: Endpoint = OAuthEndPoint(pkce: pkce).getAuthenticationEndpoint(code: code)
-        
-        client.fetchAccessToken(from: endpoint) { [weak self] result in
+        client.fetchAccessToken(from: pkce ?? AuthOPKCE(), code: code) { [weak self] result in
             switch result {
             case .success(let loginFeedResult):
                 guard let response = loginFeedResult else {
-                    self?.didReceiveAccessToken!(false, "unable to fecth accesstoken")
+                    self?.didReceiveAccessToken!(false, "unable to fecth accesstoken", nil)
                     return
                 }
                 self?.authResponse = response
-                self?.save()
-                self?.enrollDevice()
+               // self?.save()
             case .failure(let error):
-                self?.didReceiveAccessToken!(false, "unable to fecth accesstoken")
+                self?.didReceiveAccessToken!(false, "unable to fecth accesstoken", nil)
                 print("the error \(error)")
             }
         }
@@ -142,9 +137,7 @@ extension AuthenticationViewModel: AuthenticationViewModelProtocol {
         }
         
     }
-    func enrollDevice(){
-        CyberArkAuthProvider.enrollDevice()
-    }
+    
 }
 //MARK:- AuthenticationViewModelProtocol implementation
 /// To send the refresh token
@@ -155,10 +148,7 @@ extension AuthenticationViewModel {
     ///   - code: code
     ///   - pkce: pkce
     public func sendRefreshToken(code: String, refreshToken: String, pkce: AuthOPKCE?) {
-
-        let endpoint: Endpoint = OAuthEndPoint(pkce: pkce).getRefreshTokenEndpoint(code: code, refreshToken: refreshToken)
-        
-        client.endSession(with: endpoint) { [weak self] result in
+        client.fetchRefreshToken(with: pkce ?? AuthOPKCE(), code: code, refreshToken: refreshToken) { [weak self] result in
                   switch result {
             case .success(let loginFeedResult):
                 guard let response = loginFeedResult else {
@@ -174,43 +164,13 @@ extension AuthenticationViewModel {
 
     }
 }
-//MARK:- AuthenticationViewModelProtocol implementation
-//MARK:- Enroll the device
-extension AuthenticationViewModel {
 
-    /// To close the current session
-    /// - Parameters:
-    ///   - code: code
-    ///   - pkce: pkce
-    public func enrollDevice(code: String, refreshToken: String, pkce: AuthOPKCE?) {
-
-        let endpoint: Endpoint = OAuthEndPoint(pkce: pkce).getRefreshTokenEndpoint(code: code, refreshToken: refreshToken)
-        
-        client.endSession(with: endpoint) { [weak self] result in
-                  switch result {
-            case .success(let loginFeedResult):
-                guard let response = loginFeedResult else {
-                    self?.didDeviceEnrolled!(false, "unable to fecth accesstoken")
-                    return
-                }
-                self?.refreshTokenResponse = response
-            case .failure(let error):
-                self?.didDeviceEnrolled!(false, "unable to fecth accesstoken")
-                print("the error \(error)")
-            }
-        }
-
-    }
-}
 //MARK:- Logout/Close the Session
 extension AuthenticationViewModel {
     /// To close the current session
     /// - Parameters:
-    ///   - code: code
-    ///   - pkce: pkce
     public func logout() {
         do {
-            //try KeyChainWrapper.standard.deleteAll()
             UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.accessToken.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)

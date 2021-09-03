@@ -1,9 +1,4 @@
-//
-//  CyberarkAuthProvider.swift
-//  CIAMSDK
-//
-//  Created by Mallikarjuna Punuru on 08/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,22 +16,32 @@
 
 import Foundation
 
-
+/*
+/// CyberArkAuthProvider
 /// This class resposible for OAuth SDK Entry Point
 /// Shared instance
-///
+ */
 public var CyberArkAuthProvider: CyberarkAuthProvider {
     return CyberarkAuthProvider.shared
 }
 
-/// CyberarkAuthProviderProtocol Protocol for th CyberArkAuthProvider
+/*
+/// CyberarkAuthProviderProtocol
+/// This class resposible for OAuth SDK Entry Point
+/// Shared instance
 ///
+ */
 public protocol CyberarkAuthProviderProtocol: class {
     func login(account: CyberarkAccount)
     func resume(url: URL)
-    func enrollDevice()
+    var didReceiveAccessToken: ((Bool,String, AccessToken?) -> Void)? { get set }
 }
-/// A class resposible for OAuth entry Point
+/*
+/// CyberarkAuthProvider
+/// This class resposible for OAuth SDK Entry Point
+/// Shared instance
+///
+ */
 public class CyberarkAuthProvider: CyberarkAuthProviderProtocol {
     
     /// Shared Instance
@@ -53,20 +58,18 @@ public class CyberarkAuthProvider: CyberarkAuthProviderProtocol {
 
     /// Builder object
     private var browser: CyberArkBrowser?
-
-    /// Enroll provider
-    var enrollProvider: EnrollmentProvider?
-
+    
+    public var didReceiveAccessToken: ((Bool,String, AccessToken?) -> Void)?
     /// private initializers
     private init(){
         pkce = AuthOPKCE()
         builder = CyberArkBrowserBuilder(pkce: pkce)
         viewModel = AuthenticationViewModel()
-        enrollProvider = EnrollmentProvider()
+        addAccessTokenObserver()
     }
     
 }
-//MARK:-
+//MARK:- configurations
 extension CyberarkAuthProvider {
     
     /// Browser Builder object
@@ -149,20 +152,12 @@ extension CyberarkAuthProvider {
 //MARK:- Device Enroll
 extension CyberarkAuthProvider {
     
-    /// To enroll the device
-    public func enrollDevice() {
-        
-        do {
-            guard let config = plistValues(bundle: Bundle.main) else { return }
-
-            guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.grantCode.rawValue), let code = data.toString() , let refreshTokenData = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.refreshToken.rawValue),let refreshToken = refreshTokenData.toString() else {
-                return
-            }
-            enrollProvider?.enroll(baseURL: config.domain)
-            
-        } catch  {
+    func addAccessTokenObserver(){
+        viewModel?.didReceiveAccessToken = { (status, message, response) in
+            self.didReceiveAccessToken!(status, message, response)
         }
     }
+    
 }
 
 //MARK:- Plist Configuration

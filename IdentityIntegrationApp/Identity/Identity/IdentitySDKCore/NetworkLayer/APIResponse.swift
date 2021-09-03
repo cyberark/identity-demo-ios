@@ -1,9 +1,4 @@
-//
-//  APIResutl.swift
-//  CIAMSDK
-//
-//  Created by Mallikarjuna Punuru on 25/06/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,10 +17,11 @@
 
 import Foundation
 
-
+/*
 /// Generic response form api call
 /// T on success
 /// U on fail
+ */
 public enum Result<T, U> where U: Error  {
     case success(T)
     case failure(U)

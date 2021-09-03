@@ -1,9 +1,4 @@
-//
-//  WebBrowser.swift
-//  CIAMSDK
-//
-//  Created by Mallikarjuna Punuru on 05/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,14 +25,15 @@ import SafariServices
 }
 
 public typealias didFinishingbrowserOperationCallback = (_ result: String?, _ error:Error?) -> Void
-
+/*
+/// CyberArkBrowser
 /// This is created for browser related operations.
 ///  Safari controller
 /// - webType: type of  the browser
 /// - customParam: as custom parameters
 /// - oAuthEndPoint: url components
 /// - presentingViewController: presentingViewController
-
+*/
 public class CyberArkBrowser: NSObject {
     
      var type: WebType?

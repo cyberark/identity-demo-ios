@@ -1,9 +1,4 @@
-//
-//  APIError.swift
-//  CIAMSDK
-//
-//  Created by Mallikarjuna Punuru on 25/06/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +16,10 @@
 
 import Foundation
 
-/// Handles all the api errors
+/*
+/// Handles all the errors related to api
+///
+*/
 public enum APIError: Error {
     case requestFailed
     case jsonConversionFailure

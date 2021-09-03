@@ -1,9 +1,4 @@
-//
-//  QRAuthViewModel.swift
-//  QRScanner
-//
-//  Created by Raviraju Vysyaraju on 08/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,11 +16,20 @@
 
 import Foundation
 
-
+/*
+/// QRAuthViewModelProtocol
+/// Responsible for the api client and all the data related operations
+/// Viewmodel protocol
+ */
 protocol QRAuthViewModelProtocol {
-    func fetchQRAuthToken(qrCode: String)
+    func performQRAuthentication(qrCode: String)
     var didReceiveAuth: ((Error?, String?) -> Void)? { get set }
 }
+/*
+/// QRAuthViewModel
+/// Responsible for the api client and all the data related operations
+/// Viewmodel protocol
+ */
 public class QRAuthViewModel {
     private let apiServiceClient : QRCodeAuthClientProtocol
     public var didReceiveAuth: ((Error?, String?) -> Void)?
@@ -43,16 +47,20 @@ public class QRAuthViewModel {
         }
     }
 }
+/*
+/// QRAuthViewModel
+/// Responsible for the api client and all the data related operations
+/// Viewmodel protocol
+ */
 extension QRAuthViewModel: QRAuthViewModelProtocol {
 
-    func fetchQRAuthToken(qrCode: String) {
+    func performQRAuthentication(qrCode: String) {
         do {
             guard let access_token = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue)?.toString() else {
                 print("Not available accesstoken")
                 return
             }
-            let endPoint: Endpoint = QRAuthEndPoint().endpoint(code: qrCode, access_token: access_token)
-            apiServiceClient.featchQRAuth(from: endPoint) { [weak self] result in
+            apiServiceClient.performQRAuthentication(from: qrCode, access_token: access_token) { [weak self] result in
                 switch result {
                 case .success(let data):
                     guard let response = data else {

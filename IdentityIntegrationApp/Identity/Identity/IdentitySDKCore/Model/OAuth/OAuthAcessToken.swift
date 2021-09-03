@@ -1,9 +1,4 @@
-//
-//  OAuthAcessToken.swift
-//  CIAMSDK
-//
-//  Created by Mallikarjuna Punuru on 08/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,9 +17,9 @@
 import Foundation
 
 public struct AccessToken: Codable {
-    var access_token: String?
-    var token_type: String?
-    var expires_in: Int?
-    var scope: String?
-    var refresh_token: String?
+    public var access_token: String?
+    public var token_type: String?
+    public var expires_in: Int?
+    public var scope: String?
+    public var refresh_token: String?
 }

@@ -1,6 +1,4 @@
-//
-//  APIClient.swift
-//  CIAMSDK
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,11 +15,12 @@
 */
 
 import Foundation
-
+/*
+/// APIClient
 /// This protocol is responsible to execute a Request
 /// by calling the underlyning layer i.e. URLSession
 /// As output for a Request it should provide a Response.
-
+*/
 protocol APIClient {
     
     var session: URLSession { get }
@@ -48,10 +47,13 @@ extension APIClient {
         
         let task =  URLSession.shared.dataTask(with: request) { ( data,response, error) in
             
+
             guard let httpResponse = response as? HTTPURLResponse else {
                 completion(nil, .requestFailed)
                 return
             }
+            debugPrint("httpResponse: \(httpResponse.debugDescription) \(response)")
+
             if httpResponse.status! == .ok {
                 if let data = data {
                     do {

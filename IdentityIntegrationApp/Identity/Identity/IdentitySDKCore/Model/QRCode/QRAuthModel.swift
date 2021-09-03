@@ -1,8 +1,4 @@
-//
-//  QRAuthModel.swift
-//  QRScanner
-//
-//  Created by Raviraju Vysyaraju on 07/07/21.
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +16,7 @@
 
 
 import Foundation
+
 struct QRAuthModel : Codable {
     let errorCode : String?
     let errorID : String?

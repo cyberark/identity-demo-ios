@@ -16,6 +16,11 @@
 
 import AVFoundation
 
+/*
+/// AVCodeReader
+/// Responsible for the Qr scanner related operations
+///
+ */
 class AVCodeReader: NSObject {
     fileprivate(set) var videoPreview = CALayer()
 

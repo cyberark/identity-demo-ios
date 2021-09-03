@@ -1,9 +1,3 @@
-//
-//  BiometricsAuthenticatorTest.swift
-//  IdentityTests
-//
-//  Created by Raviraju Vysyaraju on 27/07/21.
-//
 
 import XCTest
 import LocalAuthentication

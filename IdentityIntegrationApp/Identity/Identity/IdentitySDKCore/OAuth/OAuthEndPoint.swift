@@ -1,9 +1,4 @@
-//
-//  IdentityAuth.swift
-//  CIAMSDK
-//
-//  Created by Mallikarjuna Punuru on 05/07/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,11 +16,11 @@
 
 import Foundation
 
-
+/*
 /// This class constructs the URL Request
-///  OAuth + PKCE web based login
+/// OAuth + PKCE web based login
 ///
-
+*/
 internal class OAuthEndPoint {
     
     /// clientId configured in the server

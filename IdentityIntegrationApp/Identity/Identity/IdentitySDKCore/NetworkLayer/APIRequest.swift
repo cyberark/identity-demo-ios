@@ -1,9 +1,4 @@
-//
-//  APIRequest.swift
-//  CIAMSDK
-//
-//  Created by Mallikarjuna Punuru on 28/06/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,13 +16,14 @@
 
 import Foundation
 
+/*
 /// A classic class object for each kind of request.
 /// Define parameters to pass along with the request and how
 /// they are encapsulated into the http request itself.
 ///
 /// - body: part of the body stream
 /// - url: as url parameters
-
+*/
 internal struct Endpoint {
     
     /// Relative path of the endpoint we want to call

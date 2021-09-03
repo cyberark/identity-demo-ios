@@ -1,9 +1,4 @@
-//
-//  DeviceManager.swift
-//  Identity
-//
-//  Created by Mallikarjuna Punuru on 12/08/21.
-//
+
 /* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
