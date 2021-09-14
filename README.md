@@ -53,7 +53,9 @@ The current version of CyberArk Identity iOS SDK requires:
 
 **By default, CyberArk Identity iOS SDK does NOT collect any data on its own.** 
 
-### Indirect data collection through the framework
+### Indirect data collection 
+
+**By default, CyberArk Identity iOS SDK does NOT collect any data on its own.** 
 
 **Important note: app developers are fully responsible for any sensitive data collected through our logging system!**
 
