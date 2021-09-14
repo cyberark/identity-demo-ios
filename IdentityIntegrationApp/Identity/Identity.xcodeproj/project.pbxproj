@@ -68,6 +68,12 @@
 		E2C669CC26987AAF00E98544 /* Identity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2C669C226987AAF00E98544 /* Identity.framework */; };
 		E2C669D126987AAF00E98544 /* IdentityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C669D026987AAF00E98544 /* IdentityTests.swift */; };
 		E2C669D326987AAF00E98544 /* Identity.h in Headers */ = {isa = PBXBuildFile; fileRef = E2C669C526987AAF00E98544 /* Identity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E2EB34C326E5F2F700DC2FE5 /* OAuth_End_Session_Success.json in Resources */ = {isa = PBXBuildFile; fileRef = E2EB34C226E5F2F700DC2FE5 /* OAuth_End_Session_Success.json */; };
+		E2EB34C926E5F2FF00DC2FE5 /* OAuth_Redirect_Failure.json in Resources */ = {isa = PBXBuildFile; fileRef = E2EB34C826E5F2FE00DC2FE5 /* OAuth_Redirect_Failure.json */; };
+		E2EB34CF26E5F30600DC2FE5 /* OAuth_Success.json in Resources */ = {isa = PBXBuildFile; fileRef = E2EB34CE26E5F30600DC2FE5 /* OAuth_Success.json */; };
+		E2EB34D526E5F30D00DC2FE5 /* OAuth_Refresh_Token_Success.json in Resources */ = {isa = PBXBuildFile; fileRef = E2EB34D426E5F30D00DC2FE5 /* OAuth_Refresh_Token_Success.json */; };
+		E2EB34DB26E5F31900DC2FE5 /* OAuth_End_Session_Failure.json in Resources */ = {isa = PBXBuildFile; fileRef = E2EB34DA26E5F31900DC2FE5 /* OAuth_End_Session_Failure.json */; };
+		E2EB34EA26E5F55800DC2FE5 /* Enrollment_Success.json in Resources */ = {isa = PBXBuildFile; fileRef = E2EB34E926E5F55800DC2FE5 /* Enrollment_Success.json */; };
 		E2EFFF0126C2B855008EED7E /* OAuthEndPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFFF0026C2B855008EED7E /* OAuthEndPointTests.swift */; };
 		E2EFFF0526C2C3D8008EED7E /* AuthenticationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFFF0426C2C3D8008EED7E /* AuthenticationViewModelTests.swift */; };
 		E2EFFF1626C3AD81008EED7E /* EnrollmentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EFFF1526C3AD81008EED7E /* EnrollmentViewModel.swift */; };
@@ -149,6 +155,12 @@
 		E2C669CB26987AAF00E98544 /* IdentityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IdentityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2C669D026987AAF00E98544 /* IdentityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityTests.swift; sourceTree = "<group>"; };
 		E2C669D226987AAF00E98544 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E2EB34C226E5F2F700DC2FE5 /* OAuth_End_Session_Success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OAuth_End_Session_Success.json; sourceTree = "<group>"; };
+		E2EB34C826E5F2FE00DC2FE5 /* OAuth_Redirect_Failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OAuth_Redirect_Failure.json; sourceTree = "<group>"; };
+		E2EB34CE26E5F30600DC2FE5 /* OAuth_Success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OAuth_Success.json; sourceTree = "<group>"; };
+		E2EB34D426E5F30D00DC2FE5 /* OAuth_Refresh_Token_Success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OAuth_Refresh_Token_Success.json; sourceTree = "<group>"; };
+		E2EB34DA26E5F31900DC2FE5 /* OAuth_End_Session_Failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OAuth_End_Session_Failure.json; sourceTree = "<group>"; };
+		E2EB34E926E5F55800DC2FE5 /* Enrollment_Success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Enrollment_Success.json; sourceTree = "<group>"; };
 		E2EFFF0026C2B855008EED7E /* OAuthEndPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthEndPointTests.swift; sourceTree = "<group>"; };
 		E2EFFF0426C2C3D8008EED7E /* AuthenticationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModelTests.swift; sourceTree = "<group>"; };
 		E2EFFF1526C3AD81008EED7E /* EnrollmentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentViewModel.swift; sourceTree = "<group>"; };
@@ -375,6 +387,7 @@
 		E2C669CF26987AAF00E98544 /* IdentityTests */ = {
 			isa = PBXGroup;
 			children = (
+				E2EB34BF26E5F29B00DC2FE5 /* MockResponse */,
 				E2778FED26D7CC6800D84B1F /* EnrollmentTests */,
 				E28D0EE526BC05AB0005A245 /* OAuthTests */,
 				E2EFFF0D26C38997008EED7E /* BiometricTests */,
@@ -384,6 +397,27 @@
 				E2C669C326987AAF00E98544 /* Products */,
 			);
 			path = IdentityTests;
+			sourceTree = "<group>";
+		};
+		E2EB34BF26E5F29B00DC2FE5 /* MockResponse */ = {
+			isa = PBXGroup;
+			children = (
+				E2EB34E826E5F53C00DC2FE5 /* EnrollmentResponse */,
+				E2EB34C826E5F2FE00DC2FE5 /* OAuth_Redirect_Failure.json */,
+				E2EB34D426E5F30D00DC2FE5 /* OAuth_Refresh_Token_Success.json */,
+				E2EB34CE26E5F30600DC2FE5 /* OAuth_Success.json */,
+				E2EB34C226E5F2F700DC2FE5 /* OAuth_End_Session_Success.json */,
+				E2EB34DA26E5F31900DC2FE5 /* OAuth_End_Session_Failure.json */,
+			);
+			path = MockResponse;
+			sourceTree = "<group>";
+		};
+		E2EB34E826E5F53C00DC2FE5 /* EnrollmentResponse */ = {
+			isa = PBXGroup;
+			children = (
+				E2EB34E926E5F55800DC2FE5 /* Enrollment_Success.json */,
+			);
+			path = EnrollmentResponse;
 			sourceTree = "<group>";
 		};
 		E2EFFF0826C3897E008EED7E /* QRAuthenticatorTests */ = {
@@ -517,6 +551,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2EB34DB26E5F31900DC2FE5 /* OAuth_End_Session_Failure.json in Resources */,
+				E2EB34C326E5F2F700DC2FE5 /* OAuth_End_Session_Success.json in Resources */,
+				E2EB34EA26E5F55800DC2FE5 /* Enrollment_Success.json in Resources */,
+				E2EB34C926E5F2FF00DC2FE5 /* OAuth_Redirect_Failure.json in Resources */,
+				E2EB34D526E5F30D00DC2FE5 /* OAuth_Refresh_Token_Success.json in Resources */,
+				E2EB34CF26E5F30600DC2FE5 /* OAuth_Success.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

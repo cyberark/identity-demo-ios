@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>domainopenid</key>
-	<string>https://aae5953.my.idaptive.qa?appKey=13994d85-c001-4089-9b2f-9f2ce28fcce1</string>
+	<string></string>
 	<key>clientid</key>
-	<string>icici</string>
+	<string>Axis</string>
 	<key>clientsecret</key>
 	<string></string>
 	<key>domainautho</key>
-	<string>https://aae5953.my.idaptive.qa</string>
+	<string>https://acme2.my.dev.idaptive.app</string>
 	<key>applicationid</key>
-	<string>testapplicationID</string>
+	<string>testoauth4</string>
 	<key>redirecturi</key>
 	<string>ciamsdkdemo://com.cyberark.ciamsdk</string>
 	<key>scope</key>

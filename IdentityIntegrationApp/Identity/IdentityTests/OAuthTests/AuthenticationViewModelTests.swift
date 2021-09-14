@@ -47,6 +47,7 @@ class AuthenticationViewModelTests: XCTestCase {
 }
 class MockAuthViewModelApiService: OAuthClientProtocol {
     
+    
     public var didReceiveAccessToken: ((Bool,String) -> Void)?
     
     public var didReceiveRefreshToken: ((Bool, String) -> Void)?

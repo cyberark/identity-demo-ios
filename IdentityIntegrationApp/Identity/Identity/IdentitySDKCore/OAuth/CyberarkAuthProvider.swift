@@ -16,6 +16,8 @@
 
 import Foundation
 
+public typealias NodeCompletion<T> = (_ result: T?, _ error: Error?) -> Void
+
 /*
 /// CyberArkAuthProvider
 /// This class resposible for OAuth SDK Entry Point

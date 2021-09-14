@@ -54,7 +54,8 @@ extension ViewController {
     func configure(){
         registerCell()
         addObserver()
-        addRightBar()
+        addLogoutObserver()
+        //addRightBar()
     }
     func registerCell() {
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -129,6 +130,16 @@ extension ViewController {
                 }
             } else {
                 self.showAlert(with: "Seems like something went wrong", message: message)
+            }
+        }
+    }
+    func addLogoutObserver(){
+        CyberArkAuthProvider.viewmodel()?.didLoggedOut = { (result, accessToken) in
+            if result {
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true) {
+                    }
+                }
             }
         }
     }
