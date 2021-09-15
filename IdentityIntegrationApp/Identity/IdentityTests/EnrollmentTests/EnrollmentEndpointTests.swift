@@ -39,12 +39,10 @@ class EnrollmentEndpointTests: XCTestCase {
     /// - Returns: Endpoint
     func test_Enroll_Device_Endpoint() {
         let endpoint = mockEndPoint?.getEnrollDeviceEndpoint(accesstoken: "", baseURL: "")
-        XCTAssertNotNil(endpoint?.queryItems)
-        XCTAssertEqual(endpoint?.queryItems!.count, 5)
-        XCTAssertEqual(endpoint?.queryItems?[0].value, "application/json")
-        XCTAssertEqual(endpoint?.queryItems?[1].value, "true")
-        XCTAssertEqual(endpoint?.queryItems?[2].value, "")
-        XCTAssertEqual(endpoint?.queryItems?[3].value, "true")
-        XCTAssertEqual(endpoint?.queryItems?[4].value, "en-IN")
+        XCTAssertEqual(endpoint?.queryItems?.count, 0)
+        XCTAssertEqual(endpoint?.headers?[HttpHeaderKeys.contenttype.rawValue], "application/json")
+        XCTAssertEqual(endpoint?.headers?[HttpHeaderKeys.xidpnativeclient.rawValue], "true")
+        XCTAssertEqual(endpoint?.headers?[HttpHeaderKeys.xcentrifynativeclient.rawValue], "true")
+        XCTAssertEqual(endpoint?.headers?[HttpHeaderKeys.acceptlanguage.rawValue], "en-IN")
     }
 }

@@ -22,7 +22,8 @@ class AuthenticationViewModelTests: XCTestCase {
     var suitViewModel: AuthenticationViewModel!
     
     var mockAPIService: MockAuthViewModelApiService!
-    
+    var pkce = AuthOPKCE()
+
     override func setUp() {
         super.setUp()
         mockAPIService = MockAuthViewModelApiService()
@@ -44,8 +45,42 @@ class AuthenticationViewModelTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
+    func testFetchAuthToken_Success() {
+        do {
+            try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.grantCode.rawValue, data: "access_cde".toData() ?? Data())
+        } catch {
+            print("Unexpected error: \(error)")
+        }
+        let delayExpectation = expectation(description: "Waiting for QR Auth request failed")
+        // Fulfill the expectation after 2 seconds
+        DispatchQueue.main.async {
+            delayExpectation.fulfill()
+        }
+
+        mockAPIService.didReceiveAccessToken = { (status, message) in
+            XCTAssertNotNil(status)
+            XCTAssertNotNil(message)
+        }
+        suitViewModel.fetchAuthToken(code: "test", pkce: pkce)
+        waitForExpectations(timeout: 2)
+        mockAPIService.fetchSuccess()
+        do {
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)
+        } catch {
+            print("Unexpected error: \(error)")
+        }
+    }
+    
 }
 class MockAuthViewModelApiService: OAuthClientProtocol {
+    func fetchAccessToken(from pkce: AuthOPKCE, code: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {
+        accessTokenCompletionClosure = completion
+    }
+    
+    func fetchRefreshToken(with pkce: AuthOPKCE, code: String, refreshToken: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {
+        
+    }
+    
     
     
     public var didReceiveAccessToken: ((Bool,String) -> Void)?
@@ -61,7 +96,7 @@ class MockAuthViewModelApiService: OAuthClientProtocol {
     var endSessionCompletionClosure: ((Result<AccessToken?, APIError>) -> Void?)? = nil
     
     func fetchAccessToken(from endpoint: Endpoint, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {
-        accessTokenCompletionClosure = completion
+        
     }
     
     func endSession(with endpoint: Endpoint, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {

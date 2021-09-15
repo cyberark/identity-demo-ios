@@ -24,6 +24,11 @@ class EnrollmentViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
+        do {
+            try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.grantCode.rawValue, data: "access_cde".toData() ?? Data())
+        } catch {
+            print("Unexpected error: \(error)")
+        }
         mockAPIService = EnrollmentViewModelApiService()
         suitViewModel = EnrollmentViewModel(apiClient: mockAPIService)
     }
@@ -32,6 +37,11 @@ class EnrollmentViewModelTests: XCTestCase {
         suitViewModel = nil
         mockAPIService = nil
         suitViewModel = nil
+        do {
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)
+        } catch {
+            print("Unexpected error: \(error)")
+        }
         super.tearDown()
     }
     
@@ -43,16 +53,38 @@ class EnrollmentViewModelTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
+    func testEnrollDevice_Success() {
+        let delayExpectation = expectation(description: "Waiting for QR Auth request failed")
+        // Fulfill the expectation after 2 seconds
+        DispatchQueue.main.async {
+            delayExpectation.fulfill()
+        }
+
+        mockAPIService.completeClosure = { result in
+            XCTAssertNotNil(result)
+        }
+        suitViewModel.enrollDevice(baseURL: "url")
+        waitForExpectations(timeout: 2)
+        mockAPIService.fetchSuccess()
+        
+    }
+    func testEnrollDevice_Fail() {
+        mockAPIService.completeClosure = { result in
+            XCTAssertNotNil(result)
+        }
+        suitViewModel.enrollDevice(baseURL: "url")
+        mockAPIService.fetchFail(error: nil)
+    }
 }
 class EnrollmentViewModelApiService: EnrollmentClientProtocol {
+    func enrollDevice(from accesstoken: String, baseURL: String, completion: @escaping (Result<EnrollResponse?, APIError>) -> Void) {
+        completeClosure = completion
+    }
+    
     
     var enrollmentModel: EnrollResponse? = MockEnrollAPIAPIServiceGenerator().stubAuthModel()
     
     var completeClosure: ((Result<EnrollResponse?, APIError>) -> Void?)? = nil
-    
-    func enrollDevice(from endpoint: Endpoint, completion: @escaping (Result<EnrollResponse?, APIError>) -> Void) {
-        completeClosure = completion
-    }
 
     func fetchSuccess() {
         if let handler = completeClosure {

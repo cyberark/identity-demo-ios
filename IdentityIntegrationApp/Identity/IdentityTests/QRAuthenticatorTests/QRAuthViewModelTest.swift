@@ -57,15 +57,7 @@ class QRAuthViewModelTest: XCTestCase {
             XCTAssertNil(value)
         }
         // Sut should display predefined error message
-        mockAPIService.featchQRAuth(from: Endpoint(httpMethod: .get, dataType: .JSON)) { [self] result in
-            switch result {
-            case .success( _):
-                break
-            case .failure( _):
-                sut.didReceiveAuth!(error, nil)
-            }
-        }
-        
+        sut.performQRAuthentication(qrCode: "qrcode")
         mockAPIService.fetchFail(error: error )
     }
     
@@ -80,47 +72,47 @@ class QRAuthViewModelTest: XCTestCase {
             XCTAssertNil(error)
             XCTAssertEqual(value, "sample_auth")
         }
-        
-        mockAPIService.featchQRAuth(from: Endpoint(httpMethod: .get, dataType: .JSON)) { [self] result in
-            switch result {
-            case .success(let data):
-                guard let response = data else {
-                    print("Test Response Data not valid")
-                    sut.didReceiveAuth!(APIError.invalidData, nil)
-                    return
-                }
-                print("Test QRAuthToken \(String(describing: response.result?.auth))")
-                sut.authResponse = response
-            case .failure( _):
-                break;
-            }
-        }
-        //
+        sut.performQRAuthentication(qrCode: "qrcode")
+//        mockAPIService.featchQRAuth(from: Endpoint(httpMethod: .get, dataType: .JSON)) { [self] result in
+//            switch result {
+//            case .success(let data):
+//                guard let response = data else {
+//                    print("Test Response Data not valid")
+//                    sut.didReceiveAuth!(APIError.invalidData, nil)
+//                    return
+//                }
+//                print("Test QRAuthToken \(String(describing: response.result?.auth))")
+//                sut.authResponse = response
+//            case .failure( _):
+//                break;
+//            }
+//        }
+//        //
         mockAPIService.fetchSuccess()
     }
     
     func test_qrAuthApi_success_InValidData() {
         
         // When
-        sut.fetchQRAuthToken(qrCode: "")
+        
         
         sut.didReceiveAuth = { error, value in
             XCTAssertNotNil(error)
             XCTAssertNil(value)
         }
-        
-        mockAPIService.featchQRAuth(from: Endpoint(httpMethod: .get, dataType: .JSON)) { [self] result in
-            switch result {
-            case .success(let data):
-                guard let response = data else {
-                    sut.didReceiveAuth!(APIError.responseUnsuccessful, nil)
-                    return
-                }
-                sut.authResponse = response
-            case .failure( _):
-                break;
-            }
-        }
+        sut.performQRAuthentication(qrCode:"")
+//        mockAPIService.featchQRAuth(from: Endpoint(httpMethod: .get, dataType: .JSON)) { [self] result in
+//            switch result {
+//            case .success(let data):
+//                guard let response = data else {
+//                    sut.didReceiveAuth!(APIError.responseUnsuccessful, nil)
+//                    return
+//                }
+//                sut.authResponse = response
+//            case .failure( _):
+//                break;
+//            }
+//        }
         mockAPIService.fetchSuccess_NilData()
     }
 }
@@ -133,7 +125,7 @@ class MockQRApiService: QRCodeAuthClientProtocol {
     var completeAuthModel: QRAuthModel? = StubQrAPIAuthGenerator().stubAuthModel()
     var completeClosure: ((Result<QRAuthModel?, APIError>) -> Void?)? = nil
     
-    func featchQRAuth(from endpoint: Endpoint, completion: @escaping (Result<QRAuthModel?, APIError>) -> Void) {
+    func performQRAuthentication(from qrCode: String, access_token: String, completion: @escaping (Result<QRAuthModel?, APIError>) -> Void) {
         completeClosure = completion
     }
     
