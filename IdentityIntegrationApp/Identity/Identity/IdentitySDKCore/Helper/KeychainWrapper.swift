@@ -105,7 +105,7 @@ public class KeyChainWrapper {
     /// To delete the account with key
     /// - Parameter account: account
     /// - Throws: error
-    func delete(key: String) throws {
+    public func delete(key: String) throws {
         let status = SecItemDelete([
             kSecClass: kSecClassGenericPassword,
             kSecAttrAccount: key,

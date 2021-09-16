@@ -17,6 +17,6 @@ import Foundation
 
 public enum UserDefaultsKeys: String {
     case isDeviceEnrolled        = "isDeviceEnrolled"
-    case isEnabledBiometricOnAppLaunch       = "isenabledBiometricOnAppLauach"
-    case isEnabledBiometricOnAccessTokenExpires       = "isenabledBiometricOnAccessTokenExpires"
+    case isEnabledBiometricOnAppLaunch       = "isEnabledBiometricOnAppLaunch"
+    case isEnabledBiometricOnAccessTokenExpires       = "isEnabledBiometricOnAccessTokenExpires"
 }

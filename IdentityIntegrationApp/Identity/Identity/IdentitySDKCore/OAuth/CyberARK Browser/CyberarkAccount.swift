@@ -35,6 +35,9 @@ public class CyberarkAccount: NSObject {
     /// domain configured in the server
     var domain: String? = nil
     
+    /// domain configured in the server
+    var systemURL: String? = nil
+
     /// scope configured in the server
     var scope: String? = nil
     
@@ -65,9 +68,10 @@ public class CyberarkAccount: NSObject {
         return self.pkce?.challenge
     } ()
     
-    init (clientId: String, domain: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logoutUri: String, pkce: AuthOPKCE, presentingViewController: UIViewController) {
+    init (clientId: String, domain: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logoutUri: String, pkce: AuthOPKCE, presentingViewController: UIViewController, systemURL: String) {
         self.clientId = clientId
         self.domain = domain
+        self.systemURL = domain
         self.scope = scope
         self.threshold = threshold
         self.applicationID = applicationID

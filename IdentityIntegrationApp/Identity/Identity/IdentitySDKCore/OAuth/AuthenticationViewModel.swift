@@ -35,7 +35,7 @@ public protocol AuthenticationViewModelProtocol {
     /// - Parameters:
     ///   - Bool: result
     ///   - String: error or success message
-    var didReceiveRefreshToken: ((Bool,String) -> Void)? { get set }
+    var didReceiveRefreshToken: ((Bool,String, AccessToken?) -> Void)? { get set }
 
     /// Completion block which will notify when the user logged out
     /// To get the refreshtoken
@@ -69,7 +69,7 @@ public class AuthenticationViewModel {
     
     public var didReceiveAccessToken: ((Bool,String, AccessToken?) -> Void)?
     
-    public var didReceiveRefreshToken: ((Bool, String) -> Void)?
+    public var didReceiveRefreshToken: ((Bool, String, AccessToken?) -> Void)?
     
     public var didDeviceEnrolled: ((Bool, String) -> Void)?
 
@@ -77,7 +77,7 @@ public class AuthenticationViewModel {
 
     var refreshTokenResponse: AccessToken? {
         didSet {
-            self.didReceiveRefreshToken!(true,refreshTokenResponse?.access_token ?? "")
+            self.didReceiveRefreshToken!(true,refreshTokenResponse?.access_token ?? "", refreshTokenResponse)
         }
     }
     var authResponse: AccessToken? {
@@ -149,15 +149,15 @@ extension AuthenticationViewModel {
     ///   - pkce: pkce
     public func sendRefreshToken(code: String, refreshToken: String, pkce: AuthOPKCE?) {
         client.fetchRefreshToken(with: pkce ?? AuthOPKCE(), code: code, refreshToken: refreshToken) { [weak self] result in
-                  switch result {
+            switch result {
             case .success(let loginFeedResult):
                 guard let response = loginFeedResult else {
-                    self?.didReceiveRefreshToken!(false, "unable to fecth accesstoken")
+                    self?.didReceiveRefreshToken!(false, "unable to fecth accesstoken", nil)
                     return
                 }
                 self?.refreshTokenResponse = response
             case .failure(let error):
-                self?.didReceiveRefreshToken!(false, "unable to fecth accesstoken")
+                self?.didReceiveRefreshToken!(false, "unable to fecth accesstoken", nil)
                 print("the error \(error)")
             }
         }
@@ -170,16 +170,20 @@ extension AuthenticationViewModel {
     /// To close the current session
     /// - Parameters:
     public func logout() {
+        clearCachedData()
+        self.didLoggedOut!(true, "unable to close the session")
+    }
+    func clearCachedData() {
         do {
             UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue)
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue)
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.accessToken.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.refreshToken.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.access_token_expiresIn.rawValue)
-            
         } catch {
             debugPrint("operation error")
         }
-        self.didLoggedOut!(true, "unable to close the session")
     }
 }

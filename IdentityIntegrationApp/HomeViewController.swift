@@ -30,6 +30,8 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var accessToken_Switch: UISwitch!
     @IBOutlet weak var appLaunch_switch: UISwitch!
     var isAuthenticated = false
+    var isFromLogin = false
+
     let builder = QRAuthenticationProvider()
     let enrollProvider = EnrollmentProvider()
 
@@ -46,56 +48,67 @@ class HomeViewController: UIViewController {
         super.viewWillDisappear(animated)
         removeOberver()
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        configureBiometricsUI()
+    }
 }
 //MARK:- UI Handlers
 extension HomeViewController {
     func configure() {
-        addObserver()
         addLogoutObserver()
         configureBiometricsUI()
         addDidBecomeActiveObserver()
         configureEnrollButton()
         addEnrollObserver()
         showActivityIndicator(on: self.view)
+        addRefreshTokenObserver()
+        if !isFromLogin {
+            lauchBiomtrics()
+        } else {
+            isFromLogin = false
+        }
     }
     @IBAction func do_click(_ sender: Any) {
         navigate(button: sender as! UIButton)
     }
     @IBAction func enableApplaunch(_ sender: Any) {
-        appLaunch_switch.isSelected = !appLaunch_switch.isSelected
-        UserDefaults.standard.set(appLaunch_switch.isSelected, forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue)
+        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue)
+        UserDefaults.standard.synchronize()
+
     }
     @IBAction func enableOnAccesstokeExpires(_ sender: Any) {
-        accessToken_Switch.isSelected = !accessToken_Switch.isSelected
-        UserDefaults.standard.set(accessToken_Switch.isSelected, forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
+        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
+        UserDefaults.standard.synchronize()
     }
 }
 //MARK:- Configurations
 extension HomeViewController {
     func configureBiometricsUI() {
-        if(UserDefaults.standard.object(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue) != nil) {
-            appLaunch_switch.isSelected =  UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue)
-            accessToken_Switch.isSelected = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
-        }else {
+        if(UserDefaults.standard.object(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue) == nil) {
             UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue)
-            UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
-            appLaunch_switch.isSelected =  UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue)
-            accessToken_Switch.isSelected = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
         }
+        if(UserDefaults.standard.object(forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue) == nil) {
+            UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
+        }
+        UserDefaults.standard.synchronize()
+        appLaunch_switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue), animated: true)
+        accessToken_Switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue), animated: true)
     }
     func addDidBecomeActiveObserver() {
         NotificationCenter.default.addObserver(self,
-            selector: #selector(applicationDidBecomeActive),
+            selector: #selector(lauchBiomtrics),
             name: UIApplication.didBecomeActiveNotification,
             object: nil)
     }
-    @objc func applicationDidBecomeActive() {
+    @objc func lauchBiomtrics() {
         if (!isAuthenticated) {
             addBiometrics()
         } else {
             isAuthenticated = false
         }
         configureEnrollButton()
+        configureBiometricsUI()
     }
    
     func removeOberver() {
@@ -112,9 +125,8 @@ extension HomeViewController {
     }
     
     func addBiometrics() {
-        
         let isAcessTokenExpired = checkForAccessTokenExpiry()
-        if ( UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue) || isAcessTokenExpired) {
+        if ( UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue) || (UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue) && isAcessTokenExpired)) {
             DispatchQueue.main.async {
                 self.addBlurrView()
             }
@@ -142,6 +154,13 @@ extension HomeViewController {
                     self.removeBlurrView()
                 }
             }
+        } else if (isAcessTokenExpired) {
+            let alertController = UIAlertController(title: "Unauthorized access", message: "Seems like the current session is expired. Please click on OK to get the new access token...", preferredStyle: .alert)
+            let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                self.refreshToken()
+            })
+            alertController.addAction(action)
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     func checkForAccessTokenExpiry() -> Bool {
@@ -173,18 +192,6 @@ extension HomeViewController {
         }
     }
     
-    func addObserver(){
-        CyberArkAuthProvider.viewmodel()?.didReceiveRefreshToken = { (result, accessToken) in
-            if result {
-                DispatchQueue.main.async {
-                    //self.dismiss(animated: true) {
-                    //self.showAlert(with :"Refresh Token: ", message: accessToken)
-                    // }
-                }
-            }
-        }
-    }
-    
     func configureEnrollment() {
         if UserDefaults.standard.bool(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue) {
             navigateToScanner()
@@ -192,9 +199,7 @@ extension HomeViewController {
             enrollDevice()
         }
     }
-    func refreshToken() {
-        CyberArkAuthProvider.sendRefreshToken()
-    }
+   
     func navigateToScanner() {
         builder.authenticateWithQRCode(presenter: self, completion: { [weak self] result in
             switch result {
@@ -220,7 +225,6 @@ extension HomeViewController {
                 .setCustomParam(key: "", value: "")
                 .set(webType: .sfsafari)
                 .build() else { return }
-        
         CyberArkAuthProvider.closeSession(account: account)
         addBlurrView()
     }
@@ -236,7 +240,7 @@ extension HomeViewController {
             self.removeBlurrView()
         }
     }
-    func plistValues(bundle: Bundle) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logouturi: String)? {
+    func plistValues(bundle: Bundle) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logouturi: String,systemurl: String)? {
         guard
             let path = bundle.path(forResource: "IdentityConfiguration", ofType: "plist"),
             let values = NSDictionary(contentsOfFile: path) as? [String: Any]
@@ -246,12 +250,12 @@ extension HomeViewController {
         }
         guard
             let clientId = values["clientid"] as? String,
-            let domain = values["domainautho"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String
+            let domain = values["domainautho"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String, let systemurl = values["systemurl"] as? String
         else {
             print("IdentityConfiguration.plist file at \(path) is missing 'ClientId' and/or 'Domain' values!")
             return nil
         }
-        return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, threshold: threshold, applicationID: applicationID, logouturi: logouturi)
+        return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, threshold: threshold, applicationID: applicationID, logouturi: logouturi, systemurl: systemurl)
     }
     func removePersistantStorage() {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue)
@@ -280,7 +284,7 @@ extension HomeViewController
             guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.grantCode.rawValue), let code = data.toString() , let refreshTokenData = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.refreshToken.rawValue),let refreshToken = refreshTokenData.toString() else {
                 return
             }
-            enrollProvider.enroll(baseURL: config.domain)
+            enrollProvider.enroll(baseURL: config.systemurl)
             
         } catch  {
         }
@@ -306,5 +310,61 @@ extension HomeViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: parentView.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: parentView.centerYAnchor),
         ])
+    }
+}
+extension HomeViewController {
+    func refreshToken() {
+        CyberArkAuthProvider.sendRefreshToken()
+    }
+    /*
+    ///
+    /// Observer to get the access token
+    /// Must call this method before calling the login api
+    */
+    func addRefreshTokenObserver(){
+        CyberArkAuthProvider.didReceiveRefreshToken = { (status, message, response) in
+            if status {
+                self.save(response: response)
+            } else {
+                self.clearCachedData()
+                self.navigateToLogin()
+                //self.showAlert(with: "Seems like something went wrong", message: message)
+            }
+        }
+    }
+    func save(response: AccessToken?) {
+        do {
+            if let accessToken = response?.access_token {
+                try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.accessToken.rawValue, data: accessToken.toData() ?? Data())
+            }
+            if let expiresIn = response?.expires_in {
+                let date = Date().epirationDate(with: expiresIn)
+                try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.access_token_expiresIn.rawValue, data: Data.init(from: date))
+            }
+        } catch {
+            print("Unexpected error: \(error)")
+        }
+    }
+    func navigateToLogin(){
+        let alertController = UIAlertController(title: "Unauthorized access", message: "Seems like the current session is expired. Please login again to continue...", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            self.closeSession()
+            //self.configureInitialScreen()
+        })
+        alertController.addAction(action)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    func clearCachedData() {
+        do {
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue)
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue)
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.accessToken.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.refreshToken.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.access_token_expiresIn.rawValue)
+        } catch {
+            debugPrint("operation error")
+        }
     }
 }

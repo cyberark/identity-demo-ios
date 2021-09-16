@@ -119,7 +119,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
                                                 <color key="onTintColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
                                                 <connections>
-                                                    <action selector="enableApplaunch:" destination="kMM-q3-Uhg" eventType="valueChanged" id="k72-PR-ILe"/>
+                                                    <action selector="enableApplaunch:" destination="kMM-q3-Uhg" eventType="valueChanged" id="xDT-c0-HDM"/>
                                                 </connections>
                                             </switch>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invoke Biometrics on app launch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9lm-Tp-QAC">
@@ -137,7 +137,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
                                                 <color key="onTintColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
                                                 <connections>
-                                                    <action selector="enableOnAccesstokeExpires:" destination="kMM-q3-Uhg" eventType="valueChanged" id="1t0-C2-D6i"/>
+                                                    <action selector="enableOnAccesstokeExpires:" destination="kMM-q3-Uhg" eventType="valueChanged" id="3Wz-l5-T6m"/>
                                                 </connections>
                                             </switch>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invoke Biometrics when access token expires" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IAQ-6o-Hgu">
@@ -168,8 +168,8 @@
                     <navigationItem key="navigationItem" title="Identity SDK demo app" id="miC-1a-Unv"/>
                     <connections>
                         <outlet property="QR_button" destination="6ew-GS-P8B" id="zgn-2U-YGo"/>
-                        <outlet property="accessToken_Switch" destination="2Ql-J9-2Kj" id="CM8-n3-4A6"/>
-                        <outlet property="appLaunch_switch" destination="kL9-BG-OYU" id="SUv-ah-nhf"/>
+                        <outlet property="accessToken_Switch" destination="2Ql-J9-2Kj" id="Igm-Ro-Drg"/>
+                        <outlet property="appLaunch_switch" destination="kL9-BG-OYU" id="Y7r-cU-Iv2"/>
                         <outlet property="enroll_button" destination="Nkr-kt-nEv" id="zVn-70-Eq4"/>
                         <outlet property="logout_button" destination="rws-De-Qwn" id="G7t-Sv-CLz"/>
                     </connections>

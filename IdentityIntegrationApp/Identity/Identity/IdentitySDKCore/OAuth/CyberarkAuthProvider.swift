@@ -37,6 +37,8 @@ public protocol CyberarkAuthProviderProtocol: class {
     func login(account: CyberarkAccount)
     func resume(url: URL)
     var didReceiveAccessToken: ((Bool,String, AccessToken?) -> Void)? { get set }
+    var didReceiveRefreshToken: ((Bool,String, AccessToken?) -> Void)? { get set }
+
 }
 /*
 /// CyberarkAuthProvider
@@ -62,12 +64,16 @@ public class CyberarkAuthProvider: CyberarkAuthProviderProtocol {
     private var browser: CyberArkBrowser?
     
     public var didReceiveAccessToken: ((Bool,String, AccessToken?) -> Void)?
+    
+    public var didReceiveRefreshToken: ((Bool,String, AccessToken?) -> Void)?
+
     /// private initializers
     private init(){
         pkce = AuthOPKCE()
         builder = CyberArkBrowserBuilder(pkce: pkce)
         viewModel = AuthenticationViewModel()
         addAccessTokenObserver()
+        addRefreshTokenObserver()
     }
     
 }
@@ -157,6 +163,12 @@ extension CyberarkAuthProvider {
     func addAccessTokenObserver(){
         viewModel?.didReceiveAccessToken = { (status, message, response) in
             self.didReceiveAccessToken!(status, message, response)
+        }
+    }
+    
+    func addRefreshTokenObserver(){
+        viewModel?.didReceiveRefreshToken = { (status, message, response) in
+            self.didReceiveRefreshToken!(status, message, response)
         }
     }
     

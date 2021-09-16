@@ -110,6 +110,7 @@ extension ViewController {
                 .setCustomParam(key: "", value: "")
                 .set(scope: config.scope)
                 .set(webType: .sfsafari)
+                .set(systemURL: config.systemurl)
                 .build() else { return }
 
         CyberArkAuthProvider.login(account: account)
@@ -172,7 +173,8 @@ extension ViewController {
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == homeViewSegueIdentifier) {
-            _ = segue.destination as! HomeViewController
+            let controller = segue.destination as! HomeViewController
+            controller.isFromLogin = true
         } else if (segue.identifier == settingsViewSegueIdentifier) {
             _ = segue.destination as! SettingsViewController
         }
@@ -180,7 +182,7 @@ extension ViewController {
   
 }
 extension ViewController {
-    func plistValues(bundle: Bundle) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logouturi: String)? {
+    func plistValues(bundle: Bundle) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logouturi: String, systemurl: String)? {
         guard
             let path = bundle.path(forResource: "IdentityConfiguration", ofType: "plist"),
             let values = NSDictionary(contentsOfFile: path) as? [String: Any]
@@ -190,12 +192,12 @@ extension ViewController {
         }
         guard
             let clientId = values["clientid"] as? String,
-            let domain = values["domainautho"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String
+            let domain = values["domainautho"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String, let systemurl = values["systemurl"] as? String
         else {
             print("IdentityConfiguration.plist file at \(path) is missing 'ClientId' and/or 'Domain' values!")
             return nil
         }
-        return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, threshold: threshold, applicationID: applicationID, logouturi: logouturi)
+        return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, threshold: threshold, applicationID: applicationID, logouturi: logouturi, systemurl:systemurl)
     }
 }
 extension UIViewController {

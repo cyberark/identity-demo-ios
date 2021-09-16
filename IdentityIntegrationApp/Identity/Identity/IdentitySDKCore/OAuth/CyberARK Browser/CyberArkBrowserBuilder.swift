@@ -62,7 +62,8 @@ public class CyberArkBrowserBuilder: NSObject {
     /// applicationID configured in the server
     var logoutUri: String? = nil
 
-    
+    var systemURL: String? = nil
+
     init(_ oAuthEndPoint: OAuthEndPoint? = nil, pkce: AuthOPKCE? = nil) {
         self.oAuthEndPoint = oAuthEndPoint ?? OAuthEndPoint(pkce: pkce)
         self.pkce = pkce
@@ -104,6 +105,16 @@ public class CyberArkBrowserBuilder: NSObject {
     /// - Returns: BrowserBuilder object to progressively build Browser object
     @discardableResult @objc(setDomain:) public func set(domain: String) -> CyberArkBrowserBuilder {
         self.domain = domain
+        return self
+    }
+    
+    /// Sets custom URL Query parameters to be added to /authorize request
+    /// - Parameters:
+    ///   - key: URL Query parameter key
+    ///   - value: URL Query parameter value
+    /// - Returns: BrowserBuilder object to progressively build Browser object
+    @discardableResult @objc(setSystemURL:) public func set(systemURL: String) -> CyberArkBrowserBuilder {
+        self.systemURL = systemURL
         return self
     }
     
@@ -157,6 +168,6 @@ public class CyberArkBrowserBuilder: NSObject {
     /// builds the  Browser
     /// - Returns: the browser object
     @objc public func build() -> CyberarkAccount {
-        return CyberarkAccount(clientId: self.clientId ?? "", domain: self.domain ?? "", scope: self.scope ?? "", redirectUri: self.redirectUri ?? "", threshold: self.threshold ?? 0, applicationID: self.applicationID ?? "", logoutUri: self.logoutUri ?? "", pkce: self.pkce ?? AuthOPKCE(), presentingViewController: self.presentingViewController ?? UIViewController())
+        return CyberarkAccount(clientId: self.clientId ?? "", domain: self.domain ?? "", scope: self.scope ?? "", redirectUri: self.redirectUri ?? "", threshold: self.threshold ?? 0, applicationID: self.applicationID ?? "", logoutUri: self.logoutUri ?? "", pkce: self.pkce ?? AuthOPKCE(), presentingViewController: self.presentingViewController ?? UIViewController(), systemURL: self.systemURL ?? "")
     }
 }

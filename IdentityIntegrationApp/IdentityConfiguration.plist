@@ -10,8 +10,10 @@
 	<string></string>
 	<key>domainautho</key>
 	<string>https://acme2.my.dev.idaptive.app</string>
+	<key>systemurl</key>
+	<string>https://aaj7617.my.dev.idaptive.app</string>
 	<key>applicationid</key>
-	<string>testoauth4</string>
+	<string>OAuthTest</string>
 	<key>redirecturi</key>
 	<string>ciamsdkdemo://com.cyberark.ciamsdk</string>
 	<key>scope</key>

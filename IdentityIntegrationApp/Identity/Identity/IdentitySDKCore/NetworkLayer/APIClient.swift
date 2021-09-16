@@ -69,6 +69,8 @@ extension APIClient {
             }else if httpResponse.status! == .unauthorized {
                 debugPrint(data?.toString() ?? "")
                 completion(nil, .unauthorized)
+            } else {
+                completion(nil, .requestFailed)
             }
             
         }
