@@ -22,7 +22,12 @@ import Foundation
 /// A Protocol for th EnrollmentProvider
  */
 public protocol EnrollmentProviderProtocol {
+    
+    /// Enroll
+    /// - Parameter baseURL: base URL
     func enroll(baseURL: String)
+    
+    /// Callback when enrollment is done
     var didReceiveEnrollmentApiResponse: ((Bool,String) -> Void)? { get set }
 
 }
@@ -31,6 +36,7 @@ public protocol EnrollmentProviderProtocol {
  */
 public class EnrollmentProvider: EnrollmentProviderProtocol {
     
+    /// callback when enrollmentt is done
     public var didReceiveEnrollmentApiResponse: ((Bool, String) -> Void)?
 
     //ViewModel

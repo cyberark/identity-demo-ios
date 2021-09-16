@@ -28,19 +28,7 @@ import UIKit
 /// - presentingViewController: presentingViewController
 */
 public class CyberArkBrowserBuilder: NSObject {
-    
-    var webType: WebType? = .sfsafari
-    
-    var customParam: [String: String] = [:]
-
-    var isInProgress: Bool = false
-
-    var presentingViewController: UIViewController?
-    
-    var oAuthEndPoint: OAuthEndPoint?
-    
-    var pkce: AuthOPKCE?
-
+   
     /// clientId configured in the server
     var clientId: String? = nil
     
@@ -62,8 +50,28 @@ public class CyberArkBrowserBuilder: NSObject {
     /// applicationID configured in the server
     var logoutUri: String? = nil
 
+    /// System url for enrollment
     var systemURL: String? = nil
 
+    /// webType
+    var webType: WebType? = .sfsafari
+    
+    /// customParam
+    var customParam: [String: String] = [:]
+
+    /// is in progress
+    var isInProgress: Bool = false
+    
+    /// presenting view controller
+    var presentingViewController: UIViewController?
+    
+    /// endpoint
+    var oAuthEndPoint: OAuthEndPoint?
+    
+    /// pkce
+    var pkce: AuthOPKCE?
+
+    
     init(_ oAuthEndPoint: OAuthEndPoint? = nil, pkce: AuthOPKCE? = nil) {
         self.oAuthEndPoint = oAuthEndPoint ?? OAuthEndPoint(pkce: pkce)
         self.pkce = pkce

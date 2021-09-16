@@ -119,6 +119,9 @@ extension AuthenticationViewModel: AuthenticationViewModelProtocol {
         }
         
     }
+    
+    /// Save the required parameters to the kaychain
+    ///
     internal func save() {
         do {
             if let accessToken = self.authResponse?.access_token {

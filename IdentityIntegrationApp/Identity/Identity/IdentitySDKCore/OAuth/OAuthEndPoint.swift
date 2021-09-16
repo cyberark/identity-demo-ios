@@ -144,6 +144,7 @@ extension OAuthEndPoint {
     }
     
     /// To Close the session
+    ///  Logout
     /// - Returns: Endpoint
     func getCloseSessionEndpoint() -> Endpoint {
         let parameters: [String: String] = [:]
@@ -168,14 +169,10 @@ extension OAuthEndPoint {
         let postData = NSMutableData(data: "\(OAuth2Header.grantType.rawValue)=\(OAuth2Header.refreshToken.rawValue)".data(using: String.Encoding.utf8)!)
         postData.append("&\(OAuth2Header.clientId.rawValue)=\(self.clientId ?? "")".data(using: String.Encoding.utf8)!)
         postData.append("&\(OAuth2Header.refreshToken.rawValue)=\(refreshToken)".data(using: String.Encoding.utf8)!)
-
         let queryItems = [URLQueryItem]()
-        
         var headers: [String: String] = [:]
         headers[HttpHeaderKeys.contenttype.rawValue] = HttpHeaderKeys.applicationfomrurlencoded.rawValue
-        
         let path = "/oauth2/Token/\(applicationID ?? "")"
-        
         return Endpoint(path:path, httpMethod: .post, headers: headers, body: postData as Data, queryItems: queryItems, dataType: .JSON, base: self.domain!)
     }
 }

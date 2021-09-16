@@ -160,12 +160,13 @@ extension CyberarkAuthProvider {
 //MARK:- Device Enroll
 extension CyberarkAuthProvider {
     
+    /// Add the access token observer
     func addAccessTokenObserver(){
         viewModel?.didReceiveAccessToken = { (status, message, response) in
             self.didReceiveAccessToken!(status, message, response)
         }
     }
-    
+    /// Add the refresh token observer
     func addRefreshTokenObserver(){
         viewModel?.didReceiveRefreshToken = { (status, message, response) in
             self.didReceiveRefreshToken!(status, message, response)

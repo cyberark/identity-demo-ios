@@ -17,6 +17,7 @@
 import Foundation
 import UIKit
 
+/// Header files
 internal enum EnrollHeader: String {
     case osversion = "OSVersion"
     case name = "Name"

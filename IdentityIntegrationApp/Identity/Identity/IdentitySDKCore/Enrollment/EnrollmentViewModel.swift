@@ -29,6 +29,7 @@ internal protocol EnrollmentViewModelProtocol {
     var didReceiveEnrollmentApiResponse: ((Bool,String) -> Void)? { get set }
     
     /// To enroll device
+    /// - Parameter baseURL: baseURL
     func enrollDevice(baseURL: String)
 }
 /*
@@ -37,17 +38,22 @@ internal protocol EnrollmentViewModelProtocol {
 ///
  */
  internal class EnrollmentViewModel {
-   
+    
+    /// EnrollmentClientProtocol
     private let client : EnrollmentClientProtocol
     
+    /// Callback when enrollment is done
     var didReceiveEnrollmentApiResponse: ((Bool, String) -> Void)?
 
-    var refreshTokenResponse: EnrollResponse? {
+    ///EnrollResponse
+    var enrollResponse: EnrollResponse? {
         didSet {
             self.didReceiveEnrollmentApiResponse!(true, "")
         }
     }
     
+    /// Initializer
+    /// - Parameter apiClient: apiClient 
     init(apiClient: EnrollmentClientProtocol = EnrollmentClient()) {
         self.client = apiClient
     }
@@ -55,7 +61,9 @@ internal protocol EnrollmentViewModelProtocol {
 //MARK:- AuthenticationViewModelProtocol implementation
 //MARK:- Enroll the device
 extension EnrollmentViewModel: EnrollmentViewModelProtocol {
-    /// To close the current session
+    
+    /// Enroll
+    /// - Parameter baseURL: baseURL
     internal func enrollDevice(baseURL: String) {
         do {
             guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue), let accessToken = data.toString() else {
@@ -69,7 +77,7 @@ extension EnrollmentViewModel: EnrollmentViewModelProtocol {
                         return
                     }
                     UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue)
-                    self?.refreshTokenResponse = response
+                    self?.enrollResponse = response
                 case .failure(let error):
                     self?.didReceiveEnrollmentApiResponse!(false, "unable to enroll the device")
                     print("the error \(error)")

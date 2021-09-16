@@ -35,16 +35,29 @@ protocol EnrollmentClientProtocol {
 ///
  */
 class EnrollmentClient: APIClient {
+    
+    /// url session
     let session: URLSession
+    
+    /// initializer
+    /// - Parameter configuration: configuration
     init(configuration: URLSessionConfiguration) {
         self.session = URLSession(configuration: configuration)
     }
+    
+    /// initializer
     convenience init() {
         self.init(configuration: .default)
     }
 }
 // MARK: - API Request calls
 extension EnrollmentClient: EnrollmentClientProtocol {
+    
+    /// To enroll the device
+    /// - Parameters:
+    ///   - accesstoken: accesstoken
+    ///   - baseURL: baseURL
+    ///   - completion: completion 
     func enrollDevice(from accesstoken: String, baseURL: String, completion: @escaping (Result<EnrollResponse?, APIError>) -> Void) {
         let endpoint: Endpoint = EnrollEndPoint().getEnrollDeviceEndpoint(accesstoken: accesstoken, baseURL: baseURL)
         let request = endpoint.request

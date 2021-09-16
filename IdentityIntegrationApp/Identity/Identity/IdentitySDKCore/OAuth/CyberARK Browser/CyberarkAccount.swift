@@ -61,13 +61,28 @@ public class CyberarkAccount: NSObject {
     /// pkce configured
     var pkce: AuthOPKCE?
     
+    /// verifier
     lazy var verifier: String? = {
         return self.pkce?.verifier
     } ()
+    
+    /// code challenge
     lazy var challenge: String? = {
         return self.pkce?.challenge
     } ()
     
+    /// Initializer
+    /// - Parameters:
+    ///   - clientId: clientId
+    ///   - domain: domain
+    ///   - scope: scope
+    ///   - redirectUri: redirectUri
+    ///   - threshold: threshold
+    ///   - applicationID: applicationID
+    ///   - logoutUri: logoutUri
+    ///   - pkce: pkce =
+    ///   - presentingViewController: presentingViewController
+    ///   - systemURL: systemURL 
     init (clientId: String, domain: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logoutUri: String, pkce: AuthOPKCE, presentingViewController: UIViewController, systemURL: String) {
         self.clientId = clientId
         self.domain = domain

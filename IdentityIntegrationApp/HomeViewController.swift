@@ -136,7 +136,7 @@ extension HomeViewController {
                     print("Success \(success)")
                     self.isAuthenticated = true
                     if isAcessTokenExpired {
-                        self.refreshToken()
+                        self.getRefreshToken()
                     }
                 case .failure(let error):
                     self.isAuthenticated = false
@@ -157,7 +157,7 @@ extension HomeViewController {
         } else if (isAcessTokenExpired) {
             let alertController = UIAlertController(title: "Unauthorized access", message: "Seems like the current session is expired. Please click on OK to get the new access token...", preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in
-                self.refreshToken()
+                self.getRefreshToken()
             })
             alertController.addAction(action)
             self.present(alertController, animated: true, completion: nil)
@@ -184,7 +184,7 @@ extension HomeViewController {
     func navigate(button: UIButton) {
         if button == enroll_button {
         }  else if button == refresh_button {
-            refreshToken()
+            getRefreshToken()
         }else if button == logout_button {
             closeSession()
         }else {
@@ -313,7 +313,8 @@ extension HomeViewController {
     }
 }
 extension HomeViewController {
-    func refreshToken() {
+    func getRefreshToken() {
+        activityIndicator.startAnimating()
         CyberArkAuthProvider.sendRefreshToken()
     }
     /*
@@ -323,6 +324,7 @@ extension HomeViewController {
     */
     func addRefreshTokenObserver(){
         CyberArkAuthProvider.didReceiveRefreshToken = { (status, message, response) in
+            self.activityIndicator.stopAnimating()
             if status {
                 self.save(response: response)
             } else {

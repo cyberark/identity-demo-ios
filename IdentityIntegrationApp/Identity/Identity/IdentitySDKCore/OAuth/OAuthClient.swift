@@ -21,21 +21,48 @@ import Foundation
 /// This class resposible for fetch access token
  */
 protocol OAuthClientProtocol {
+    
+    /// To fetch the access tokn
+    /// - Parameters:
+    ///   - pkce: pkce
+    ///   - code: code
+    ///   - completion: completion
     func fetchAccessToken(from pkce: AuthOPKCE, code: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void)
+    
+    /// To get the refresh token
+    /// - Parameters:
+    ///   - pkce: pkce
+    ///   - code: code
+    ///   - refreshToken: refreshToken
+    ///   - completion: completion
     func fetchRefreshToken(with pkce: AuthOPKCE, code: String, refreshToken: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void)
 }
 
 class OAuthClient: APIClient {
+    
+    
+    /// Url session
     let session: URLSession
+    
+    /// Initializer
+    /// - Parameter configuration: configuration
     init(configuration: URLSessionConfiguration) {
         self.session = URLSession(configuration: configuration)
     }
+    
+    /// Initializer
     convenience init() {
         self.init(configuration: .default)
     }
 }
 // MARK: - API Request calls
 extension OAuthClient: OAuthClientProtocol {
+    
+    /// To fetch the access tokn
+    /// - Parameters:
+    ///   - pkce: pkce
+    ///   - code: code
+    ///   - completion: completion
     func fetchAccessToken(from pkce: AuthOPKCE, code: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {
         let endpoint: Endpoint = OAuthEndPoint(pkce: pkce).getAuthenticationEndpoint(code: code)
         let request = endpoint.request
@@ -44,6 +71,12 @@ extension OAuthClient: OAuthClientProtocol {
             return acccessToken
         }, completion: completion)
     }
+    /// To get the refresh token
+    /// - Parameters:
+    ///   - pkce: pkce
+    ///   - code: code
+    ///   - refreshToken: refreshToken
+    ///   - completion: completion
     func fetchRefreshToken(with pkce: AuthOPKCE, code: String, refreshToken: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {
         let endpoint: Endpoint = OAuthEndPoint(pkce: pkce).getRefreshTokenEndpoint(code: code, refreshToken: refreshToken)
         let request = endpoint.request

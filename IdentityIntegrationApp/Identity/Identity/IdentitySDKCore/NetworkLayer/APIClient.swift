@@ -23,8 +23,14 @@ import Foundation
 */
 protocol APIClient {
     
+    /// URL Session
     var session: URLSession { get }
     
+    /// To fetch the api response
+    /// - Parameters:
+    ///   - request: request
+    ///   - decode: decode
+    ///   - completion: completion
     func fetch<T: Codable>(with request: URLRequest, decode: @escaping (Codable) -> T?, completion: @escaping (Result<T, APIError>) -> Void)
 }
 extension APIClient {

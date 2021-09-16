@@ -19,6 +19,7 @@ import AuthenticationServices
 import SafariServices
 
 
+/// WebType
 @objc public enum WebType: Int {
     case webview
     case sfsafari
