@@ -177,28 +177,6 @@ extension CyberarkAuthProvider {
 
 //MARK:- Plist Configuration
 extension CyberarkAuthProvider {
-
-    /// To get the configuration values
-    /// - Parameter bundle: main bundle
-    /// - Returns: client id, domain etc
-    func plistValues(bundle: Bundle) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logouturi: String)? {
-        guard
-            let path = bundle.path(forResource: "IdentityConfiguration", ofType: "plist"),
-            let values = NSDictionary(contentsOfFile: path) as? [String: Any]
-        else {
-            print("Missing CIAMConfiguration.plist file with 'ClientId' and 'Domain' entries in main bundle!")
-            return nil
-        }
-        guard
-            let clientId = values["clientid"] as? String,
-            let domain = values["domainautho"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String
-        else {
-            print("IdentityConfiguration.plist file at \(path) is missing 'ClientId' and/or 'Domain' values!")
-            return nil
-        }
-        return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, threshold: threshold, applicationID: applicationID, logouturi: logouturi)
-    }
-    
     /// To get the redirect URI
     /// - Parameter bundle: Main bundle
     /// - Returns: redirectURI

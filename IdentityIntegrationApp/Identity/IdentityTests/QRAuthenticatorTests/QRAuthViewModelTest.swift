@@ -35,7 +35,6 @@ class QRAuthViewModelTest: XCTestCase {
         super.tearDown()
     }
     
-    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -73,46 +72,16 @@ class QRAuthViewModelTest: XCTestCase {
             XCTAssertEqual(value, "sample_auth")
         }
         sut.performQRAuthentication(qrCode: "qrcode")
-//        mockAPIService.featchQRAuth(from: Endpoint(httpMethod: .get, dataType: .JSON)) { [self] result in
-//            switch result {
-//            case .success(let data):
-//                guard let response = data else {
-//                    print("Test Response Data not valid")
-//                    sut.didReceiveAuth!(APIError.invalidData, nil)
-//                    return
-//                }
-//                print("Test QRAuthToken \(String(describing: response.result?.auth))")
-//                sut.authResponse = response
-//            case .failure( _):
-//                break;
-//            }
-//        }
-//        //
+
         mockAPIService.fetchSuccess()
     }
     
     func test_qrAuthApi_success_InValidData() {
-        
-        // When
-        
-        
         sut.didReceiveAuth = { error, value in
             XCTAssertNotNil(error)
             XCTAssertNil(value)
         }
         sut.performQRAuthentication(qrCode:"")
-//        mockAPIService.featchQRAuth(from: Endpoint(httpMethod: .get, dataType: .JSON)) { [self] result in
-//            switch result {
-//            case .success(let data):
-//                guard let response = data else {
-//                    sut.didReceiveAuth!(APIError.responseUnsuccessful, nil)
-//                    return
-//                }
-//                sut.authResponse = response
-//            case .failure( _):
-//                break;
-//            }
-//        }
         mockAPIService.fetchSuccess_NilData()
     }
 }
@@ -161,3 +130,4 @@ class StubQrAPIAuthGenerator {
         return nil
     }
 }
+

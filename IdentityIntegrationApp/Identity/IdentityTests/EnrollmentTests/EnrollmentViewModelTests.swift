@@ -24,27 +24,40 @@ class EnrollmentViewModelTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        do {
-            try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.grantCode.rawValue, data: "access_cde".toData() ?? Data())
-        } catch {
-            print("Unexpected error: \(error)")
-        }
+        deleteGranCode()
+        saveGrantCode()
         mockAPIService = EnrollmentViewModelApiService()
         suitViewModel = EnrollmentViewModel(apiClient: mockAPIService)
     }
     
     override func tearDown() {
+        deleteGranCode()
         suitViewModel = nil
         mockAPIService = nil
         suitViewModel = nil
-        do {
-            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)
-        } catch {
-            print("Unexpected error: \(error)")
-        }
         super.tearDown()
     }
     
+    func deleteGranCode() {
+        do {
+            let keyChain = KeyChainWrapper.standard
+            keyChain.accessGroup = "com.cyberark.Identity"
+            try keyChain.delete(key: KeyChainStorageKeys.grantCode.rawValue)
+        } catch {
+            print("Unexpected error: \(error)")
+        }
+    }
+    
+    func saveGrantCode() {
+        do {
+            let keyChain = KeyChainWrapper.standard
+            keyChain.accessGroup = "com.cyberark.Identity"
+            let data = "".toData() ?? Data()
+            try keyChain.save(key: KeyChainStorageKeys.grantCode.rawValue, data: data)
+        } catch {
+            print("Unexpected error: \(error)")
+        }
+    }
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -80,7 +93,6 @@ class EnrollmentViewModelApiService: EnrollmentClientProtocol {
     func enrollDevice(from accesstoken: String, baseURL: String, completion: @escaping (Result<EnrollResponse?, APIError>) -> Void) {
         completeClosure = completion
     }
-    
     
     var enrollmentModel: EnrollResponse? = MockEnrollAPIAPIServiceGenerator().stubAuthModel()
     

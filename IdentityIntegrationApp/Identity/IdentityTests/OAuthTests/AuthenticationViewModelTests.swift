@@ -26,6 +26,8 @@ class AuthenticationViewModelTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
+        deleteGranCode()
+        saveGrantCode()
         mockAPIService = MockAuthViewModelApiService()
         suitViewModel = AuthenticationViewModel(apiClient: mockAPIService)
     }
@@ -34,6 +36,7 @@ class AuthenticationViewModelTests: XCTestCase {
         suitViewModel = nil
         mockAPIService = nil
         suitViewModel = nil
+        deleteGranCode()
         super.tearDown()
     }
     
@@ -44,13 +47,27 @@ class AuthenticationViewModelTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-    
-    func testFetchAuthToken_Success() {
+    func deleteGranCode() {
         do {
-            try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.grantCode.rawValue, data: "access_cde".toData() ?? Data())
+            let keyChain = KeyChainWrapper.standard
+            keyChain.accessGroup = "com.cyberark.Identity"
+            try keyChain.delete(key: KeyChainStorageKeys.grantCode.rawValue)
         } catch {
             print("Unexpected error: \(error)")
         }
+    }
+    
+    func saveGrantCode() {
+        do {
+            let keyChain = KeyChainWrapper.standard
+            keyChain.accessGroup = "com.cyberark.Identity"
+            let data = "".toData() ?? Data()
+            try keyChain.save(key: KeyChainStorageKeys.grantCode.rawValue, data: data)
+        } catch {
+            print("Unexpected error: \(error)")
+        }
+    }
+    func testFetchAuthToken_Success() {
         let delayExpectation = expectation(description: "Waiting for QR Auth request failed")
         // Fulfill the expectation after 2 seconds
         DispatchQueue.main.async {
@@ -64,11 +81,6 @@ class AuthenticationViewModelTests: XCTestCase {
         suitViewModel.fetchAuthToken(code: "test", pkce: pkce)
         waitForExpectations(timeout: 2)
         mockAPIService.fetchSuccess()
-        do {
-            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)
-        } catch {
-            print("Unexpected error: \(error)")
-        }
     }
     
 }
