@@ -41,7 +41,6 @@ class EnrollmentViewModelTests: XCTestCase {
     func deleteGranCode() {
         do {
             let keyChain = KeyChainWrapper.standard
-            keyChain.accessGroup = "com.cyberark.Identity"
             try keyChain.delete(key: KeyChainStorageKeys.grantCode.rawValue)
         } catch {
             print("Unexpected error: \(error)")
@@ -51,8 +50,7 @@ class EnrollmentViewModelTests: XCTestCase {
     func saveGrantCode() {
         do {
             let keyChain = KeyChainWrapper.standard
-            keyChain.accessGroup = "com.cyberark.Identity"
-            let data = "".toData() ?? Data()
+            let data = "grantCode".toData() ?? Data()
             try keyChain.save(key: KeyChainStorageKeys.grantCode.rawValue, data: data)
         } catch {
             print("Unexpected error: \(error)")
