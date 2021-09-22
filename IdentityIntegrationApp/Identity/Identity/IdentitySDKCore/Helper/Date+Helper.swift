@@ -32,3 +32,18 @@ public extension Date {
         return date
     }
 }
+
+public extension Date {
+    
+    func isAccessTokenExpired(with token: Data?) -> Bool {
+        guard let data = token else {
+            return false
+        }
+        let expirationDate = data.to(type: Date.self)
+        if self.isGreaterThan(expirationDate) {
+            return true
+        }
+        return false
+        
+    }
+}

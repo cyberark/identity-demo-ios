@@ -35,8 +35,8 @@ protocol APIClient {
 }
 extension APIClient {
     
-    /// number of seconds
-    var connectionTimout: Float {
+    /// url session timeout
+    var connectionTimeout: Float {
         get { return 60.0 }
     }
     /// JSONTaskCompletionHandler

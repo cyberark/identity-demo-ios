@@ -34,11 +34,34 @@ public var CyberArkAuthProvider: CyberarkAuthProvider {
 ///
  */
 public protocol CyberarkAuthProviderProtocol: class {
+    
+    /// To login to the account
+    /// - Parameter account: account
     func login(account: CyberarkAccount)
+    
+    /// Invokes when the application comes from foreground to background.
+    /// - Parameter url: url
     func resume(url: URL)
-    var didReceiveAccessToken: ((Bool,String, AccessToken?) -> Void)? { get set }
-    var didReceiveRefreshToken: ((Bool,String, AccessToken?) -> Void)? { get set }
 
+    /// Handler for the referesh token response
+    /// - Parameters:
+    ///   - Bool: result
+    ///
+    var didReceiveAccessToken: ((Bool,String, AccessToken?) -> Void)? { get set }
+    /// Handler for the referesh token response
+    /// Completion block which will notify when the user logged out
+    /// To get the refreshtoken
+    /// - Parameters:
+    ///   - Bool: result
+    ///
+    var didReceiveRefreshToken: ((Bool,String, AccessToken?) -> Void)? { get set }
+    /// Completion block which will notify when the user logged out
+    /// Completion block which will notify when the user logged out
+    /// To get the refreshtoken
+    /// - Parameters:
+    ///   - Bool: result
+    ///
+    var didReceiveLogoutResponse: ((Bool,String) -> Void)? { get set }
 }
 /*
 /// CyberarkAuthProvider
@@ -57,15 +80,20 @@ public class CyberarkAuthProvider: CyberarkAuthProviderProtocol {
     //ViewModel
     private var viewModel: AuthenticationViewModel?
 
-    // PKCE object creation
+    // PKCE object
     private var pkce: AuthOPKCE?
 
     /// Builder object
     private var browser: CyberArkBrowser?
     
+    /// Handler for the access token response
     public var didReceiveAccessToken: ((Bool,String, AccessToken?) -> Void)?
     
+    /// Handler for the referesh token response
     public var didReceiveRefreshToken: ((Bool,String, AccessToken?) -> Void)?
+
+    /// Handler for the referesh token response
+    public var didReceiveLogoutResponse: ((Bool,String) -> Void)?
 
     /// private initializers
     private init(){
@@ -74,6 +102,7 @@ public class CyberarkAuthProvider: CyberarkAuthProviderProtocol {
         viewModel = AuthenticationViewModel()
         addAccessTokenObserver()
         addRefreshTokenObserver()
+        addLogoutObserver()
     }
     
 }
@@ -88,7 +117,7 @@ extension CyberarkAuthProvider {
     
     /// ViewModel
     /// - Returns: Viewmodel object
-    public func viewmodel() -> AuthenticationViewModel? {
+    private func viewmodel() -> AuthenticationViewModel? {
         return viewModel
     }
 }
@@ -172,7 +201,12 @@ extension CyberarkAuthProvider {
             self.didReceiveRefreshToken!(status, message, response)
         }
     }
-    
+    /// Add the refresh token observer
+    func addLogoutObserver(){
+        viewModel?.didLoggedOut = { (status, message) in
+            self.didReceiveLogoutResponse!(status, message)
+        }
+    }
 }
 
 //MARK:- Plist Configuration

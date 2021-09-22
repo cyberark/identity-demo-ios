@@ -23,18 +23,30 @@ import Identity
 class HomeViewController: UIViewController {
     
     @IBOutlet weak var enroll_button: UIButton!
+    
     @IBOutlet weak var QR_button: UIButton!
+    
     @IBOutlet weak var logout_button: UIButton!
+    
     @IBOutlet weak var refresh_button: UIButton!
-    let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+        
     @IBOutlet weak var accessToken_Switch: UISwitch!
+    
     @IBOutlet weak var appLaunch_switch: UISwitch!
+    
     var isAuthenticated = false
+    
     var isFromLogin = false
 
+    let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+
     let builder = QRAuthenticationProvider()
+    
     let enrollProvider = EnrollmentProvider()
 
+}
+//MARK:- Viewlife cycle
+extension HomeViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
@@ -82,7 +94,7 @@ extension HomeViewController {
         UserDefaults.standard.synchronize()
     }
 }
-//MARK:- Configurations
+//MARK:- Initial Configurations
 extension HomeViewController {
     func configureBiometricsUI() {
         if(UserDefaults.standard.object(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue) == nil) {
@@ -123,7 +135,9 @@ extension HomeViewController {
             QR_button.setTitle("Opt in for QR Code Authenticator", for: .normal)
         }
     }
-    
+}
+//MARK:- Biomtrics launch
+extension HomeViewController {
     func addBiometrics() {
         let isAcessTokenExpired = checkForAccessTokenExpiry()
         if ( UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue) || (UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue) && isAcessTokenExpired)) {
@@ -140,13 +154,17 @@ extension HomeViewController {
                     }
                 case .failure(let error):
                     self.isAuthenticated = false
+                    
                     DispatchQueue.main.async {
-                        print("Error for Biometric enrole\(error.localizedDescription)")
-                        let mesage = error.localizedDescription
-                        let alertController = UIAlertController(title: "BioMetric Error", message: mesage, preferredStyle: .alert)
-                        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-                        alertController.addAction(action)
-                        self.present(alertController, animated: true, completion: nil)
+                        let state = UIApplication.shared.applicationState
+                        if state == .active  {
+                            print("Error for Biometric enrole\(error.localizedDescription)")
+                            let mesage = error.localizedDescription
+                            let alertController = UIAlertController(title: "Biometric error", message: mesage, preferredStyle: .alert)
+                            let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+                            alertController.addAction(action)
+                            self.present(alertController, animated: true, completion: nil)
+                        }
                     }
                     
                 }
@@ -168,11 +186,7 @@ extension HomeViewController {
             guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.access_token_expiresIn.rawValue) else {
                 return false
             }
-            let expirationDate = data.to(type: Date.self)
-            if Date().isGreaterThan(expirationDate) {
-                return true
-            }
-            return false
+            return  Date().isAccessTokenExpired(with: data)
         } catch {
             print("Unexpected error: \(error)")
         }
@@ -212,10 +226,12 @@ extension HomeViewController {
     }
 }
 extension HomeViewController {
+    
+    /// To close the current session
+    /// Remove  all the data which is persisted locally
     func closeSession() {
         removePersistantStorage()
         guard let config = plistValues(bundle: Bundle.main) else { return }
-        
         guard let account =  CyberArkAuthProvider.webAuth()?
                 .set(clientId: config.clientId)
                 .set(domain: config.domain)
@@ -228,8 +244,10 @@ extension HomeViewController {
         CyberArkAuthProvider.closeSession(account: account)
         addBlurrView()
     }
+    
+    /// Observer for the logout response
     func addLogoutObserver(){
-        CyberArkAuthProvider.viewmodel()?.didLoggedOut = { (result, accessToken) in
+        CyberArkAuthProvider.didReceiveLogoutResponse = { (result, message) in
             if result {
                 DispatchQueue.main.async {
                     self.dismiss(animated: true) {
@@ -313,6 +331,8 @@ extension HomeViewController {
     }
 }
 extension HomeViewController {
+    
+    /// To get the refresh token
     func getRefreshToken() {
         activityIndicator.startAnimating()
         CyberArkAuthProvider.sendRefreshToken()
@@ -347,6 +367,9 @@ extension HomeViewController {
             print("Unexpected error: \(error)")
         }
     }
+    
+}
+extension HomeViewController {
     func navigateToLogin(){
         let alertController = UIAlertController(title: "Unauthorized access", message: "Seems like the current session is expired. Please login again to continue...", preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in

@@ -24,6 +24,7 @@
 		28E483BF26F3673200A58546 /* CyberArkAuthProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E483BE26F3673200A58546 /* CyberArkAuthProviderTests.swift */; };
 		28F9A85326F489F5002EA7EA /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD52269C63B100C61EF5 /* KeychainWrapper.swift */; };
 		E204635E26DF759E00359236 /* UIColor+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E204635D26DF759E00359236 /* UIColor+Helper.swift */; };
+		E20CE28226FB022D005B717B /* JWTHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20CE28126FB022D005B717B /* JWTHelper.swift */; };
 		E22BC9D526AA938C00B3FD97 /* Device+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BC9D426AA938C00B3FD97 /* Device+Helper.swift */; };
 		E22BC9DA26AABF4600B3FD97 /* EnrollEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BC9D926AABF4600B3FD97 /* EnrollEndpoint.swift */; };
 		E24ECD58269C63B100C61EF5 /* CyberarkAuthProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD2B269C63B100C61EF5 /* CyberarkAuthProvider.swift */; };
@@ -109,6 +110,7 @@
 		2899322C26A83AAF00DA4FE3 /* QRAuthEndPointTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRAuthEndPointTest.swift; sourceTree = "<group>"; };
 		28E483BE26F3673200A58546 /* CyberArkAuthProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyberArkAuthProviderTests.swift; sourceTree = "<group>"; };
 		E204635D26DF759E00359236 /* UIColor+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Helper.swift"; sourceTree = "<group>"; };
+		E20CE28126FB022D005B717B /* JWTHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTHelper.swift; sourceTree = "<group>"; };
 		E22BC9D426AA938C00B3FD97 /* Device+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device+Helper.swift"; sourceTree = "<group>"; };
 		E22BC9D926AABF4600B3FD97 /* EnrollEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollEndpoint.swift; sourceTree = "<group>"; };
 		E24ECD2B269C63B100C61EF5 /* CyberarkAuthProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CyberarkAuthProvider.swift; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 				E25C43AB26CE54BD00800764 /* GlobalHelper.swift */,
 				E25C449E26CF844A00800764 /* Date+Helper.swift */,
 				E204635D26DF759E00359236 /* UIColor+Helper.swift */,
+				E20CE28126FB022D005B717B /* JWTHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -616,6 +619,7 @@
 				E24ECD62269C63B100C61EF5 /* OAuthAcessToken.swift in Sources */,
 				E24ECD74269C63B100C61EF5 /* AuthOChallengeGenerator.swift in Sources */,
 				285ADA8D26B4026E00417085 /* QRCodeReaderProtocol.swift in Sources */,
+				E20CE28226FB022D005B717B /* JWTHelper.swift in Sources */,
 				E24ECD60269C63B100C61EF5 /* OAuth2Header.swift in Sources */,
 				283523A0269DBE5B00AE1BBB /* QRAuthEndPoint.swift in Sources */,
 				E24ECD69269C63B100C61EF5 /* APIRequest.swift in Sources */,

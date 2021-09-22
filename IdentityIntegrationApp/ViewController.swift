@@ -19,6 +19,7 @@ import Identity
 
 class ViewController: UIViewController {
     
+    //Segue identifiers
     let homeViewSegueIdentifier = "HomeViewSegueIdentifier"
     let settingsViewSegueIdentifier = "SettingsSugueidentifier"
 
@@ -30,8 +31,6 @@ class ViewController: UIViewController {
     }
     var loginTypes = [
         "Login"
-        //"Refresh Token",
-        //"End Session/Logout"
     ]
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,10 +90,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //MARK: Weblogin
 extension ViewController {
     /*
-    /// Invokes the Login call
+    /// Invokes the Login
     /// Launches the extrenal safari view controller based on the configuration
-    /// Setup the initial configuration
-    /// Custom browser Parameters
+    /// Setup the initial tenant configuration required
+    /// setup Custom browser Parameters
     ///
     */
     func navigateToLogin() {
@@ -134,16 +133,7 @@ extension ViewController {
             }
         }
     }
-    func addLogoutObserver(){
-        CyberArkAuthProvider.viewmodel()?.didLoggedOut = { (result, accessToken) in
-            if result {
-                DispatchQueue.main.async {
-                    self.dismiss(animated: true) {
-                    }
-                }
-            }
-        }
-    }
+   
     func save(response: AccessToken?) {
         do {
             if let accessToken = response?.access_token {
@@ -161,7 +151,19 @@ extension ViewController {
         }
         
     }
-    
+}
+extension ViewController {
+    // To get the logout response
+    func addLogoutObserver(){
+        CyberArkAuthProvider.didReceiveLogoutResponse = { (result, message) in
+            if result {
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true) {
+                    }
+                }
+            }
+        }
+    }
 }
 //MARK:- Navigation
 extension ViewController {
