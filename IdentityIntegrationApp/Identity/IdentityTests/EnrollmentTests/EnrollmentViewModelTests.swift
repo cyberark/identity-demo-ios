@@ -56,14 +56,7 @@ class EnrollmentViewModelTests: XCTestCase {
             print("Unexpected error: \(error)")
         }
     }
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-    
     func testEnrollDevice_Success() {
         let delayExpectation = expectation(description: "Waiting for QR Auth request failed")
         // Fulfill the expectation after 2 seconds
