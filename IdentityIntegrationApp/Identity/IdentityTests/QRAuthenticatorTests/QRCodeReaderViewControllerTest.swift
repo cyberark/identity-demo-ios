@@ -31,6 +31,10 @@ class QRCodeReaderViewControllerTest: XCTestCase {
         window.makeKeyAndVisible()
     }
 
+    func testQRCodeReaderViewController_viewDidLayoutSubviews() {
+        readerVC.viewDidLayoutSubviews()
+        XCTAssertNotNil(readerVC.videoPreview)
+    }
     func testItFiresRightEventWhenKnownCodeIsRead() {
         let exp = expectation(description: "calls didFindCard")
 

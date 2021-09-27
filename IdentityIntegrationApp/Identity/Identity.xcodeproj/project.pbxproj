@@ -21,6 +21,8 @@
 		285ADA9F26B4338700417085 /* MockCodeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285ADA9E26B4338700417085 /* MockCodeReader.swift */; };
 		285ADAA526B446D200417085 /* QRCodeReaderBuilderTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285ADAA426B446D200417085 /* QRCodeReaderBuilderTest.swift */; };
 		2899322D26A83AAF00DA4FE3 /* QRAuthEndPointTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2899322C26A83AAF00DA4FE3 /* QRAuthEndPointTest.swift */; };
+		28B98B6226FD9BAA00779445 /* StringsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B98B6126FD9BAA00779445 /* StringsTests.swift */; };
+		28B98B6426FDFEB700779445 /* DateHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B98B6326FDFEB700779445 /* DateHelperTests.swift */; };
 		28E483BF26F3673200A58546 /* CyberArkAuthProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E483BE26F3673200A58546 /* CyberArkAuthProviderTests.swift */; };
 		28F9A85326F489F5002EA7EA /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD52269C63B100C61EF5 /* KeychainWrapper.swift */; };
 		E204635E26DF759E00359236 /* UIColor+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E204635D26DF759E00359236 /* UIColor+Helper.swift */; };
@@ -108,6 +110,8 @@
 		285ADA9E26B4338700417085 /* MockCodeReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockCodeReader.swift; sourceTree = "<group>"; };
 		285ADAA426B446D200417085 /* QRCodeReaderBuilderTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeReaderBuilderTest.swift; sourceTree = "<group>"; };
 		2899322C26A83AAF00DA4FE3 /* QRAuthEndPointTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRAuthEndPointTest.swift; sourceTree = "<group>"; };
+		28B98B6126FD9BAA00779445 /* StringsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringsTests.swift; sourceTree = "<group>"; };
+		28B98B6326FDFEB700779445 /* DateHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelperTests.swift; sourceTree = "<group>"; };
 		28E483BE26F3673200A58546 /* CyberArkAuthProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyberArkAuthProviderTests.swift; sourceTree = "<group>"; };
 		E204635D26DF759E00359236 /* UIColor+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Helper.swift"; sourceTree = "<group>"; };
 		E20CE28126FB022D005B717B /* JWTHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTHelper.swift; sourceTree = "<group>"; };
@@ -207,6 +211,15 @@
 				28519BC126B00F0C009F615D /* BiometricsAuthenticator.swift */,
 			);
 			path = Biometric;
+			sourceTree = "<group>";
+		};
+		28B98B6026FD9B9300779445 /* UtilityTests */ = {
+			isa = PBXGroup;
+			children = (
+				28B98B6126FD9BAA00779445 /* StringsTests.swift */,
+				28B98B6326FDFEB700779445 /* DateHelperTests.swift */,
+			);
+			path = UtilityTests;
 			sourceTree = "<group>";
 		};
 		E24ECD29269C63B100C61EF5 /* IdentitySDKCore */ = {
@@ -394,6 +407,7 @@
 		E2C669CF26987AAF00E98544 /* IdentityTests */ = {
 			isa = PBXGroup;
 			children = (
+				28B98B6026FD9B9300779445 /* UtilityTests */,
 				E2EB34BF26E5F29B00DC2FE5 /* MockResponse */,
 				E2778FED26D7CC6800D84B1F /* EnrollmentTests */,
 				E28D0EE526BC05AB0005A245 /* OAuthTests */,
@@ -636,8 +650,10 @@
 				E2C669D126987AAF00E98544 /* IdentityTests.swift in Sources */,
 				28F9A85326F489F5002EA7EA /* KeychainWrapper.swift in Sources */,
 				E2778FEF26D7CCA400D84B1F /* EnrollmentEndpointTests.swift in Sources */,
+				28B98B6226FD9BAA00779445 /* StringsTests.swift in Sources */,
 				2899322D26A83AAF00DA4FE3 /* QRAuthEndPointTest.swift in Sources */,
 				285ADA9726B432B800417085 /* QRCodeReaderViewControllerTest.swift in Sources */,
+				28B98B6426FDFEB700779445 /* DateHelperTests.swift in Sources */,
 				282C846D26A5B0A9008C448C /* QRAuthViewModelTest.swift in Sources */,
 				28519BCC26B07003009F615D /* BiometricsAuthenticatorTest.swift in Sources */,
 				E2EFFF0526C2C3D8008EED7E /* AuthenticationViewModelTests.swift in Sources */,
