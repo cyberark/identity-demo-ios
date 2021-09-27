@@ -47,7 +47,7 @@ public enum BiometricError: LocalizedError {
         case .userCancel: return "You pressed cancel."
         case .userFallback: return "You pressed password."
         case .biometryNotAvailable: return "Face ID/Touch ID is not available."
-        case .biometryNotEnrolled: return "Face ID/Touch ID is not set up."
+        case .biometryNotEnrolled: return "Face ID or Touch ID is not configured."
         case .biometryLockout: return "Face ID/Touch ID is locked."
         case .unknown: return "Face ID/Touch ID may not be configured"
         }
@@ -62,7 +62,7 @@ final public class BiometricsAuthenticator {
     private var error: NSError?
     
     public init(context: LAContextProtocol = LAContext(),
-                policy: LAPolicy = .deviceOwnerAuthentication,
+                policy: LAPolicy = .deviceOwnerAuthenticationWithBiometrics,
                 localizedReason: String = "Verify your Identity") {
         self.context = context
         self.policy = policy

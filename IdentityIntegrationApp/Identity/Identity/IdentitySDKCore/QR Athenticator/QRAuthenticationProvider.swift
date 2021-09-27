@@ -70,8 +70,27 @@ public class QRAuthenticationProvider {
         let viewModel = QRAuthViewModel()
         return viewModel
     }()
+}
+
+//MARK:- QR initialization
+extension QRAuthenticationProvider {
+
+    convenience init (captureDevice: AVCaptureDeviceProtocl = QRAVCaptureDevice(), application: UIApplicationProtocol = QRUIApplication()) {
+        self.init()
+        self.sharedApplication = application
+        self.avCaptureDevice = captureDevice
+    }
+
+    convenience init(captureDevice: AVCaptureDeviceProtocl = QRAVCaptureDevice()){
+        self.init()
+        self.avCaptureDevice = captureDevice
+    }
+
+}
+//MARK:- Navigation
+extension QRAuthenticationProvider {
     
-    
+    /// Navigate to settings to system settings page
     func navigateSettings() {
         DispatchQueue.main.async {
             if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
@@ -79,11 +98,11 @@ public class QRAuthenticationProvider {
             }
         }
     }
-    
    
     private func showFailedAlert(message: String) {
         UIViewController.showAlertOnRootView(with: self.presenter, title: "QR Code", message: message)
     }
+    
     private func addObserver() {
         viewModel.didReceiveAuth = { [weak self] error, authValue in
             if error == nil {
@@ -116,21 +135,6 @@ public class QRAuthenticationProvider {
             presenterVC?.present(readerViewController, animated: true, completion: nil)
         }
     }
-}
-//MARK:- QR initialization
-extension QRAuthenticationProvider {
-
-    convenience init (captureDevice: AVCaptureDeviceProtocl = QRAVCaptureDevice(), application: UIApplicationProtocol = QRUIApplication()) {
-        self.init()
-        self.sharedApplication = application
-        self.avCaptureDevice = captureDevice
-    }
-
-    convenience init(captureDevice: AVCaptureDeviceProtocl = QRAVCaptureDevice()){
-        self.init()
-        self.avCaptureDevice = captureDevice
-    }
-
 }
 
 //MARK:- QR Authentication

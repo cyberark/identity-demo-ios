@@ -85,6 +85,8 @@ extension SceneDelegate {
 
 extension SceneDelegate {
     
+    /// To configure root view controller
+    /// - Parameter windowScene: window scene
     func configureInitialScreen(windowScene: UIWindowScene) {
         do {
             UINavigationBar.appearance().backgroundColor = UIColor(red: 0.0/255.0, green: 115.0/255.0, blue: 186.0/255.0, alpha: 1.0)

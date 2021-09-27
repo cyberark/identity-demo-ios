@@ -39,7 +39,7 @@ internal class OAuthEndPoint {
     var applicationID: String? = nil
     /// logoutUri configured in the server
     var logoutUri: String? = nil
-
+    /// Acount with the given configuration
     var cyberarkAccount: CyberarkAccount? = nil
 
     /*public convenience init(pkce: AuthOPKCE?) {

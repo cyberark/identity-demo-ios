@@ -32,6 +32,10 @@ class ViewController: UIViewController {
     var loginTypes = [
         "Login"
     ]
+    
+}
+//MARK:- View life cycle
+extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
@@ -45,10 +49,10 @@ class ViewController: UIViewController {
         addBlurrView()
     }
     @IBAction func login_click(_ sender: Any) {
-        navigateToLogin()
+        doLogin()
     }
-    
 }
+//MARK:- Initial configuration
 extension ViewController {
     func configure(){
         registerCell()
@@ -70,10 +74,11 @@ extension ViewController {
     }
     func navigate(index: Int) {
         if index == 0 {
-            navigateToLogin()
+            doLogin()
         }
     }
 }
+//MARK:- UITableViewDelegate, UITableViewDataSource
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         loginTypes.count
@@ -96,7 +101,7 @@ extension ViewController {
     /// setup Custom browser Parameters
     ///
     */
-    func navigateToLogin() {
+    func doLogin() {
         if Reachability.isConnectedToNetwork() {
             guard let config = plistValues(bundle: Bundle.main) else { return }
             
@@ -137,7 +142,9 @@ extension ViewController {
             }
         }
     }
-   
+    
+    /// To save the data in the keychain
+    /// - Parameter response: token response
     func save(response: AccessToken?) {
         do {
             if let accessToken = response?.access_token {
@@ -156,6 +163,7 @@ extension ViewController {
         
     }
 }
+//MARK: add Logout Observer
 extension ViewController {
     // To get the logout response
     func addLogoutObserver(){
@@ -169,7 +177,7 @@ extension ViewController {
         }
     }
 }
-//MARK:- Navigation
+//MARK:- Navigate To Home Screen
 extension ViewController {
     func navigateToHomeScreen() {
         performSegue(withIdentifier: homeViewSegueIdentifier, sender: self)
@@ -187,6 +195,7 @@ extension ViewController {
     }
   
 }
+//MARK: plistValues
 extension ViewController {
     func plistValues(bundle: Bundle) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logouturi: String, systemurl: String)? {
         guard
@@ -206,6 +215,7 @@ extension ViewController {
         return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, threshold: threshold, applicationID: applicationID, logouturi: logouturi, systemurl:systemurl)
     }
 }
+
 extension UIViewController {
     var appDelegate: AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
