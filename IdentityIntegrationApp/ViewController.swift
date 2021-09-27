@@ -97,22 +97,26 @@ extension ViewController {
     ///
     */
     func navigateToLogin() {
-        
-        guard let config = plistValues(bundle: Bundle.main) else { return }
-        
-        guard let account =  CyberArkAuthProvider.webAuth()?
-                .set(clientId: config.clientId)
-                .set(domain: config.domain)
-                .set(redirectUri: config.redirectUri)
-                .set(applicationID: config.applicationID)
-                .set(presentingViewController: self)
-                .setCustomParam(key: "", value: "")
-                .set(scope: config.scope)
-                .set(webType: .sfsafari)
-                .set(systemURL: config.systemurl)
-                .build() else { return }
+        if Reachability.isConnectedToNetwork() {
+            guard let config = plistValues(bundle: Bundle.main) else { return }
+            
+            guard let account =  CyberArkAuthProvider.webAuth()?
+                    .set(clientId: config.clientId)
+                    .set(domain: config.domain)
+                    .set(redirectUri: config.redirectUri)
+                    .set(applicationID: config.applicationID)
+                    .set(presentingViewController: self)
+                    .setCustomParam(key: "", value: "")
+                    .set(scope: config.scope)
+                    .set(webType: .sfsafari)
+                    .set(systemURL: config.systemurl)
+                    .build() else { return }
 
-        CyberArkAuthProvider.login(account: account)
+            CyberArkAuthProvider.login(account: account)
+        } else {
+            showAlert(with: "Network issue", message: "Please connect to the the internet")
+        }
+       
     }
     /*
     ///

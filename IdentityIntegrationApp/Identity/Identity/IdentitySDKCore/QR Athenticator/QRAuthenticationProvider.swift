@@ -87,13 +87,11 @@ public class QRAuthenticationProvider {
     private func addObserver() {
         viewModel.didReceiveAuth = { [weak self] error, authValue in
             if error == nil {
-                //print("Final QRAuthCode \(value)")
-                //UIViewController.showAlertOnRootView(with: self?.presenter, title: "QR Code", message: value)
                 self?.handler(.success(true))
             } else {
-                if let erroString = (error as? APIError)?.localizedDescription {
+                /*if let erroString = (error as? APIError)?.localizedDescription {
                     self?.showFailedAlert(message: erroString)
-                }
+                }*/
                 self?.handler(.failure((error as? APIError) ?? APIError.invalidData))
             }
         }

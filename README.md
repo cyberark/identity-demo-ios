@@ -25,9 +25,7 @@ To learn how to integrate CyberArk Identity in Android applications using the Id
 
 ### CyberArk Identity iOS SDK is Fast
 
-
 ### CyberArk Identity iOS SDK is Simple
-
 
 ### CyberArk Identity iOS SDK is Powerful:
 

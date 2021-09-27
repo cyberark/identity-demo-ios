@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-"header_title" = "Identity SDK Demo app";
+"header_title" = "CyberArk Identity Sample";
 "login_title" = "Login";
 "logout_title" = "Logout";
 "qr_authenticator_optin_title" = "Opt in for QR Authenticator";

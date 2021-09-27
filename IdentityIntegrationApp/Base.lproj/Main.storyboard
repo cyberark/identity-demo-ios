@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QSu-nY-VJ1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QSu-nY-VJ1">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Identity SDK demo app-->
+        <!--CyberArk Identity Sample-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -55,7 +55,7 @@
                             <constraint firstItem="063-R7-FSN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="xfp-6A-4vJ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Identity SDK demo app" id="t1F-lD-hZu"/>
+                    <navigationItem key="navigationItem" title="CyberArk Identity Sample" id="t1F-lD-hZu"/>
                     <connections>
                         <outlet property="tableView" destination="hvu-Nx-fbZ" id="bi6-Wy-Ipk"/>
                         <segue destination="kMM-q3-Uhg" kind="show" identifier="HomeViewSegueIdentifier" id="Jye-4a-qsj"/>
@@ -66,7 +66,7 @@
             </objects>
             <point key="canvasLocation" x="789.85507246376812" y="69.642857142857139"/>
         </scene>
-        <!--Identity SDK demo app-->
+        <!--CyberArk Identity Sample-->
         <scene sceneID="CtB-5G-rrn">
             <objects>
                 <viewController storyboardIdentifier="HomeViewController" id="kMM-q3-Uhg" customClass="HomeViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -165,7 +165,7 @@
                             <constraint firstItem="1mL-jD-OLA" firstAttribute="leading" secondItem="LWo-6j-NfF" secondAttribute="leading" constant="30" id="xp7-hi-7DL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Identity SDK demo app" id="miC-1a-Unv"/>
+                    <navigationItem key="navigationItem" title="CyberArk Identity Sample" id="miC-1a-Unv"/>
                     <connections>
                         <outlet property="QR_button" destination="6ew-GS-P8B" id="zgn-2U-YGo"/>
                         <outlet property="accessToken_Switch" destination="2Ql-J9-2Kj" id="Igm-Ro-Drg"/>
@@ -201,7 +201,7 @@
             </objects>
             <point key="canvasLocation" x="18.840579710144929" y="69.642857142857139"/>
         </scene>
-        <!--Identity SDK demo app-->
+        <!--CyberArk Identity Sample-->
         <scene sceneID="YaD-Yt-Mjd">
             <objects>
                 <viewController storyboardIdentifier="SettingsViewController" id="YaR-Sc-Cjp" customClass="SettingsViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -243,7 +243,7 @@
                             <constraint firstItem="qLw-DR-ILF" firstAttribute="leading" secondItem="kd6-eM-B4C" secondAttribute="leading" constant="40" id="sDG-te-MLw"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Identity SDK demo app" id="UWJ-iO-O6h"/>
+                    <navigationItem key="navigationItem" title="CyberArk Identity Sample" id="UWJ-iO-O6h"/>
                     <connections>
                         <outlet property="tenant_textfeild" destination="Ots-lJ-k5d" id="QPE-Mi-sCo"/>
                     </connections>

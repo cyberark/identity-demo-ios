@@ -38,6 +38,8 @@ class HomeViewController: UIViewController {
     
     var isFromLogin = false
 
+    var isFromEnrollORQRCode = false
+
     let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
 
     let builder = QRAuthenticationProvider()
@@ -80,6 +82,7 @@ extension HomeViewController {
         } else {
             isFromLogin = false
         }
+        isFromEnrollORQRCode = false;
     }
     @IBAction func do_click(_ sender: Any) {
         navigate(button: sender as! UIButton)
@@ -141,9 +144,15 @@ extension HomeViewController {
     func addBiometrics() {
         let isAcessTokenExpired = checkForAccessTokenExpiry()
         if ( UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAppLaunch.rawValue) || (UserDefaults.standard.bool(forKey: UserDefaultsKeys.isEnabledBiometricOnAccessTokenExpires.rawValue) && isAcessTokenExpired)) {
+            if (!isAcessTokenExpired && isFromEnrollORQRCode) {
+                configureEnrollment()
+                isFromEnrollORQRCode = false
+                return
+            }
             DispatchQueue.main.async {
                 self.addBlurrView()
             }
+            
             BiometricsAuthenticator().authenticateUser { (response) in
                 switch response {
                 case .success(let success):
@@ -179,7 +188,10 @@ extension HomeViewController {
             })
             alertController.addAction(action)
             self.present(alertController, animated: true, completion: nil)
+        }else if (!isAcessTokenExpired && isFromEnrollORQRCode) {
+            configureEnrollment()
         }
+
     }
     func checkForAccessTokenExpiry() -> Bool {
         do {
@@ -196,17 +208,24 @@ extension HomeViewController {
 //MARK: Weblogin
 extension HomeViewController {
     func navigate(button: UIButton) {
-        if button == enroll_button {
-        }  else if button == refresh_button {
-            getRefreshToken()
-        }else if button == logout_button {
-            closeSession()
-        }else {
-            configureEnrollment()
+        if Reachability.isConnectedToNetwork() {
+            if button == enroll_button {
+            }  else if button == refresh_button {
+                getRefreshToken()
+            }else if button == logout_button {
+                closeSession()
+            }else {
+                isFromEnrollORQRCode = true
+                addBiometrics()
+            }
+           
+        } else {
+            showAlert(with: "Network issue", message: "Please connect to the the internet")
         }
     }
     
     func configureEnrollment() {
+        
         if UserDefaults.standard.bool(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue) {
             navigateToScanner()
         } else {
@@ -220,7 +239,7 @@ extension HomeViewController {
             case .success(_):
                 print("QR auth success")
             case .failure(let error):
-                self?.showAlert(with :"Error", message: error.localizedDescription)
+                    self?.showAlert(with :"Invalid Request", message: "Seems like something went wrong.Please try again later")
             }
         })
     }
@@ -347,7 +366,12 @@ extension HomeViewController {
             self.activityIndicator.stopAnimating()
             if status {
                 self.save(response: response)
+                if self.isFromEnrollORQRCode {
+                    self.isFromEnrollORQRCode = false;
+                    self.configureEnrollment()
+                }
             } else {
+                self.isFromEnrollORQRCode = false;
                 self.clearCachedData()
                 self.navigateToLogin()
                 //self.showAlert(with: "Seems like something went wrong", message: message)
@@ -356,6 +380,8 @@ extension HomeViewController {
     }
     func save(response: AccessToken?) {
         do {
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.accessToken.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.access_token_expiresIn.rawValue)
             if let accessToken = response?.access_token {
                 try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.accessToken.rawValue, data: accessToken.toData() ?? Data())
             }

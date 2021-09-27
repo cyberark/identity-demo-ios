@@ -101,6 +101,7 @@ public class CyberArkBrowser: NSObject {
     public func closeSession(completion: @escaping didFinishingbrowserOperationCallback) {
         self.browserCallback = completion
         let endpoint = oAuthEndPoint?.getCloseSessionEndpoint()
+        
         if let url = endpoint?.request.url {
             launchSFViewController(url: url) { (result, error) in
                 self.browserCallback!(result, error)

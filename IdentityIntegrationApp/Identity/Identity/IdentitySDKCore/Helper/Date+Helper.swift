@@ -39,7 +39,8 @@ public extension Date {
         guard let data = token else {
             return false
         }
-        let expirationDate = data.to(type: Date.self)
+        var expirationDate = data.to(type: Date.self)
+        expirationDate = expirationDate.addingTimeInterval(-10*60)
         if self.isGreaterThan(expirationDate) {
             return true
         }
