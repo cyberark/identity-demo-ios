@@ -15,7 +15,6 @@ class BiometricsAuthenticatorTest: XCTestCase  {
         let bm = BiometricsAuthenticator(context: LAContextMock())
         let exp = expectation(description: "Auth User Exp")
         bm.authenticateUser(completion: {ret in
-            print (ret)
             switch ret {
             case .failure: XCTFail()
             case .success(let success): XCTAssertTrue(success)
@@ -31,10 +30,9 @@ class BiometricsAuthenticatorTest: XCTestCase  {
         let exp = expectation(description: "Auth User Exp")
         let bm = BiometricsAuthenticator(context: laMock)
         bm.authenticateUser(completion: {ret in
-            print (ret)
             switch ret {
             case .failure(let fail):
-                let err = BiometricError.biometryNotEnrolled
+                let err = BiometricError.biometricsNotEnrolled
                 XCTAssertEqual(err.hashValue, fail.hashValue)
             case .success: XCTFail()
             }
@@ -52,7 +50,6 @@ class BiometricsAuthenticatorTest: XCTestCase  {
         let exp = expectation(description: "Auth User Exp")
         let bm = BiometricsAuthenticator(context: laMock)
         bm.authenticateUser(completion: {ret in
-            print (ret)
             switch ret {
             case .failure(let fail):
                 let err = BiometricError.userFallback
@@ -71,7 +68,6 @@ class BiometricsAuthenticatorTest: XCTestCase  {
         let exp = expectation(description: "Auth User Exp")
         let bm = BiometricsAuthenticator(context: laMock)
         bm.authenticateUser(completion: {ret in
-            print (ret)
             switch ret {
             case .failure(let fail):
                 let err = BiometricError.unknown
@@ -91,7 +87,6 @@ class BiometricsAuthenticatorTest: XCTestCase  {
         let exp = expectation(description: "Auth User Exp")
         let bm = BiometricsAuthenticator(context: laMock)
         bm.authenticateUser(completion: {ret in
-            print (ret)
             switch ret {
             case .failure(let fail):
                 let err = BiometricError.authenticationFailed
@@ -111,7 +106,6 @@ class BiometricsAuthenticatorTest: XCTestCase  {
         let exp = expectation(description: "Auth User Exp")
         let bm = BiometricsAuthenticator(context: laMock)
         bm.authenticateUser(completion: {ret in
-            print (ret)
             switch ret {
             case .failure(let fail):
                 let err = BiometricError.userCancel
@@ -131,10 +125,9 @@ class BiometricsAuthenticatorTest: XCTestCase  {
         let exp = expectation(description: "Auth User Exp")
         let bm = BiometricsAuthenticator(context: laMock)
         bm.authenticateUser(completion: {ret in
-            print (ret)
             switch ret {
             case .failure(let fail):
-                let err = BiometricError.biometryNotAvailable
+                let err = BiometricError.biometricsNotAvailable
                 XCTAssertEqual(err.errorDescription, fail.errorDescription)
             case .success: XCTFail()
             }
@@ -151,10 +144,9 @@ class BiometricsAuthenticatorTest: XCTestCase  {
         let exp = expectation(description: "Auth User Exp")
         let bm = BiometricsAuthenticator(context: laMock)
         bm.authenticateUser(completion: {ret in
-            print (ret)
             switch ret {
             case .failure(let fail):
-                let err = BiometricError.biometryNotEnrolled
+                let err = BiometricError.biometricsNotEnrolled
                 XCTAssertEqual(err.errorDescription, fail.errorDescription)
             case .success: XCTFail()
             }
@@ -171,10 +163,9 @@ class BiometricsAuthenticatorTest: XCTestCase  {
         let exp = expectation(description: "Auth User Exp")
         let bm = BiometricsAuthenticator(context: laMock)
         bm.authenticateUser(completion: {ret in
-            print (ret)
             switch ret {
             case .failure(let fail):
-                let err = BiometricError.biometryLockout
+                let err = BiometricError.biometricksLockout
                 XCTAssertEqual(err.errorDescription, fail.errorDescription)
             case .success: XCTFail()
             }
@@ -191,7 +182,6 @@ class BiometricsAuthenticatorTest: XCTestCase  {
         let exp = expectation(description: "Auth User Exp")
         let bm = BiometricsAuthenticator(context: laMock)
         bm.authenticateUser(completion: {ret in
-            print (ret)
             switch ret {
             case .failure(let fail):
                 let err = BiometricError.unknown

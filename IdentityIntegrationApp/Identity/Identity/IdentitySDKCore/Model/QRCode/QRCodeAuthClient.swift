@@ -33,7 +33,6 @@ extension QRCodeAuthClient: QRCodeAuthClientProtocol {
     func performQRAuthentication(from qrCode: String, access_token: String, completion: @escaping (Result<QRAuthModel?, APIError>) -> Void) {
         let endPoint: Endpoint = QRAuthEndPoint().endpoint(code: qrCode, access_token: access_token)
         let request = endPoint.request
-        print("endpoint request \(request)")
         fetch(with: request, decode: { json -> QRAuthModel? in
             guard let acccessToken = json as? QRAuthModel else { return  nil }
             return acccessToken

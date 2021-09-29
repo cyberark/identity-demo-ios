@@ -109,7 +109,7 @@ extension OAuthEndPoint {
                           URLQueryItem(name: OAuth2Header.scope.rawValue, value: self.scope),
                           URLQueryItem(name: OAuth2Header.redirecUri.rawValue, value: self.redirectUri),
                           URLQueryItem(name: OAuth2Header.codeChallenge.rawValue, value: self.pkce?.challenge),
-                          URLQueryItem(name: OAuth2Header.codeChallengeMethod.rawValue, value: self.pkce?.method)]
+                          URLQueryItem(name: OAuth2Header.codeChallengeMethod.rawValue, value: self.pkce?.method),             URLQueryItem(name: OAuth2Header.nozso.rawValue, value: "true")]
                         
         let headers: [String: String] = [:]
         let path = "/oauth2/authorize/\(applicationID ?? "")"

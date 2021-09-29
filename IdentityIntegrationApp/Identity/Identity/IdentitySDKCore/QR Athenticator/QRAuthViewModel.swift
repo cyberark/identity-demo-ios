@@ -39,7 +39,6 @@ public class QRAuthViewModel {
     }
     var authResponse: QRAuthModel? {
         didSet {
-            print("QR Auth response", authResponse?.result?.auth ?? "")
             if let didReceive = self.didReceiveAuth {
                 didReceive(nil, authResponse?.result?.auth)
             }
@@ -71,7 +70,6 @@ extension QRAuthViewModel: QRAuthViewModelProtocol {
                         
                         return
                     }
-                    print("QRAuthToken \(String(describing: response.result?.auth))")
                     self?.authResponse = response
                 case .failure(let error):
                     print(false, error.localizedDescription)

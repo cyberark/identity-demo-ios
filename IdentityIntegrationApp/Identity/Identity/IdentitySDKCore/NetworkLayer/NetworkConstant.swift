@@ -83,7 +83,6 @@ enum HttpHeaderKeys:String {
     case contentDisposition = "Content-Disposition: form-data;"
     case applicationfomrurlencoded = "application/x-www-form-urlencoded"
     case xidpnativeclient = "X-IDAP-NATIVE-CLIENT"
-    case xcentrifynativeclient = "X-CENTRIFY-NATIVE-CLIENT"
     case acceptlanguage = "Accept-Language"
     
     func getValue() -> String{
@@ -99,8 +98,6 @@ enum HttpHeaderKeys:String {
             value = "application/x-www-form-urlencoded"
         case .xidpnativeclient:
             value = "X-IDAP-NATIVE-CLIENT"
-        case .xcentrifynativeclient:
-            value = "X-CENTRIFY-NATIVE-CLIENT"
         case .acceptlanguage:
             value = "en-IN"
 

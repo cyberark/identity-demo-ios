@@ -135,7 +135,7 @@ extension CyberArkBrowser {
             currentViewController.present(sfVC, animated: true)
             return true
         } else {
-            debugPrint("Failed to launch SFSafariViewController; missing presenting ViewController")
+            //debugPrint("Failed to launch SFSafariViewController; missing presenting ViewController")
             return false
         }
     }
@@ -177,17 +177,15 @@ extension CyberArkBrowser: SFSafariViewControllerDelegate {
     ///   - URL: URL description
     public func safariViewController(_ controller: SFSafariViewController, initialLoadDidRedirectTo URL: URL) {
         
-        print("Redirect in SFSafariViewController: \(URL.absoluteString)")
         
         if let redirectUri = oAuthEndPoint?.redirectUri, URL.absoluteString.hasPrefix(redirectUri) {
-            print("Found matching redirect_uri in SFSafariViewController; closing SFSafariViewController and trying to exchange authorization_code with OAuth2 token(s)")
             controller.dismiss(animated: true, completion: nil)
             
             if let code = URL.queryParameter(with: "code") {
                 //self.exchangeAuthCode(code: code)
             }
             else {
-                print("Failed to retrieve authorization_code upon redirect_uri; completed redirect: \(URL.absoluteString)")
+                print("Failed to retrieve authorization_code upon completed ")
                 if let completionCallback = self.browserCallback {
                     completionCallback(nil, IdentityOAuthError.oAuth_accessDenied(URL.absoluteString))
                 }

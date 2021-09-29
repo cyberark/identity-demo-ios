@@ -36,9 +36,9 @@ public enum BiometricError: LocalizedError {
     case authenticationFailed
     case userCancel
     case userFallback
-    case biometryNotAvailable
-    case biometryNotEnrolled
-    case biometryLockout
+    case biometricsNotAvailable
+    case biometricsNotEnrolled
+    case biometricksLockout
     case unknown
     
     public var errorDescription: String {
@@ -46,9 +46,9 @@ public enum BiometricError: LocalizedError {
         case .authenticationFailed: return "There was a problem verifying your identity."
         case .userCancel: return "You pressed cancel."
         case .userFallback: return "You pressed password."
-        case .biometryNotAvailable: return "Face ID/Touch ID is not available."
-        case .biometryNotEnrolled: return "Face ID or Touch ID is not configured."
-        case .biometryLockout: return "Face ID/Touch ID is locked."
+        case .biometricsNotAvailable: return "Face ID/Touch ID is not available."
+        case .biometricsNotEnrolled: return "Biometrics are not configured.Please configure Face ID or Touch ID"
+        case .biometricksLockout: return "Face ID/Touch ID is locked."
         case .unknown: return "Face ID/Touch ID may not be configured"
         }
     }
@@ -75,7 +75,7 @@ final public class BiometricsAuthenticator {
     
     public func authenticateUser(completion: @escaping (Result<Bool, BiometricError>) -> Void) {
         guard canEvaluatePolicy() else {
-            completion( .failure(BiometricError.biometryNotEnrolled))
+            completion( .failure(BiometricError.biometricsNotEnrolled))
             return
         }
         
@@ -110,11 +110,11 @@ final public class BiometricsAuthenticator {
         case LAError.userFallback:
             error = .userFallback
         case LAError.biometryNotAvailable:
-            error = .biometryNotAvailable
+            error = .biometricsNotAvailable
         case LAError.biometryNotEnrolled:
-            error = .biometryNotEnrolled
+            error = .biometricsNotEnrolled
         case LAError.biometryLockout:
-            error = .biometryLockout
+            error = .biometricksLockout
         default:
             error = .unknown
         }

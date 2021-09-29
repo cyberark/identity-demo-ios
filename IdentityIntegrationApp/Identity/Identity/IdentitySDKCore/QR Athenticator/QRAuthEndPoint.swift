@@ -26,7 +26,6 @@ import Foundation
 struct QRAuthEndPoint {
     func endpoint(code: String, access_token: String) -> Endpoint {
         let accessToken = "Bearer \(access_token)"
-        debugPrint("AccessCode for qrcode endpoint \(accessToken)")
         let headers = ["X-IDAP-NATIVE-CLIENT" : "true",
                        "Authorization" : accessToken]
         let queryItems = [URLQueryItem]()

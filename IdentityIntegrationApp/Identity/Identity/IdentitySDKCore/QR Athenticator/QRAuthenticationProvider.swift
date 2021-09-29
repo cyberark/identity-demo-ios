@@ -128,7 +128,6 @@ extension QRAuthenticationProvider {
                     self?.showFailedAlert(message: "QR code not found")
                     return
                 }
-                print("QRCode \(code)")
                 self?.fetchAccessTokenWithQRCode(qrCode: code)
             }
             let presenterVC = self.presenter ?? UIApplication.shared.windows.last?.rootViewController

@@ -43,10 +43,6 @@ public class KeyChainWrapper {
         return "OAuth"
     }()
     
-    private (set) public var accessGroup: String = {
-        return Bundle.main.bundleIdentifier ?? "com.cyberark.Identity"
-    }()
-    
     private init() {
     }
     

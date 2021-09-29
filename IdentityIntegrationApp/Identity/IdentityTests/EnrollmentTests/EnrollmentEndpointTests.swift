@@ -42,7 +42,6 @@ class EnrollmentEndpointTests: XCTestCase {
         XCTAssertEqual(endpoint?.queryItems?.count, 0)
         XCTAssertEqual(endpoint?.headers?[HttpHeaderKeys.contenttype.rawValue], "application/json")
         XCTAssertEqual(endpoint?.headers?[HttpHeaderKeys.xidpnativeclient.rawValue], "true")
-        XCTAssertEqual(endpoint?.headers?[HttpHeaderKeys.xcentrifynativeclient.rawValue], "true")
         XCTAssertEqual(endpoint?.headers?[HttpHeaderKeys.acceptlanguage.rawValue], "en-IN")
     }
 }

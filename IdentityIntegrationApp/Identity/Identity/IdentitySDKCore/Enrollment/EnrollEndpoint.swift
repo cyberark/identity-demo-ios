@@ -61,7 +61,6 @@ extension EnrollEndPoint {
         headers[HttpHeaderKeys.contenttype.rawValue] = "application/json"
         headers[HttpHeaderKeys.xidpnativeclient.rawValue] = "true"
         headers[HttpHeaderKeys.authorization.rawValue] = accessToken
-        headers[HttpHeaderKeys.xcentrifynativeclient.rawValue] = "true"
         headers[HttpHeaderKeys.acceptlanguage.rawValue] = "en-IN"
 
         let path = "/Device/EnrollIosDevice"

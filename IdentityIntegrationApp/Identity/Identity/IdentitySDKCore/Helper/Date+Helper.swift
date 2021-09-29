@@ -40,7 +40,7 @@ public extension Date {
             return false
         }
         var expirationDate = data.to(type: Date.self)
-        expirationDate = expirationDate.addingTimeInterval(-10*60)
+        //expirationDate = expirationDate.addingTimeInterval(-10*60)
         if self.isGreaterThan(expirationDate) {
             return true
         }

@@ -21,7 +21,7 @@ extension Dictionary {
         do {
             return try JSONSerialization.data(withJSONObject: self, options: .prettyPrinted)
         } catch let error as NSError {
-            debugPrint("Unable to parse the JSON : The error: \(error)")
+            //debugPrint("Unable to parse the JSON : The error: \(error)")
             return nil
         }
     }

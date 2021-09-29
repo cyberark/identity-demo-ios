@@ -22,7 +22,7 @@ public extension Data {
         do {
             return try JSONSerialization.jsonObject(with: self, options: []) as AnyObject
         } catch let error as NSError {
-            debugPrint("Unable to parse the JSON : The error: \(error)")
+            //debugPrint("Unable to parse the JSON : The error: \(error)")
             return nil
         }
     }
@@ -31,7 +31,7 @@ public extension Data {
         do {
             return try JSONSerialization.data(withJSONObject: obj, options: [])
         } catch let error as NSError {
-            debugPrint("Unable to convert to the the JSON : The error: \(error)")
+            //debugPrint("Unable to convert to the the JSON : The error: \(error)")
             return nil
         }
     }
