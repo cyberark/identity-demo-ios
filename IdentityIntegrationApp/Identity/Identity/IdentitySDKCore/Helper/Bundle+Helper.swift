@@ -21,10 +21,10 @@ let CFBundleShortVersionString = "CFBundleShortVersionString"
 let CFBundleDisplayName = "CFBundleDisplayName"
 
 extension Bundle {
-    static func getVersion() -> String? {
+    static func getBuildNumber() -> String? {
         return Bundle.main.infoDictionary?[CFBundleVersion] as? String ?? "1.0"
     }
-    static func getBuildNumber() -> String? {
+    static func getVersion() -> String? {
         return Bundle.main.infoDictionary?[CFBundleShortVersionString] as? String ?? "1.0"
     }
     static func getBundleIdentifier() -> String? {
