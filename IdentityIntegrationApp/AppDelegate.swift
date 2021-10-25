@@ -15,11 +15,11 @@
  */
 
 import UIKit
-
+import Identity
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
-    private let categoryIdentifier = "AcceptOrReject"
+    private let categoryIdentifier = "MfaNotificationCategoryId"
     
     private enum ActionIdentifier: String {
         case accept, reject
@@ -48,15 +48,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate {
-    
+    func registerPushNotifications() {
+        UNUserNotificationCenter.current().delegate = self
+        let application = UIApplication.shared
+        UNUserNotificationCenter.current().requestAuthorization(options: [
+            .badge, .sound, .alert
+        ]) { granted, _ in
+            guard granted else { return }
+            DispatchQueue.main.async {
+                application.registerForRemoteNotifications()
+            }
+        }
+    }
+    func unregisterPushNotifications() {
+        let application = UIApplication.shared
+        application.unregisterForRemoteNotifications()
+    }
     private func registerCustomActions() {
         let accept = UNNotificationAction(
             identifier: ActionIdentifier.accept.rawValue,
-            title: "Accept")
+            title: "Approve")
         
         let reject = UNNotificationAction(
             identifier: ActionIdentifier.reject.rawValue,
-            title: "Reject")
+            title: "Deny")
         
         let category = UNNotificationCategory(
             identifier: categoryIdentifier,
@@ -69,9 +84,15 @@ extension AppDelegate {
     func application(
         _ application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken
-            deviceToken: Data) {
-        
-        registerCustomActions()
+        deviceToken: Data) {
+            CyberArkAuthProvider.handlePushToken(token: deviceToken)
+            registerCustomActions()
+        }
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if UIApplication.shared.applicationState == .active {
+            Notification.Name.handleNotification.post(userInfo: userInfo)
+
+        }
     }
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
@@ -93,15 +114,14 @@ extension AppDelegate {
         case .reject:
             Notification.Name.rejectButton.post(userInfo: userInfo)
         }
-        print("You pressed \(response.actionIdentifier)")
     }
 }
 extension Notification.Name {
-    // 1
+
+    static let handleNotification = Notification.Name("handleNotification")
     static let acceptButton = Notification.Name("acceptTapped")
     static let rejectButton = Notification.Name("rejectTapped")
     
-    // 2
     func post(
         center: NotificationCenter = NotificationCenter.default,
         object: Any? = nil,
@@ -110,7 +130,6 @@ extension Notification.Name {
         center.post(name: self, object: object, userInfo: userInfo)
     }
     
-    // 3
     @discardableResult
     func onPost(
         center: NotificationCenter = NotificationCenter.default,

@@ -45,6 +45,12 @@ class HomeViewController: UIViewController {
     let builder = QRAuthenticationProvider()
     
     let enrollProvider = EnrollmentProvider()
+    
+    let deviceProfileProvider = DeviceProfileProvider()
+
+    private let notificationsSegueIdentifier = "NotificationsSegueIdentifier"
+    
+    private var pushUserInfo = [AnyHashable : Any]()
 
 }
 //MARK:- Viewlife cycle
@@ -83,6 +89,8 @@ extension HomeViewController {
         addEnrollObserver()
         showActivityIndicator(on: self.view)
         addRefreshTokenObserver()
+        addDeviceProfileObserver()
+        addRightBar()
         if !isFromLogin {
             lauchBiomtrics()
         } else {
@@ -92,6 +100,7 @@ extension HomeViewController {
         }
         
         isFromEnrollORQRCode = false;
+        addListenersForNotification()
     }
     
     /// Button handlers
@@ -273,7 +282,7 @@ extension HomeViewController {
                 }
             }
         } else if (isAcessTokenExpired) {
-            let alertController = UIAlertController(title: "Unauthorized access", message: "Seems like the current session is expired. Please click on OK to get the new access token...", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "", message: "Access token is expired. Would you like get new Access Token using refresh token?", preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in
                 self.getRefreshToken()
             })
@@ -337,7 +346,6 @@ extension HomeViewController {
     
     /// configure enrollment
     func configureEnrollment() {
-        
         if UserDefaults.standard.bool(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue) {
             scanQRCode()
         } else {
@@ -381,6 +389,7 @@ extension HomeViewController {
             if result {
                 DispatchQueue.main.async {
                     self.dismiss(animated: true) {
+                        //self.appDelegate.unregisterPushNotifications()
                         self.configureInitialScreen()
                     }
                 }
@@ -453,6 +462,8 @@ extension HomeViewController {
         enrollProvider.didReceiveEnrollmentApiResponse = { (result, accessToken) in
             if result {
                 self.configureEnrollButton()
+                self.appDelegate.registerPushNotifications()
+                self.getDeviceProfile()
             }else {
                 self.showAlert(message: accessToken)
             }
@@ -530,7 +541,7 @@ extension HomeViewController {
     
     /// Navigate to login screen
     func navigateToLogin(){
-        let alertController = UIAlertController(title: "Unauthorized access", message: "Seems like the current session is expired. Please login again to continue...", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "", message: "Refresh token is expired. You need to login again...", preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in
             self.closeSession()
             //self.configureInitialScreen()
@@ -564,10 +575,72 @@ extension HomeViewController {
     */
     func addListenersForNotification(){
         Notification.Name.acceptButton.onPost { [weak self] _ in
+            
         }
         
         Notification.Name.rejectButton.onPost { [weak self] _ in
+            
+        }
+        
+        Notification.Name.handleNotification.onPost { [weak self] notification in
+            let info = notification.userInfo
+            self?.pushUserInfo = info ?? [AnyHashable : Any]()
+            self?.navigateToNotifications()
         }
     }
     
+}
+
+//MARK:- Navigation
+extension HomeViewController {
+    /*
+    // Observers for the notifications
+    // Accept and Reject handlers
+    */
+    func navigateToNotifications(){
+        self.performSegue(withIdentifier: notificationsSegueIdentifier, sender: self)
+    }
+    func addRightBar() {
+        let image = UIImage(named: "notification_icon")?.withRenderingMode(.alwaysOriginal)
+        let rightButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rightButtonAction(sender:)))
+        rightButtonItem.tintColor = .white
+        self.navigationItem.rightBarButtonItem = rightButtonItem
+    }
+    @objc func rightButtonAction(sender: UIBarButtonItem){
+        navigateToNotifications()
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == notificationsSegueIdentifier {
+            var destinationController = segue.destination as! NotificationsViewController
+            destinationController.pushUserInfo = pushUserInfo
+        }
+    }
+}
+//MARK:- To get the device profile
+extension HomeViewController {
+    
+    /// To get the device profile
+    func getDeviceProfile() {
+        do {
+            guard let config = plistValues(bundle: Bundle.main) else { return }
+
+            guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.grantCode.rawValue), let code = data.toString() , let refreshTokenData = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.refreshToken.rawValue),let refreshToken = refreshTokenData.toString() else {
+                return
+            }
+            deviceProfileProvider.getDeviceProfile(baseURL: config.domain)
+            
+        } catch  {
+        }
+    }
+    /*
+    ///
+    /// Observer to get the enrollment status
+    /// Must call this method before calling the enroll api
+    */
+    func addDeviceProfileObserver(){
+        deviceProfileProvider.didReceiveProfileApiResponse = { (result, accessToken) in
+            if result {
+            }
+        }
+    }
 }

@@ -58,12 +58,13 @@ extension APIClient {
                 completion(nil, .requestFailed)
                 return
             }
-            //debugPrint("httpResponse: \(httpResponse.debugDescription) \(response)")
+            debugPrint("httpResponse: \(httpResponse.debugDescription) \(response)")
 
             if httpResponse.status! == .ok {
+               handleCookies(data: data, response: response, error: error)
                 if let data = data {
                     do {
-                        //debugPrint("Base URL: \(String(request.url?.absoluteString ?? "")) \r\n Request: \(String(data: request.httpBody ?? Data(), encoding: .utf8)) \r\n Response: \(String(data: data, encoding: .utf8) ?? "error")")
+                        debugPrint("Base URL: \(String(request.url?.absoluteString ?? "")) \r\n Request: \(String(data: request.httpBody ?? Data(), encoding: .utf8)) \r\n Response: \(String(data: data, encoding: .utf8) ?? "error")")
                         let genericModel = try JSONDecoder().decode(decodingType, from: data)
                         completion(genericModel, nil)
                     } catch {
@@ -113,4 +114,31 @@ extension APIClient {
     
 }
 
+extension APIClient {
+    func handleCookies(data: Data?, response: URLResponse?, error:Error?) {
+        guard
+               let url = response?.url,
+               let httpResponse = response as? HTTPURLResponse,
+               let fields = httpResponse.allHeaderFields as? [String: String]
+           else { return }
+        if url.absoluteString.contains("Device/EnrollIosDevice") {
+            let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: url)
+            HTTPCookieStorage.shared.setCookies(cookies, for: url, mainDocumentURL: nil)
+            for cookie in cookies {
+                var cookieProperties = [HTTPCookiePropertyKey: Any]()
+                cookieProperties[.name] = cookie.name
+                cookieProperties[.value] = cookie.value
+                cookieProperties[.domain] = cookie.domain
+                cookieProperties[.path] = cookie.path
+                cookieProperties[.version] = cookie.version
+                cookieProperties[.expires] = Date().addingTimeInterval(31536000)
+
+                let newCookie = HTTPCookie(properties: cookieProperties)
+                HTTPCookieStorage.shared.setCookie(newCookie!)
+
+                print("name: \(cookie.name) value: \(cookie.value)")
+            }
+        }
+    }
+}
 

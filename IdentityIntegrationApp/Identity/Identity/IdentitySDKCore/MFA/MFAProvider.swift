@@ -6,3 +6,55 @@
 //
 
 import Foundation
+/*
+/// MFAProviderProtocol
+/// Class resposible for MFA entry Point
+/// A Protocol for th MFAProviderProtocol
+ */
+public protocol MFAProviderProtocol {
+    /*
+    /// Enroll
+    /// - Parameter baseURL: base URL
+     */
+    func handleMFAChallenge(baseURL: String)
+    /*
+    /// Callback when MFA is done
+    /// Handler for the enrollment api response
+     */
+    var didReceiveMFAApiResponse: ((Bool,String) -> Void)? { get set }
+
+}
+/*
+/// A class resposible for Enrollment entry Point
+ */
+public class MFAChallengeProvider: MFAProviderProtocol {
+    
+    /// callback when enrollmentt is done
+    public var didReceiveMFAApiResponse: ((Bool, String) -> Void)?
+
+    //ViewModel
+    internal var viewModel: MFAViewModel?
+    
+    /// initializers
+    public init(){
+        viewModel = MFAViewModel()
+        addObserver()
+    }
+    /// Handler for the enrollment api response
+    func addObserver(){
+        viewModel?.didReceiveMFAApiResponse = { (result, accessToken) in
+            self.didReceiveMFAApiResponse!(result, accessToken)
+        }
+    }
+}
+//MARK:-
+extension MFAChallengeProvider {
+    /// ViewModel
+    /// - Returns: Viewmodel
+    internal func viewmodel() -> MFAViewModel? {
+        return viewModel
+    }
+    public func handleMFAChallenge(baseURL: String) {
+        viewmodel()?.handleMFA(baseURL: baseURL)
+    }
+}

@@ -17,8 +17,7 @@
 import Foundation
 /*
 /// EnrollmentProviderProtocol
-/// Class resposible for OAuth entry Point
-/// Shared instance
+/// Class resposible for Enrollment entry Point
 /// A Protocol for th EnrollmentProvider
  */
 public protocol EnrollmentProviderProtocol {
@@ -35,7 +34,7 @@ public protocol EnrollmentProviderProtocol {
 
 }
 /*
-/// A class resposible for OAuth entry Point
+/// A class resposible for Enrollment entry Point
  */
 public class EnrollmentProvider: EnrollmentProviderProtocol {
     

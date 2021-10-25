@@ -1,21 +1,85 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13142" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12042"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="MFANotificationTableViewCell" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MFANotificationTableViewCell" rowHeight="76" id="KGk-i7-Jjw" customClass="MFANotificationTableViewCell" customModule="IdentityIntegrationApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="76"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xYS-oA-oGh">
+                        <rect key="frame" x="50" y="10" width="250" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="32" translatesAutoresizingMaskIntoConstraints="NO" id="iOj-tD-fsi">
+                        <rect key="frame" x="50" y="35" width="250" height="31"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="giB-W6-wBL">
+                                <rect key="frame" x="0.0" y="0.0" width="109" height="31"/>
+                                <color key="backgroundColor" red="0.23921568630000001" green="0.49803921569999998" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Approve">
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="approve_click:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="N52-b3-zLa"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aj8-j1-wK7">
+                                <rect key="frame" x="141" y="0.0" width="109" height="31"/>
+                                <color key="backgroundColor" red="1" green="0.49327188729999999" blue="0.47399842739999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Deny">
+                                    <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="reject_click:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="wgD-Gj-BOB"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                    </stackView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="acmelogo" translatesAutoresizingMaskIntoConstraints="NO" id="QUh-gG-VW7">
+                        <rect key="frame" x="10" y="10" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="X27-dP-r4F"/>
+                            <constraint firstAttribute="width" constant="30" id="cwk-El-V0x"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="iOj-tD-fsi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="50" id="6iG-wv-2r5"/>
+                    <constraint firstAttribute="trailing" secondItem="iOj-tD-fsi" secondAttribute="trailing" constant="20" id="Cc6-qa-qWg"/>
+                    <constraint firstItem="xYS-oA-oGh" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="FDG-5t-NFv"/>
+                    <constraint firstAttribute="bottom" secondItem="iOj-tD-fsi" secondAttribute="bottom" constant="10" id="HuE-yX-Hr3"/>
+                    <constraint firstAttribute="trailing" secondItem="xYS-oA-oGh" secondAttribute="trailing" constant="20" id="NCc-ak-PGT"/>
+                    <constraint firstItem="QUh-gG-VW7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Y6C-yH-LnA"/>
+                    <constraint firstItem="QUh-gG-VW7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="bIF-LM-ZKT"/>
+                    <constraint firstItem="iOj-tD-fsi" firstAttribute="top" secondItem="xYS-oA-oGh" secondAttribute="bottom" constant="10" id="jgO-no-2cO"/>
+                    <constraint firstItem="xYS-oA-oGh" firstAttribute="leading" secondItem="QUh-gG-VW7" secondAttribute="trailing" constant="10" id="nvp-To-2S0"/>
+                </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="approve_button" destination="giB-W6-wBL" id="xs7-H7-AzS"/>
+                <outlet property="reject_button" destination="Aj8-j1-wK7" id="Kjv-ei-YOr"/>
+                <outlet property="text_label" destination="xYS-oA-oGh" id="FGc-9U-tac"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="106.47321428571428"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="acmelogo" width="179.5" height="54.5"/>
+    </resources>
 </document>

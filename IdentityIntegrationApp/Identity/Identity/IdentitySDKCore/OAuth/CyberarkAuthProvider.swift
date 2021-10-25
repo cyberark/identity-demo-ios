@@ -39,7 +39,8 @@ public protocol CyberarkAuthProviderProtocol: class {
     /// - Parameter account: account
     func login(account: CyberarkAccount)
     
-    /// Invokes when the application comes from foreground to background.
+    /// Invokes auhtentication code related operations
+    /// when the application comes from foreground to background.
     /// - Parameter url: url
     func resume(url: URL)
 
@@ -55,6 +56,7 @@ public protocol CyberarkAuthProviderProtocol: class {
     ///   - Bool: result
     ///
     var didReceiveRefreshToken: ((Bool,String, AccessToken?) -> Void)? { get set }
+    
     /// Completion block which will notify when the user logged out
     /// Completion block which will notify when the user logged out
     /// To get the refreshtoken
@@ -62,6 +64,11 @@ public protocol CyberarkAuthProviderProtocol: class {
     ///   - Bool: result
     ///
     var didReceiveLogoutResponse: ((Bool,String) -> Void)? { get set }
+    
+    
+    /// To update the device token to the backend
+    /// - Parameter token: token
+    func handlePushToken(token: Data)
 }
 /*
 /// CyberarkAuthProvider
@@ -229,5 +236,18 @@ extension CyberarkAuthProvider {
             return nil
         }
         return redirectUri
+    }
+}
+//MARK:- Device token and push notifications relateed
+extension CyberarkAuthProvider {
+    /// To update the device token to the backend
+    /// - Parameter token: token
+    public func handlePushToken(token: Data){
+        viewModel?.updatePushToken(token: token)
+    }
+    /// To update the device token to the backend
+    /// - Parameter token: token
+    public func handleRemoteNotification(token: Data){
+        viewModel?.updatePushToken(token: token)
     }
 }

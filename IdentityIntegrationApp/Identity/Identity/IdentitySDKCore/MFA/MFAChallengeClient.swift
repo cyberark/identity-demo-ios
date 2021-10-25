@@ -52,7 +52,7 @@ extension MFAChallengeClient: MFAChallengeClientProtocol {
     ///   - completion: completion
      */
     func handleMFAChallenge(from isAccepted: Bool, accesstoken: String, baseURL: String, completion: @escaping (Result<EnrollResponse?, APIError>) -> Void) {
-        let endpoint: Endpoint = ProfileEndpoint().getProfileEndPoint(accesstoken: accesstoken, baseURL: baseURL)
+        let endpoint: Endpoint = MFAChallengeEndpoint().getMFAChallengeEndpoint(accesstoken: accesstoken, baseURL: baseURL, isUserAccepted: isAccepted, otpCode: "", optKeyVersion: "", otpCodeExpiryInterval: "", oathProfileUuid: "", otpTimestamp: "", challengeAnswer: "")
         let request = endpoint.request
         fetch(with: request, decode: { json -> EnrollResponse? in
             guard let acccessToken = json as? EnrollResponse else { return  nil }

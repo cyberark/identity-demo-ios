@@ -39,7 +39,7 @@ internal class DeviceProfileViewModel {
     var didReceiveProfileApiResponse: ((Bool, String) -> Void)?
 
     ///EnrollResponse
-    var enrollResponse: EnrollResponse? {
+    var deviceProfileResponse: DeviceProfileInfo? {
         didSet {
             self.didReceiveProfileApiResponse!(true, "")
         }
@@ -69,7 +69,7 @@ extension DeviceProfileViewModel: DeviceProfileViewModelProtocol {
                         return
                     }
                     UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue)
-                    self?.enrollResponse = response
+                    self?.deviceProfileResponse = response
                 case .failure(let error):
                     self?.didReceiveProfileApiResponse!(false, "unable to enroll the device")
                     print("the error \(error)")

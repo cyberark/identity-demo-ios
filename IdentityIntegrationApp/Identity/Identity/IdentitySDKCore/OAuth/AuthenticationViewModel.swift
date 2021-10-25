@@ -56,6 +56,12 @@ public protocol AuthenticationViewModelProtocol {
     ///   - code: code
     ///   - pkce: pkce
     func fetchAuthToken(code: String, pkce: AuthOPKCE?)
+    
+    
+    /// Handle Pushtoken
+    /// - Parameter token: token description
+    func updatePushToken(token: Data)
+
 }
 //MARK:- ViewModel
 /*
@@ -190,3 +196,28 @@ extension AuthenticationViewModel {
         }
     }
 }
+//MARK:- Push token implementation
+/// To send the refresh token
+extension AuthenticationViewModel {
+
+    /// To close the current session
+    /// - Parameters:
+    ///   - code: code
+    ///   - pkce: pkce
+    public func updatePushToken(token: Data) {
+        client.updateDeviceToken(with: token) { [weak self] result in
+            switch result {
+            case .success(let loginFeedResult):
+                guard let response = loginFeedResult else {
+                    //self?.didReceiveRefreshToken!(false, "unable to fecth accesstoken", nil)
+                    return
+                }
+                //self?.refreshTokenResponse = response
+            case .failure(let error):
+                //self?.didReceiveRefreshToken!(false, "unable to fecth accesstoken", nil)
+                print("the error \(error)")
+            }
+        }
+    }
+}
+

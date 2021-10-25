@@ -104,7 +104,7 @@ extension ViewController {
     func doLogin() {
         if Reachability.isConnectedToNetwork() {
             guard let config = plistValues(bundle: Bundle.main) else { return }
-            
+            //CyberarkAccount
             guard let account =  CyberArkAuthProvider.webAuth()?
                     .set(clientId: config.clientId)
                     .set(domain: config.domain)
