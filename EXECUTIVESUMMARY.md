@@ -4,7 +4,7 @@
 CyberArk Identity
 
 ## Functionality
-CyberArk Identity Android SDK Sample Application to demonstrate the usage of CyberArk Identity Products.
+CyberArk Identity iOS SDK Sample Application to demonstrate the usage of CyberArk Identity Products.
 
 ## Business Purpose
 This is just to showcase the capabilities of the CyberArk Identity Products.
