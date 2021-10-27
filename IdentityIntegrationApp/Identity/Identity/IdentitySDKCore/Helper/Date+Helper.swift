@@ -48,3 +48,10 @@ public extension Date {
         
     }
 }
+public extension Date {
+    
+    func getCurrentMillis()->Int{
+        return  Int(NSDate().timeIntervalSince1970 * 1000)
+    }
+
+}

@@ -20,9 +20,14 @@ import Identity
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     private let categoryIdentifier = "MfaNotificationCategoryId"
-    
+    private let backGroundCategoryIdentifier = "MfaNotificationBackgroundCategoryId"
+    private let kMfaNotificationApproveActionID = "MfaNotificationApproveActionId"
+    private let kMfaNotificationDenyActionID = "MfaNotificationDenyActionId"
+    private let kMfaNotificationBackgroundApproveActionID = "MfaNotificationBackgroundApproveActionId"
+    private let MfaNotificationBackgroundDenyActionId = "MfaNotificationBackgroundDenyActionId"
+
     private enum ActionIdentifier: String {
-        case accept, reject
+        case accept = "Approve", reject = "Deny"
     }
     var window: UIWindow?
     
@@ -66,11 +71,11 @@ extension AppDelegate {
     }
     private func registerCustomActions() {
         let accept = UNNotificationAction(
-            identifier: ActionIdentifier.accept.rawValue,
+            identifier: kMfaNotificationApproveActionID,
             title: "Approve")
         
         let reject = UNNotificationAction(
-            identifier: ActionIdentifier.reject.rawValue,
+            identifier: kMfaNotificationDenyActionID,
             title: "Deny")
         
         let category = UNNotificationCategory(
@@ -78,8 +83,22 @@ extension AppDelegate {
             actions: [accept, reject],
             intentIdentifiers: [])
         
+        
+        let accept_background = UNNotificationAction(
+            identifier: kMfaNotificationBackgroundApproveActionID,
+            title: "Approve")
+        
+        let reject_background = UNNotificationAction(
+            identifier: kMfaNotificationBackgroundApproveActionID,
+            title: "Deny")
+        
+        let backgroundCategory = UNNotificationCategory(
+            identifier: backGroundCategoryIdentifier,
+            actions: [accept_background, reject_background],
+            intentIdentifiers: [])
+
         UNUserNotificationCenter.current()
-            .setNotificationCategories([category])
+            .setNotificationCategories([category, backgroundCategory])
     }
     func application(
         _ application: UIApplication,
@@ -94,12 +113,10 @@ extension AppDelegate {
 
         }
     }
-    func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse,
-        withCompletionHandler completionHandler: @escaping () -> Void) {
-        defer { completionHandler() }
-        
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+           didReceive response: UNNotificationResponse,
+           withCompletionHandler completionHandler:
+                                @escaping () -> Void) {
         let identity = response.notification
             .request.content.categoryIdentifier
         guard identity == categoryIdentifier,
@@ -114,6 +131,7 @@ extension AppDelegate {
         case .reject:
             Notification.Name.rejectButton.post(userInfo: userInfo)
         }
+        completionHandler()
     }
 }
 extension Notification.Name {

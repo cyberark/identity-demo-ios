@@ -191,6 +191,17 @@ extension AuthenticationViewModel {
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.refreshToken.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.access_token_expiresIn.rawValue)
+            
+            
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_SecretKey.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_SecretKey.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_Period.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_uuid.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_Digits.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_Counter.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.refreshToken.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_SecretKey_version.rawValue)
+            
         } catch {
             //debugPrint("operation error")
         }

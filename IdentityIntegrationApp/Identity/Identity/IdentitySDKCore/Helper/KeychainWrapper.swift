@@ -30,7 +30,14 @@ public enum KeyChainStorageKeys: String {
     case grantCode = "grant_code"
     case refreshToken = "refresh_code"
     case access_token_expiresIn = "access_token_expiresIn"
-
+    case profile_SecretKey = "SecretKey"
+    case profile_SecretKey_version = "SecretKeyVersion"
+    case profile_HmacAlgorithm = "HmacAlgorithm"
+    case profile_Digits = "Digits"
+    case profile_Period = "Period"
+    case profile_uuid = "OathProfileUuid"
+    case profile_Counter = "Counter"
+    
 }
 /// Keychain Wrapper
 /// Wrapper to store the credentials in secure way

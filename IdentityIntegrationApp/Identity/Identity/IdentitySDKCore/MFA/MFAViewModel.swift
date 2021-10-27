@@ -21,7 +21,7 @@ internal protocol MFAViewModelProtocol {
     
     /// To handleMFA device
     /// - Parameter baseURL: baseURL
-    func handleMFA(baseURL: String)
+    func handleMFA(isAccepted: Bool, challenge: String, baseURL: String)
 }
 /*
 /// AuthenticationViewModel
@@ -55,22 +55,22 @@ extension MFAViewModel: MFAViewModelProtocol {
     
     /// Enroll
     /// - Parameter baseURL: baseURL
-    internal func handleMFA(baseURL: String) {
+    internal func handleMFA(isAccepted: Bool, challenge: String, baseURL: String) {
         do {
             guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue), let accessToken = data.toString() else {
                 return
             }
-            client.handleMFAChallenge(from: true, accesstoken: accessToken, baseURL: baseURL) { [weak self] result in
+            client.handleMFAChallenge(from: isAccepted, accesstoken: accessToken, baseURL: baseURL, challenge: challenge) { [weak self] result in
                 switch result {
                 case .success(let loginFeedResult):
                     guard let response = loginFeedResult else {
-                        self?.didReceiveMFAApiResponse!(false, "unable to enroll the device")
+                        self?.didReceiveMFAApiResponse!(false, "unable to approve the identity")
                         return
                     }
                     UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue)
                     self?.enrollResponse = response
                 case .failure(let error):
-                    self?.didReceiveMFAApiResponse!(false, "unable to enroll the device")
+                    self?.didReceiveMFAApiResponse!(false, "unable to approve the identity")
                     print("the error \(error)")
                 }
             }

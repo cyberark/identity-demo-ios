@@ -44,3 +44,22 @@ public extension String {
         return isValid
     }
 }
+extension String {
+    
+    func base64Encoded() -> String? {
+        return data(using: .utf8)?.base64EncodedString()
+    }
+    
+    func base64Decoded() -> Data? {
+        guard let data = Data(base64Encoded: self) else { return nil }
+        return data
+    }
+}
+public extension String {
+    func sha256() -> String{
+        if let stringData = self.data(using: String.Encoding.utf8) {
+            return stringData.sha256()
+        }
+        return ""
+    }
+}

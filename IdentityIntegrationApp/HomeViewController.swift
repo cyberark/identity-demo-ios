@@ -90,7 +90,7 @@ extension HomeViewController {
         showActivityIndicator(on: self.view)
         addRefreshTokenObserver()
         addDeviceProfileObserver()
-        addRightBar()
+//        addRightBar()
         if !isFromLogin {
             lauchBiomtrics()
         } else {
@@ -389,7 +389,7 @@ extension HomeViewController {
             if result {
                 DispatchQueue.main.async {
                     self.dismiss(animated: true) {
-                        //self.appDelegate.unregisterPushNotifications()
+                        self.appDelegate.unregisterPushNotifications()
                         self.configureInitialScreen()
                     }
                 }
@@ -598,7 +598,20 @@ extension HomeViewController {
     // Accept and Reject handlers
     */
     func navigateToNotifications(){
-        self.performSegue(withIdentifier: notificationsSegueIdentifier, sender: self)
+        var ispresent = false
+        if let viewControllers = navigationController?.viewControllers {
+            for viewController in viewControllers {
+                if viewController.isKind(of: NotificationsViewController.self) {
+                    ispresent = true
+                    let controller = viewController as! NotificationsViewController
+                    controller.reloadNotifications()
+                    break
+                }
+            }
+        }
+        if(!ispresent) {
+            self.performSegue(withIdentifier: notificationsSegueIdentifier, sender: self)
+        }
     }
     func addRightBar() {
         let image = UIImage(named: "notification_icon")?.withRenderingMode(.alwaysOriginal)
@@ -611,7 +624,7 @@ extension HomeViewController {
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == notificationsSegueIdentifier {
-            var destinationController = segue.destination as! NotificationsViewController
+            let destinationController = segue.destination as! NotificationsViewController
             destinationController.pushUserInfo = pushUserInfo
         }
     }

@@ -33,9 +33,6 @@
                                 <buttonConfiguration key="configuration" style="plain" title="Approve">
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
-                                <connections>
-                                    <action selector="approve_click:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="N52-b3-zLa"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aj8-j1-wK7">
                                 <rect key="frame" x="141" y="0.0" width="109" height="31"/>
@@ -44,9 +41,6 @@
                                 <buttonConfiguration key="configuration" style="plain" title="Deny">
                                     <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </buttonConfiguration>
-                                <connections>
-                                    <action selector="reject_click:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="wgD-Gj-BOB"/>
-                                </connections>
                             </button>
                         </subviews>
                     </stackView>

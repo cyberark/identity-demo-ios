@@ -13,10 +13,10 @@ import Foundation
  */
 public protocol MFAProviderProtocol {
     /*
-    /// Enroll
+    /// handleMFAChallenge
     /// - Parameter baseURL: base URL
      */
-    func handleMFAChallenge(baseURL: String)
+    func handleMFAChallenge(isAccepted: Bool, challenge: String, baseURL: String)
     /*
     /// Callback when MFA is done
     /// Handler for the enrollment api response
@@ -54,7 +54,7 @@ extension MFAChallengeProvider {
     internal func viewmodel() -> MFAViewModel? {
         return viewModel
     }
-    public func handleMFAChallenge(baseURL: String) {
-        viewmodel()?.handleMFA(baseURL: baseURL)
+    public func handleMFAChallenge(isAccepted: Bool, challenge: String, baseURL: String) {
+        viewmodel()?.handleMFA(isAccepted: isAccepted, challenge: challenge, baseURL: baseURL)
     }
 }

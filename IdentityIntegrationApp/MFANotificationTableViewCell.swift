@@ -14,11 +14,7 @@ class MFANotificationTableViewCell: UITableViewCell {
     @IBOutlet weak var approve_button: UIButton!
     @IBOutlet weak var reject_button: UIButton!
     
-    @IBAction func approve_click(_ sender: Any) {
-    }
-    
-    @IBAction func reject_click(_ sender: Any) {
-    }
+   
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

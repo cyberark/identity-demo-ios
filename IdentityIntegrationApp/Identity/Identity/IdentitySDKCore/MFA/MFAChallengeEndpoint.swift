@@ -35,7 +35,7 @@ extension MFAChallengeEndpoint {
     ///   - code: code
     ///   - refreshToken: Refresh token
     /// - Returns: Endpoint
-    func getMFAChallengeEndpoint(accesstoken: String, baseURL: String, isUserAccepted: Bool, otpCode: String, optKeyVersion: String, otpCodeExpiryInterval: String, oathProfileUuid: String, otpTimestamp: String, challengeAnswer: String) -> Endpoint {
+    func getMFAChallengeEndpoint(accesstoken: String, baseURL: String, isUserAccepted: Bool, otpCode: String, optKeyVersion: Int, otpCodeExpiryInterval: String, oathProfileUuid: String, otpTimestamp: Int, challengeAnswer: String) -> Endpoint {
                 
         let post = [
             MFAChallengeHeader.otpCode.rawValue: otpCode,
@@ -45,7 +45,7 @@ extension MFAChallengeEndpoint {
             MFAChallengeHeader.oathProfileUuid.rawValue: oathProfileUuid,
             MFAChallengeHeader.otpTimestamp.rawValue: otpTimestamp,
             MFAChallengeHeader.challengeAnswer.rawValue: challengeAnswer
-        ]
+        ] as [String : Any]
         
         let jsonData = post.jsonData
         
@@ -63,7 +63,7 @@ extension MFAChallengeEndpoint {
         } catch  {
         }
         
-        let path = "/SubmitOtpCode"
+        let path = "/IosAppRest//SubmitOtpCode"
         return Endpoint(path:path, httpMethod: .post, headers: headers, body: jsonData, queryItems: queryItems, dataType: .JSON, base: baseURL)
     }
 }
