@@ -11,12 +11,15 @@ import Foundation
 /// Class resposible for MFA entry Point
 /// A Protocol for th MFAProviderProtocol
  */
+public typealias CheckNotificationResult = () -> Void
+
 public protocol MFAProviderProtocol {
     /*
     /// handleMFAChallenge
     /// - Parameter baseURL: base URL
      */
-    func handleMFAChallenge(isAccepted: Bool, challenge: String, baseURL: String)
+    func handleMFAChallenge(isAccepted: Bool, challenge: String, baseURL: String, withCompletionHandler completionHandler:
+                            CheckNotificationResult?)
     /*
     /// Callback when MFA is done
     /// Handler for the enrollment api response
@@ -54,7 +57,8 @@ extension MFAChallengeProvider {
     internal func viewmodel() -> MFAViewModel? {
         return viewModel
     }
-    public func handleMFAChallenge(isAccepted: Bool, challenge: String, baseURL: String) {
-        viewmodel()?.handleMFA(isAccepted: isAccepted, challenge: challenge, baseURL: baseURL)
+    public func handleMFAChallenge(isAccepted: Bool, challenge: String, baseURL: String, withCompletionHandler completionHandler:
+                                   CheckNotificationResult?) {
+        viewmodel()?.handleMFA(isAccepted: isAccepted, challenge: challenge, baseURL: baseURL, withCompletionHandler: completionHandler)
     }
 }

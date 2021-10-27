@@ -19,6 +19,8 @@ import Identity
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
+
+    var notificationcompletionHandler: CheckNotificationResult? = nil
     private let categoryIdentifier = "MfaNotificationCategoryId"
     private let backGroundCategoryIdentifier = "MfaNotificationBackgroundCategoryId"
     private let kMfaNotificationApproveActionID = "MfaNotificationApproveActionId"
@@ -26,13 +28,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     private let kMfaNotificationBackgroundApproveActionID = "MfaNotificationBackgroundApproveActionId"
     private let MfaNotificationBackgroundDenyActionId = "MfaNotificationBackgroundDenyActionId"
 
-    private enum ActionIdentifier: String {
-        case accept = "Approve", reject = "Deny"
+    let mfaProvider = MFAChallengeProvider()
+
+    private enum NotificationActionIdentifier: String {
+        case accept = "MfaNotificationApproveActionId", reject = "MfaNotificationDenyActionId"
     }
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        UNUserNotificationCenter.current().delegate = self
+        addMFAObserver()
+
         return true
     }
     
@@ -54,12 +61,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
 extension AppDelegate {
     func registerPushNotifications() {
-        UNUserNotificationCenter.current().delegate = self
         let application = UIApplication.shared
         UNUserNotificationCenter.current().requestAuthorization(options: [
             .badge, .sound, .alert
         ]) { granted, _ in
             guard granted else { return }
+            self.registerCustomActions()
             DispatchQueue.main.async {
                 application.registerForRemoteNotifications()
             }
@@ -72,16 +79,16 @@ extension AppDelegate {
     private func registerCustomActions() {
         let accept = UNNotificationAction(
             identifier: kMfaNotificationApproveActionID,
-            title: "Approve")
+            title: "Approve",options: UNNotificationActionOptions(rawValue: 0))
         
         let reject = UNNotificationAction(
             identifier: kMfaNotificationDenyActionID,
-            title: "Deny")
+            title: "Deny",options: UNNotificationActionOptions(rawValue: 0))
         
         let category = UNNotificationCategory(
             identifier: categoryIdentifier,
             actions: [accept, reject],
-            intentIdentifiers: [])
+            intentIdentifiers: [],options: .customDismissAction)
         
         
         let accept_background = UNNotificationAction(
@@ -95,7 +102,7 @@ extension AppDelegate {
         let backgroundCategory = UNNotificationCategory(
             identifier: backGroundCategoryIdentifier,
             actions: [accept_background, reject_background],
-            intentIdentifiers: [])
+            intentIdentifiers: [],options: .customDismissAction)
 
         UNUserNotificationCenter.current()
             .setNotificationCategories([category, backgroundCategory])
@@ -105,35 +112,104 @@ extension AppDelegate {
         didRegisterForRemoteNotificationsWithDeviceToken
         deviceToken: Data) {
             CyberArkAuthProvider.handlePushToken(token: deviceToken)
-            registerCustomActions()
+            //registerCustomActions()
         }
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         if UIApplication.shared.applicationState == .active {
             Notification.Name.handleNotification.post(userInfo: userInfo)
-
+        }
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        if UIApplication.shared.applicationState == .active {
+            let userInfo = notification.request.content.userInfo
+            Notification.Name.handleNotification.post(userInfo: userInfo)
         }
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter,
            didReceive response: UNNotificationResponse,
            withCompletionHandler completionHandler:
                                 @escaping () -> Void) {
+        
+        notificationcompletionHandler = completionHandler
         let identity = response.notification
             .request.content.categoryIdentifier
-        guard identity == categoryIdentifier,
-              let action = ActionIdentifier(rawValue: response.actionIdentifier) else {
-            return
-        }
         let userInfo = response.notification.request.content.userInfo
+
+        guard identity == categoryIdentifier,
+              let action = NotificationActionIdentifier(rawValue: response.actionIdentifier) else {
+                  //if UIApplication.shared.applicationState == .active {
+                      Notification.Name.handleNotification.post(userInfo: userInfo)
+                        completionHandler()
+                 // }
+                  return
+              }
         
         switch action {
         case .accept:
-            Notification.Name.acceptButton.post(userInfo: userInfo)
+            self.performChallengeby(isAccepted: true, userInfo: userInfo, withCompletionHandler:
+                                        nil)
+            //Notification.Name.acceptButton.post(userInfo: userInfo)
         case .reject:
-            Notification.Name.rejectButton.post(userInfo: userInfo)
+            self.performChallengeby(isAccepted: false, userInfo: userInfo, withCompletionHandler:
+                                        nil)
+            //Notification.Name.rejectButton.post(userInfo: userInfo)
         }
-        completionHandler()
+        
     }
 }
+extension AppDelegate {
+    
+    func performChallengeby(isAccepted: Bool, userInfo: [AnyHashable : Any]? = nil, withCompletionHandler completionHandler:
+                            CheckNotificationResult? ){
+        let userInfo = userInfo?["payload"] as! [AnyHashable: Any]
+        let info = userInfo["Options"] as! [AnyHashable: Any]
+        let challenge =  info["ChallengeAnswer"]
+        handleChallange(isAccepted: isAccepted, challenge: challenge as! String, withCompletionHandler: completionHandler)
+    }
+    /// To approve the mfa the device
+    func handleChallange(isAccepted: Bool, challenge: String, withCompletionHandler completionHandler:
+                         CheckNotificationResult?) {
+        do {
+            guard let config = plistValues(bundle: Bundle.main) else { return }
+            mfaProvider.handleMFAChallenge(isAccepted: isAccepted, challenge: challenge, baseURL: config.domain, withCompletionHandler: completionHandler)
+        } catch  {
+        }
+    }
+  
+    /*
+    ///
+    /// Observer to get the enrollment status
+    /// Must call this method before calling the enroll api
+    */
+    func addMFAObserver(){
+        mfaProvider.didReceiveMFAApiResponse = { (result, accessToken) in
+            if result {
+            }else {
+            }
+            if let handler = self.notificationcompletionHandler {
+                handler()
+            }
+        }
+    }
+    func plistValues(bundle: Bundle) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logouturi: String,systemurl: String)? {
+        guard
+            let path = bundle.path(forResource: "IdentityConfiguration", ofType: "plist"),
+            let values = NSDictionary(contentsOfFile: path) as? [String: Any]
+        else {
+            print("Missing CIAMConfiguration.plist file with 'ClientId' and 'Domain' entries in main bundle!")
+            return nil
+        }
+        guard
+            let clientId = values["clientid"] as? String,
+            let domain = values["domainautho"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String, let systemurl = values["systemurl"] as? String
+        else {
+            print("IdentityConfiguration.plist file at \(path) is missing 'ClientId' and/or 'Domain' values!")
+            return nil
+        }
+        return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, threshold: threshold, applicationID: applicationID, logouturi: logouturi, systemurl: systemurl)
+    }
+}
+
 extension Notification.Name {
 
     static let handleNotification = Notification.Name("handleNotification")

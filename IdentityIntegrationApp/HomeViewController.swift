@@ -48,6 +48,8 @@ class HomeViewController: UIViewController {
     
     let deviceProfileProvider = DeviceProfileProvider()
 
+    let mfaProvider = MFAChallengeProvider()
+
     private let notificationsSegueIdentifier = "NotificationsSegueIdentifier"
     
     private var pushUserInfo = [AnyHashable : Any]()
@@ -574,12 +576,15 @@ extension HomeViewController {
     // Accept and Reject handlers
     */
     func addListenersForNotification(){
-        Notification.Name.acceptButton.onPost { [weak self] _ in
-            
+        
+        Notification.Name.acceptButton.onPost { [weak self] notification in
+            let info = notification.userInfo
+            self?.pushUserInfo = info ?? [AnyHashable : Any]()
+            //self?.performChallengeby(isAccepted: true)
         }
         
-        Notification.Name.rejectButton.onPost { [weak self] _ in
-            
+        Notification.Name.rejectButton.onPost { [weak self] notification in
+            //self?.performChallengeby(isAccepted: false)
         }
         
         Notification.Name.handleNotification.onPost { [weak self] notification in
@@ -604,6 +609,7 @@ extension HomeViewController {
                 if viewController.isKind(of: NotificationsViewController.self) {
                     ispresent = true
                     let controller = viewController as! NotificationsViewController
+                    controller.pushUserInfo = pushUserInfo
                     controller.reloadNotifications()
                     break
                 }

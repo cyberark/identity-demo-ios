@@ -41,8 +41,9 @@ class NotificationsViewController: UIViewController, UITextFieldDelegate {
 extension NotificationsViewController {
     func configure(){
         registerCell()
-        addEnrollObserver()
+        addMFAObserver()
         showActivityIndicator(on: self.view)
+        self.navigationItem.setHidesBackButton(true, animated: true)
     }
     func registerCell() {
         tableView.estimatedRowHeight = 100
@@ -95,7 +96,7 @@ extension NotificationsViewController {
         activityIndicator.startAnimating()
         do {
             guard let config = plistValues(bundle: Bundle.main) else { return }
-            mfaProvider.handleMFAChallenge(isAccepted: isAccepted, challenge: challenge, baseURL: config.domain)
+            mfaProvider.handleMFAChallenge(isAccepted: isAccepted, challenge: challenge, baseURL: config.domain, withCompletionHandler: nil)
         } catch  {
         }
     }
@@ -105,7 +106,7 @@ extension NotificationsViewController {
     /// Observer to get the enrollment status
     /// Must call this method before calling the enroll api
     */
-    func addEnrollObserver(){
+    func addMFAObserver(){
         mfaProvider.didReceiveMFAApiResponse = { (result, accessToken) in
             if result {
                 self.navigationController?.popViewController(animated: true)
