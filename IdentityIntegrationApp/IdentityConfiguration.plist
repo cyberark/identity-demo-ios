@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>clientid</key>
+	<string>{your_client_id}</string>
+	<key>clientsecret</key>
+	<string>{your_client_secret}</string>
+	<key>domainautho</key>
+	<string>{your_client_secret}</string>
+	<key>systemurl</key>
+	<string>{your_client_secret}</string>
+	<key>applicationid</key>
+	<string>{your_client_secret}</string>
+	<key>redirecturi</key>
+	<string>{your_client_secret}</string>
+	<key>scope</key>
+	<string>All</string>
+	<key>threshold</key>
+	<integer>60</integer>
+	<key>responsetype</key>
+	<string>code</string>
+</dict>
+</plist>

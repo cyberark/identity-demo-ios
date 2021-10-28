@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QSu-nY-VJ1">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--CyberArk Identity Sample-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hvu-Nx-fbZ">
+                                <rect key="frame" x="30" y="257" width="354" height="492"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </tableView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="acmelogo" translatesAutoresizingMaskIntoConstraints="NO" id="ot4-nc-oZT">
+                                <rect key="frame" x="87" y="100" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="8S6-m3-hoJ"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="063-R7-FSN">
+                                <rect key="frame" x="30" y="278" width="354" height="34"/>
+                                <color key="backgroundColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="bwM-Pk-ITT"/>
+                                </constraints>
+                                <state key="normal" title="Login"/>
+                                <connections>
+                                    <action selector="login_click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="h8D-Tk-GbJ"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hvu-Nx-fbZ" secondAttribute="bottom" constant="25" id="1yi-DW-Jzs"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="063-R7-FSN" secondAttribute="trailing" constant="30" id="8Eg-73-tVJ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hvu-Nx-fbZ" secondAttribute="trailing" constant="30" id="S73-nJ-2Bm"/>
+                            <constraint firstItem="hvu-Nx-fbZ" firstAttribute="top" secondItem="ot4-nc-oZT" secondAttribute="bottom" constant="29" id="XJA-TD-45J"/>
+                            <constraint firstItem="ot4-nc-oZT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="c2s-gc-Tpx"/>
+                            <constraint firstItem="063-R7-FSN" firstAttribute="top" secondItem="ot4-nc-oZT" secondAttribute="bottom" constant="50" id="fC2-EF-bzI"/>
+                            <constraint firstItem="hvu-Nx-fbZ" firstAttribute="top" secondItem="ot4-nc-oZT" secondAttribute="bottom" constant="29" id="gqo-0d-THh"/>
+                            <constraint firstItem="hvu-Nx-fbZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="ibl-Pg-H0I"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ot4-nc-oZT" secondAttribute="trailing" constant="87" id="t9J-7x-CS0"/>
+                            <constraint firstItem="ot4-nc-oZT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="wLE-xr-kBQ"/>
+                            <constraint firstItem="063-R7-FSN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="xfp-6A-4vJ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="CyberArk Identity Sample" id="t1F-lD-hZu"/>
+                    <connections>
+                        <outlet property="tableView" destination="hvu-Nx-fbZ" id="bi6-Wy-Ipk"/>
+                        <segue destination="kMM-q3-Uhg" kind="show" identifier="HomeViewSegueIdentifier" id="Jye-4a-qsj"/>
+                        <segue destination="YaR-Sc-Cjp" kind="show" identifier="SettingsSugueidentifier" id="Hr2-ij-fMP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="789.85507246376812" y="69.642857142857139"/>
+        </scene>
+        <!--CyberArk Identity Sample-->
+        <scene sceneID="CtB-5G-rrn">
+            <objects>
+                <viewController storyboardIdentifier="HomeViewController" id="kMM-q3-Uhg" customClass="HomeViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YeJ-3w-amo">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="acmelogo" translatesAutoresizingMaskIntoConstraints="NO" id="Hqs-JV-5xX">
+                                <rect key="frame" x="87" y="16" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="IHn-fT-6xU"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="1mL-jD-OLA">
+                                <rect key="frame" x="30" y="184" width="354" height="99"/>
+                                <subviews>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nkr-kt-nEv">
+                                        <rect key="frame" x="0.0" y="0.0" width="354" height="0.0"/>
+                                        <color key="backgroundColor" red="0.0" green="0.36470588235294116" blue="0.67450980392156867" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Enroll"/>
+                                        <connections>
+                                            <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="4t5-OF-y3e"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ew-GS-P8B">
+                                        <rect key="frame" x="0.0" y="0.0" width="354" height="34"/>
+                                        <color key="backgroundColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Opt in for QR code Authenticator"/>
+                                        <connections>
+                                            <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="NQB-UH-NxN"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rws-De-Qwn">
+                                        <rect key="frame" x="0.0" y="65" width="354" height="34"/>
+                                        <color key="backgroundColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Logout"/>
+                                        <connections>
+                                            <action selector="do_click:" destination="kMM-q3-Uhg" eventType="touchUpInside" id="0Cm-ND-uUo"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="23" translatesAutoresizingMaskIntoConstraints="NO" id="Pw5-OQ-C8j">
+                                <rect key="frame" x="30" y="659" width="354" height="85"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="yc5-Ds-1z1">
+                                        <rect key="frame" x="0.0" y="0.0" width="242" height="31"/>
+                                        <subviews>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kL9-BG-OYU">
+                                                <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
+                                                <color key="onTintColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                <connections>
+                                                    <action selector="enableApplaunch:" destination="kMM-q3-Uhg" eventType="valueChanged" id="xDT-c0-HDM"/>
+                                                </connections>
+                                            </switch>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invoke Biometrics on app launch" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9lm-Tp-QAC">
+                                                <rect key="frame" x="59" y="0.0" width="183" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="3mg-lC-vxP">
+                                        <rect key="frame" x="0.0" y="54" width="314.5" height="31"/>
+                                        <subviews>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Ql-J9-2Kj">
+                                                <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
+                                                <color key="onTintColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                <connections>
+                                                    <action selector="enableOnAccesstokeExpires:" destination="kMM-q3-Uhg" eventType="valueChanged" id="3Wz-l5-T6m"/>
+                                                </connections>
+                                            </switch>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invoke Biometrics when access token expires" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IAQ-6o-Hgu">
+                                                <rect key="frame" x="59" y="0.0" width="255.5" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="LWo-6j-NfF"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Hqs-JV-5xX" firstAttribute="top" secondItem="LWo-6j-NfF" secondAttribute="top" constant="16" id="89K-Cx-6JE"/>
+                            <constraint firstItem="LWo-6j-NfF" firstAttribute="trailing" secondItem="1mL-jD-OLA" secondAttribute="trailing" constant="30" id="IXM-Ba-wpe"/>
+                            <constraint firstItem="1mL-jD-OLA" firstAttribute="top" secondItem="Hqs-JV-5xX" secondAttribute="bottom" constant="40" id="QEL-fk-D6O"/>
+                            <constraint firstItem="LWo-6j-NfF" firstAttribute="trailing" secondItem="Pw5-OQ-C8j" secondAttribute="trailing" constant="30" id="THo-TX-Zd0"/>
+                            <constraint firstItem="LWo-6j-NfF" firstAttribute="trailing" secondItem="Hqs-JV-5xX" secondAttribute="trailing" constant="87" id="Zt1-Lo-cmN"/>
+                            <constraint firstItem="LWo-6j-NfF" firstAttribute="bottom" secondItem="Pw5-OQ-C8j" secondAttribute="bottom" constant="30" id="bEq-X1-7dB"/>
+                            <constraint firstItem="Hqs-JV-5xX" firstAttribute="leading" secondItem="LWo-6j-NfF" secondAttribute="leading" constant="87" id="cur-pv-499"/>
+                            <constraint firstItem="Pw5-OQ-C8j" firstAttribute="leading" secondItem="LWo-6j-NfF" secondAttribute="leading" constant="30" id="mBa-oa-TGY"/>
+                            <constraint firstItem="1mL-jD-OLA" firstAttribute="leading" secondItem="LWo-6j-NfF" secondAttribute="leading" constant="30" id="xp7-hi-7DL"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="CyberArk Identity Sample" id="miC-1a-Unv"/>
+                    <connections>
+                        <outlet property="QR_button" destination="6ew-GS-P8B" id="zgn-2U-YGo"/>
+                        <outlet property="accessToken_Switch" destination="2Ql-J9-2Kj" id="Igm-Ro-Drg"/>
+                        <outlet property="appLaunch_switch" destination="kL9-BG-OYU" id="Y7r-cU-Iv2"/>
+                        <outlet property="enroll_button" destination="Nkr-kt-nEv" id="zVn-70-Eq4"/>
+                        <outlet property="logout_button" destination="rws-De-Qwn" id="G7t-Sv-CLz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UnQ-6Q-UNq" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1740.5797101449277" y="69.642857142857139"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bc2-xw-bqx">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QSu-nY-VJ1" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="oFO-qw-uTc">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="1CV-O1-0ra"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fLa-5a-nxe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="18.840579710144929" y="69.642857142857139"/>
+        </scene>
+        <!--CyberArk Identity Sample-->
+        <scene sceneID="YaD-Yt-Mjd">
+            <objects>
+                <viewController storyboardIdentifier="SettingsViewController" id="YaR-Sc-Cjp" customClass="SettingsViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IXk-Td-VS8">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="acmelogo" translatesAutoresizingMaskIntoConstraints="NO" id="FE0-ng-akd">
+                                <rect key="frame" x="87" y="100" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="fve-12-Swv"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qLw-DR-ILF">
+                                <rect key="frame" x="40" y="236" width="334" height="55"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tenant URL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="37D-Jx-lSM">
+                                        <rect key="frame" x="0.0" y="0.0" width="334" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ots-lJ-k5d">
+                                        <rect key="frame" x="0.0" y="28.5" width="334" height="26.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" enablesReturnKeyAutomatically="YES"/>
+                                    </textField>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="kd6-eM-B4C"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="kd6-eM-B4C" firstAttribute="trailing" secondItem="FE0-ng-akd" secondAttribute="trailing" constant="87" id="4Ic-LB-OdX"/>
+                            <constraint firstItem="qLw-DR-ILF" firstAttribute="top" secondItem="FE0-ng-akd" secondAttribute="bottom" constant="8" symbolic="YES" id="5C8-EL-5ib"/>
+                            <constraint firstItem="FE0-ng-akd" firstAttribute="leading" secondItem="kd6-eM-B4C" secondAttribute="leading" constant="87" id="Gbc-Yt-PqW"/>
+                            <constraint firstItem="kd6-eM-B4C" firstAttribute="trailing" secondItem="qLw-DR-ILF" secondAttribute="trailing" constant="40" id="OiI-Yp-Mch"/>
+                            <constraint firstItem="FE0-ng-akd" firstAttribute="top" secondItem="kd6-eM-B4C" secondAttribute="top" constant="100" id="gBy-ty-jdh"/>
+                            <constraint firstItem="qLw-DR-ILF" firstAttribute="leading" secondItem="kd6-eM-B4C" secondAttribute="leading" constant="40" id="sDG-te-MLw"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="CyberArk Identity Sample" id="UWJ-iO-O6h"/>
+                    <connections>
+                        <outlet property="tenant_textfeild" destination="Ots-lJ-k5d" id="QPE-Mi-sCo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="M2X-bf-Wnk" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="771.01449275362324" y="-599.33035714285711"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="acmelogo" width="179.5" height="54.5"/>
+    </resources>
+</document>
