@@ -1,9 +1,18 @@
-//
-//  MFAChallengeClient.swift
-//  Identity
-//
-//  Created by Mallikarjuna Punuru on 12/10/21.
-//
+
+/* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
 import Foundation
 
@@ -13,12 +22,16 @@ import Foundation
 ///
  */
 protocol MFAChallengeClientProtocol {
-    /*
-    /// To get the device profile the device
+    /// To handle the MFA
     /// - Parameters:
-    ///   - endpoint: endpoint
-    ///   - completion: completion
-     */
+    ///   - accesstoken: accesstoken
+    ///   - baseURL: baseURL
+    ///   - isUserAccepted: isUserAccepted
+    ///   - otpCode: otpCode
+    ///   - optKeyVersion: optKeyVersion
+    ///   - otpCodeExpiryInterval: otpCodeExpiryInterval
+    ///   - oathProfileUuid: oathProfileUuid
+    ///   - otpTimestamp: otpTimestamp
     func handleMFAChallenge(from isAccepted: Bool, accesstoken: String, baseURL: String, challenge: String, completion: @escaping (Result<EnrollResponse?, APIError>) -> Void)
 }
 /*
@@ -44,13 +57,17 @@ class MFAChallengeClient: APIClient {
 }
 // MARK: - API Request calls
 extension MFAChallengeClient: MFAChallengeClientProtocol {
-    /*
-    /// To get the device profile the device
+    
+    /// To handle the MFA
     /// - Parameters:
     ///   - accesstoken: accesstoken
     ///   - baseURL: baseURL
-    ///   - completion: completion
-     */
+    ///   - isUserAccepted: isUserAccepted
+    ///   - otpCode: otpCode
+    ///   - optKeyVersion: optKeyVersion
+    ///   - otpCodeExpiryInterval: otpCodeExpiryInterval
+    ///   - oathProfileUuid: oathProfileUuid
+    ///   - otpTimestamp: otpTimestamp
     func handleMFAChallenge(from isAccepted: Bool, accesstoken: String, baseURL: String, challenge: String, completion: @escaping (Result<EnrollResponse?, APIError>) -> Void) {
         
         do {

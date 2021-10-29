@@ -60,7 +60,7 @@ public protocol AuthenticationViewModelProtocol {
     
     /// Handle Pushtoken
     /// - Parameter token: token description
-    func updatePushToken(token: Data)
+    func updatePushToken(token: Data, baseURL: String)
 
 }
 //MARK:- ViewModel
@@ -103,6 +103,7 @@ extension AuthenticationViewModel: AuthenticationViewModelProtocol {
     ///   - code: code
     ///   - pkce: pkce
     public func fetchAuthToken(code: String, pkce: AuthOPKCE?) {
+        
         
         do {
             try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.grantCode.rawValue, data: code.toData() ?? Data())
@@ -215,8 +216,9 @@ extension AuthenticationViewModel {
     /// - Parameters:
     ///   - code: code
     ///   - pkce: pkce
-    public func updatePushToken(token: Data) {
-        client.updateDeviceToken(with: token) { [weak self] result in
+    public func updatePushToken(token: Data, baseURL: String) {
+        
+        client.updateDeviceToken(with: token, baseURL: baseURL) { [weak self] result in
             switch result {
             case .success(let loginFeedResult):
                 guard let response = loginFeedResult else {

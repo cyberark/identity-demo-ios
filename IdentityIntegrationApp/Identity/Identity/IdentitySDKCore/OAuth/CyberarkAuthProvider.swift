@@ -68,7 +68,7 @@ public protocol CyberarkAuthProviderProtocol: class {
     
     /// To update the device token to the backend
     /// - Parameter token: token
-    func handlePushToken(token: Data)
+    func handlePushToken(token: Data, baseURL: String)
 }
 /*
 /// CyberarkAuthProvider
@@ -242,12 +242,8 @@ extension CyberarkAuthProvider {
 extension CyberarkAuthProvider {
     /// To update the device token to the backend
     /// - Parameter token: token
-    public func handlePushToken(token: Data){
-        viewModel?.updatePushToken(token: token)
-    }
-    /// To update the device token to the backend
-    /// - Parameter token: token
-    public func handleRemoteNotification(token: Data){
-        viewModel?.updatePushToken(token: token)
+    public func handlePushToken(token: Data, baseURL: String){
+        
+        viewModel?.updatePushToken(token: token, baseURL: baseURL)
     }
 }

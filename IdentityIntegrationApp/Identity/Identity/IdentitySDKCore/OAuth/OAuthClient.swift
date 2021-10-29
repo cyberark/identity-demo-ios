@@ -42,7 +42,7 @@ protocol OAuthClientProtocol {
     /// - Parameters:
     ///   - deviceToken: deviceToken
     ///   - completion: completion
-    func updateDeviceToken(with deviceToken: Data, completion: @escaping (Result<BaseAPIResponse?, APIError>) -> Void)
+    func updateDeviceToken(with deviceToken: Data, baseURL: String , completion: @escaping (Result<BaseAPIResponse?, APIError>) -> Void)
     
 
 }
@@ -101,8 +101,8 @@ extension OAuthClient: OAuthClientProtocol {
     /// - Parameters:
     ///   - deviceToken: deviceToken
     ///   - completion: completion
-    func updateDeviceToken(with deviceToken: Data, completion: @escaping (Result<BaseAPIResponse?, APIError>) -> Void){
-        let endpoint: Endpoint = PushTokenEndpoint(token: deviceToken).updateDeviceToken()
+    func updateDeviceToken(with deviceToken: Data, baseURL: String, completion: @escaping (Result<BaseAPIResponse?, APIError>) -> Void){
+        let endpoint: Endpoint = PushTokenEndpoint(token: deviceToken).updateDeviceToken(baseURL: baseURL)
         let request = endpoint.request
         fetch(with: request, decode: { json -> BaseAPIResponse? in
             guard let acccessToken = json as? BaseAPIResponse else { return  nil }

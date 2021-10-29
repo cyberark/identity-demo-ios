@@ -60,7 +60,6 @@
 		E24ECD79269C63B100C61EF5 /* URL+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD55269C63B100C61EF5 /* URL+Helper.swift */; };
 		E24ECD7B269C63B100C61EF5 /* String+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD57269C63B100C61EF5 /* String+Helper.swift */; };
 		E259CE652706E9D600F4E8C5 /* PushTokenEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E259CE642706E9D600F4E8C5 /* PushTokenEndpoint.swift */; };
-		E259CE6C2706EA0700F4E8C5 /* PushTokenClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E259CE6B2706EA0700F4E8C5 /* PushTokenClient.swift */; };
 		E25C431726C67FB800800764 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E25C431626C67FB800800764 /* Localizable.strings */; };
 		E25C431C26C69CAA00800764 /* Dictionary+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25C431B26C69CAA00800764 /* Dictionary+Helper.swift */; };
 		E25C433326CA4DF900800764 /* CyberarkAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25C433226CA4DF900800764 /* CyberarkAccount.swift */; };
@@ -160,7 +159,6 @@
 		E24ECD55269C63B100C61EF5 /* URL+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Helper.swift"; sourceTree = "<group>"; };
 		E24ECD57269C63B100C61EF5 /* String+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Helper.swift"; sourceTree = "<group>"; };
 		E259CE642706E9D600F4E8C5 /* PushTokenEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTokenEndpoint.swift; sourceTree = "<group>"; };
-		E259CE6B2706EA0700F4E8C5 /* PushTokenClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTokenClient.swift; sourceTree = "<group>"; };
 		E25C431626C67FB800800764 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E25C431B26C69CAA00800764 /* Dictionary+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Helper.swift"; sourceTree = "<group>"; };
 		E25C433226CA4DF900800764 /* CyberarkAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyberarkAccount.swift; sourceTree = "<group>"; };
@@ -372,7 +370,6 @@
 			isa = PBXGroup;
 			children = (
 				E259CE642706E9D600F4E8C5 /* PushTokenEndpoint.swift */,
-				E259CE6B2706EA0700F4E8C5 /* PushTokenClient.swift */,
 				E2EB52EE2715A18C00027FF8 /* MFAChallengeEndpoint.swift */,
 				E2EB52F02715A19A00027FF8 /* MFAChallengeClient.swift */,
 				E2EB52F42716C7C300027FF8 /* MFAProvider.swift */,
@@ -653,7 +650,6 @@
 				28352390269DADF100AE1BBB /* QRCodeAuthClient.swift in Sources */,
 				E27237E326C551AC00F748B8 /* EnrollDevice.swift in Sources */,
 				E24ECD63269C63B100C61EF5 /* OAuthClient.swift in Sources */,
-				E259CE6C2706EA0700F4E8C5 /* PushTokenClient.swift in Sources */,
 				E24ECD5B269C63B100C61EF5 /* AuthenticationViewModel.swift in Sources */,
 				E24ECD5D269C63B100C61EF5 /* IdentityAppInfo.swift in Sources */,
 				E24ECD67269C63B100C61EF5 /* APIClient.swift in Sources */,
