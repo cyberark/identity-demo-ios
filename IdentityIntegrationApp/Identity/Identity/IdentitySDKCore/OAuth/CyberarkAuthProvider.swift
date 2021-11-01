@@ -33,7 +33,7 @@ public var CyberArkAuthProvider: CyberarkAuthProvider {
 /// Shared instance
 ///
  */
-public protocol CyberarkAuthProviderProtocol: class {
+public protocol CyberarkAuthProviderProtocol {
     
     /// To login to the account
     /// - Parameter account: account

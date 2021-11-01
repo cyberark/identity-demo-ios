@@ -559,6 +559,8 @@ extension HomeViewController {
         }
         
         Notification.Name.rejectButton.onPost { [weak self] notification in
+            let info = notification.userInfo
+            self?.pushUserInfo = info ?? [AnyHashable : Any]()
             //self?.performChallengeby(isAccepted: false)
         }
         
