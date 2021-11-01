@@ -30,7 +30,7 @@ public func plistValues(bundle: Bundle, plistFileName: String) -> (clientId: Str
     }
     guard
         let clientId = values["clientid"] as? String,
-        let domain = values["domain"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String, let systemurl = values["systemurl"] as? String
+        let domain = values["domainoauth"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String, let systemurl = values["systemurl"] as? String
     else {
         print("IdentityConfiguration.plist file at \(path) is missing 'ClientId' and/or 'Domain' values!")
         return nil
