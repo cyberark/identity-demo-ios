@@ -395,7 +395,6 @@ extension HomeViewController {
             self.removeBlurrView()
         }
     }
-    
     func removePersistantStorage() {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)

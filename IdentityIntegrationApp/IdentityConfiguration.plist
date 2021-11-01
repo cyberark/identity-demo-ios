@@ -8,7 +8,7 @@
 	<string>Axis</string>
 	<key>clientsecret</key>
 	<string></string>
-	<key>domain</key>
+	<key>domainoauth</key>
 	<string>https://acme2.my.dev.idaptive.app</string>
 	<key>systemurl</key>
 	<string>https://aaj7617.my.dev.idaptive.app</string>
