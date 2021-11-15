@@ -517,7 +517,7 @@ extension HomeViewController {
     
     /// Navigate to login screen
     func navigateToLogin(){
-        let alertController = UIAlertController(title: "", message: "Refresh token is expired. You need to login again...", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "", message: "Refresh token is expired. You need to login again", preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in
             self.closeSession()
             //self.configureInitialScreen()

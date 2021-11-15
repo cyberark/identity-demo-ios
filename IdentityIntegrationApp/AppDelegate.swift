@@ -19,27 +19,26 @@ import Identity
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
-
-    var notificationcompletionHandler: CheckNotificationResult? = nil
-    private let categoryIdentifier = "MfaNotificationCategoryId"
-    private let backGroundCategoryIdentifier = "MfaNotificationBackgroundCategoryId"
-    private let kMfaNotificationApproveActionID = "MfaNotificationApproveActionId"
-    private let kMfaNotificationDenyActionID = "MfaNotificationDenyActionId"
-    private let kMfaNotificationBackgroundApproveActionID = "MfaNotificationBackgroundApproveActionId"
-    private let MfaNotificationBackgroundDenyActionId = "MfaNotificationBackgroundDenyActionId"
-
+    var window: UIWindow?
+    
     let mfaProvider = MFAChallengeProvider()
+    
+    var notificationcompletionHandler: CheckNotificationResult? = nil
+    
+    private let categoryIdentifier = "MfaNotificationCategoryId"
+        
+    private let kMfaNotificationApproveActionID = "MfaNotificationApproveActionId"
+    
+    private let kMfaNotificationDenyActionID = "MfaNotificationDenyActionId"
 
     private enum NotificationActionIdentifier: String {
         case accept = "MfaNotificationApproveActionId", reject = "MfaNotificationDenyActionId"
     }
-    var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         UNUserNotificationCenter.current().delegate = self
         addMFAObserver()
-
         return true
     }
     
@@ -91,7 +90,7 @@ extension AppDelegate {
             intentIdentifiers: [],options: .customDismissAction)
         
         
-        let accept_background = UNNotificationAction(
+        /*let accept_background = UNNotificationAction(
             identifier: kMfaNotificationBackgroundApproveActionID,
             title: "Approve")
         
@@ -102,10 +101,10 @@ extension AppDelegate {
         let backgroundCategory = UNNotificationCategory(
             identifier: backGroundCategoryIdentifier,
             actions: [accept_background, reject_background],
-            intentIdentifiers: [],options: .customDismissAction)
+            intentIdentifiers: [],options: .customDismissAction)*/
 
         UNUserNotificationCenter.current()
-            .setNotificationCategories([category, backgroundCategory])
+            .setNotificationCategories([category])
     }
     func application(
         _ application: UIApplication,
@@ -127,6 +126,12 @@ extension AppDelegate {
             Notification.Name.handleNotification.post(userInfo: userInfo)
         }
     }
+    /// Biometrics coud be invoked here
+    /// Developer can invoke the biomterics for the backend communication
+    /// - Parameters:
+    ///   - center:
+    ///   - response:
+    ///   - completionHandler: completionHandler description
     func userNotificationCenter(_ center: UNUserNotificationCenter,
            didReceive response: UNNotificationResponse,
            withCompletionHandler completionHandler:
@@ -137,15 +142,14 @@ extension AppDelegate {
             .request.content.categoryIdentifier
         let userInfo = response.notification.request.content.userInfo
 
-        guard identity == categoryIdentifier,
-              let action = NotificationActionIdentifier(rawValue: response.actionIdentifier) else {
+        guard identity == categoryIdentifier, let action = NotificationActionIdentifier(rawValue: response.actionIdentifier) else {
                   //if UIApplication.shared.applicationState == .active {
                       Notification.Name.handleNotification.post(userInfo: userInfo)
                         completionHandler()
                  // }
                   return
               }
-        
+        //
         switch action {
         case .accept:
             self.performChallengeby(isAccepted: true, userInfo: userInfo, withCompletionHandler:
@@ -161,6 +165,11 @@ extension AppDelegate {
 }
 extension AppDelegate {
     
+    /// To handle the push MFA
+    /// - Parameters:
+    ///   - isAccepted: Aprrove or Deny?
+    ///   - userInfo: user info
+    ///   - completionHandler: handler
     func performChallengeby(isAccepted: Bool, userInfo: [AnyHashable : Any]? = nil, withCompletionHandler completionHandler:
                             CheckNotificationResult? ){
         let userInfo = userInfo?["payload"] as! [AnyHashable: Any]
@@ -168,27 +177,27 @@ extension AppDelegate {
         let challenge =  info["ChallengeAnswer"]
         handleChallange(isAccepted: isAccepted, challenge: challenge as! String, withCompletionHandler: completionHandler)
     }
-    /// To approve the mfa the device
+    
+    /// To handle the push MFA
+    /// - Parameters:
+    ///   - isAccepted: Aprrove or Deny?
+    ///   - challenge: challenge
+    ///   - completionHandler: handler
     func handleChallange(isAccepted: Bool, challenge: String, withCompletionHandler completionHandler:
                          CheckNotificationResult?) {
-        do {
-            guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration")
-            else { return }
-            mfaProvider.handleMFAChallenge(isAccepted: isAccepted, challenge: challenge, baseURL: config.domain, withCompletionHandler: completionHandler)
-        } catch  {
-        }
+        guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration")
+        else { return }
+        mfaProvider.handleMFAChallenge(isAccepted: isAccepted, challenge: challenge, baseURL: config.domain, withCompletionHandler: completionHandler)
+        
     }
   
     /*
     ///
     /// Observer to get the enrollment status
-    /// Must call this method before calling the enroll api
+    /// Must call this method before calling the handleChallange api
     */
     func addMFAObserver(){
-        mfaProvider.didReceiveMFAApiResponse = { (result, accessToken) in
-            if result {
-            }else {
-            }
+        mfaProvider.didReceiveMFAApiResponse = { (result, message) in
             if let handler = self.notificationcompletionHandler {
                 handler()
             }

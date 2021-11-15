@@ -98,7 +98,7 @@ public class TOTPGenerator {
     }
     func getAlgorithmData() -> Data {
         
-        let period = TimeInterval(self.period ?? 60)
+        let period = TimeInterval(self.period ?? 30)
 
         var counter = UInt64(Date().timeIntervalSince1970 / period).bigEndian
 

@@ -46,7 +46,7 @@ class OAuthEndPointTests: XCTestCase {
     func test_Authorization_Endpoint() {
         let endpoint = mockEndPoint?.getAuthorizationEndpoint()
         XCTAssertNotNil(endpoint?.queryItems)
-        XCTAssertEqual(endpoint?.queryItems!.count, 6)
+        XCTAssertEqual(endpoint?.queryItems!.count, 7)
         XCTAssertEqual(endpoint?.queryItems?[0].value, OAuth2Header.code.rawValue)
         XCTAssertEqual(endpoint?.queryItems?[1].value, "clientId")
         XCTAssertEqual(endpoint?.queryItems?[2].value, "scope")

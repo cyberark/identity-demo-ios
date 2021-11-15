@@ -24,43 +24,12 @@ import UIKit
 */
 
 enum PushTokenHeader: String {
-    case pushtoken = "ClientPushToken"
-    case deviceid = "DeviceID"
-    case vendorUdid = "vendorUdid"
-    case pkgname = "pkgname"
-    case internaldevicetype = "InternalDeviceType"
-    case pSName = "OSName"
-    case modelName = "ModelName"
-    case modelNameLocalized = "ModelNameLocalized"
-    case userInterfaceIdiom = "UserInterfaceIdiom"
-    case MultitaskSupported = "MultitaskSupported"
-    case product = "Product"
-    case hwModel = "HWModel"
-    case platformType = "PlatformType"
-    case cPUFrequency = "CPUFrequency"
-    case busFrequency = "BusFrequency"
-    case cpuCount = "CPUCount"
-    case totalMemory = "TotalMemory"
-    case deviceCapacity = "DeviceCapacity"
-    case macAddress = "MACAddress"
-    case hasRetinaDisplay = "HasRetinaDisplay"
-    case deviceFamily = "DeviceFamily"
-    case deviceEnrollingReport = "DeviceEnrollingReport"
-    case corporateOwnedSetByUser = "CorporateOwnedSetByUser"
-
-    case jailbroken = "Jailbroken"
-    case versionCode = "VersionCode"
-    case versionName = "VersionName"
-    case mobileManagerVersion = "MobileManagerVersion"
     case name = "Name"
     case osVersion = "OSVersion"
-    case osBuild = "OSBuild"
-    
-    case vvailableDeviceCapacity = "AvailableDeviceCapacity"
-    case userMemory = "UserMemory"
-    case isAppLockedByAdmin = "IsAppLockedByAdmin"
-    case adminAppLockedReason = "AdminAppLockedReason"
-    case timeZone = "timeZone"
+    case pushtoken = "ClientPushToken"
+    case deviceid = "DeviceID"
+    case pkgname = "pkgname"
+
 }
 internal class PushTokenEndpoint {
     

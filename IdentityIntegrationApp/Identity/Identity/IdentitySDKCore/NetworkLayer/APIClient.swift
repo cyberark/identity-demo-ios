@@ -58,13 +58,13 @@ extension APIClient {
                 completion(nil, .requestFailed)
                 return
             }
-            debugPrint("httpResponse: \(httpResponse.debugDescription) \(response)")
+            //debugPrint("httpResponse: \(httpResponse.debugDescription) \(response)")
 
             if httpResponse.status! == .ok {
                
                 if let data = data {
                     do {
-                        debugPrint("Base URL: \(String(request.url?.absoluteString ?? "")) \r\n Request: \(String(data: request.httpBody ?? Data(), encoding: .utf8)) \r\n Response: \(String(data: data, encoding: .utf8) ?? "error")")
+                        //debugPrint("Base URL: \(String(request.url?.absoluteString ?? "")) \r\n Request: \(String(data: request.httpBody ?? Data(), encoding: .utf8)) \r\n Response: \(String(data: data, encoding: .utf8) ?? "error")")
                         let genericModel = try JSONDecoder().decode(decodingType, from: data)
                         completion(genericModel, nil)
                     } catch {
@@ -114,7 +114,7 @@ extension APIClient {
     
 }
 
-extension APIClient {
+/*extension APIClient {
     func handleCookies(data: Data?, response: URLResponse?, error:Error?) {
         guard
                let url = response?.url,
@@ -141,4 +141,4 @@ extension APIClient {
         }
     }
 }
-
+*/

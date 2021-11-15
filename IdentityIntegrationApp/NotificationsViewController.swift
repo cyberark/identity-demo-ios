@@ -110,15 +110,15 @@ extension NotificationsViewController {
   
     /*
     ///
-    /// Observer to get the enrollment status
+    /// Observer to get the MFA status
     /// Must call this method before calling the enroll api
     */
     func addMFAObserver(){
-        mfaProvider.didReceiveMFAApiResponse = { (result, accessToken) in
+        mfaProvider.didReceiveMFAApiResponse = { (result, message) in
             if result {
                 self.navigationController?.popViewController(animated: true)
             }else {
-                self.showAlert(message: accessToken)
+                self.showAlert(message: message)
             }
             self.activityIndicator.stopAnimating()
         }

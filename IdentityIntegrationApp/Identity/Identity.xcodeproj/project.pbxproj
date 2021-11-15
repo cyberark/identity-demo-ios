@@ -25,6 +25,7 @@
 		28B98B6426FDFEB700779445 /* DateHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B98B6326FDFEB700779445 /* DateHelperTests.swift */; };
 		28E483BF26F3673200A58546 /* CyberArkAuthProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28E483BE26F3673200A58546 /* CyberArkAuthProviderTests.swift */; };
 		28F9A85326F489F5002EA7EA /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD52269C63B100C61EF5 /* KeychainWrapper.swift */; };
+		E201F401273C12080025CB00 /* PushTokenEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E201F400273C12080025CB00 /* PushTokenEndpointTests.swift */; };
 		E204635E26DF759E00359236 /* UIColor+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E204635D26DF759E00359236 /* UIColor+Helper.swift */; };
 		E20CE28226FB022D005B717B /* JWTHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20CE28126FB022D005B717B /* JWTHelper.swift */; };
 		E22BC9D526AA938C00B3FD97 /* Device+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BC9D426AA938C00B3FD97 /* Device+Helper.swift */; };
@@ -71,6 +72,10 @@
 		E27237ED26C5673300F748B8 /* EnrollmentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27237EC26C5673300F748B8 /* EnrollmentProvider.swift */; };
 		E2778FEF26D7CCA400D84B1F /* EnrollmentEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2778FEE26D7CCA400D84B1F /* EnrollmentEndpointTests.swift */; };
 		E2778FF526D7CCB900D84B1F /* EnrollmentViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2778FF426D7CCB900D84B1F /* EnrollmentViewModelTests.swift */; };
+		E2B07063273B957100B62CF8 /* MFAChallendgeEndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B07062273B957100B62CF8 /* MFAChallendgeEndpointTests.swift */; };
+		E2B07069273B95EA00B62CF8 /* MFAChallengeClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B07068273B95EA00B62CF8 /* MFAChallengeClientTests.swift */; };
+		E2B0706F273B961E00B62CF8 /* MFAChallengeProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B0706E273B961E00B62CF8 /* MFAChallengeProviderTests.swift */; };
+		E2B07073273B965100B62CF8 /* MFAViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2B07072273B965100B62CF8 /* MFAViewModelTests.swift */; };
 		E2C199A52727DF1C00FD21BC /* TOTPGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C199A42727DF1C00FD21BC /* TOTPGenerator.swift */; };
 		E2C669CC26987AAF00E98544 /* Identity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2C669C226987AAF00E98544 /* Identity.framework */; };
 		E2C669D126987AAF00E98544 /* IdentityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C669D026987AAF00E98544 /* IdentityTests.swift */; };
@@ -124,6 +129,7 @@
 		28B98B6126FD9BAA00779445 /* StringsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringsTests.swift; sourceTree = "<group>"; };
 		28B98B6326FDFEB700779445 /* DateHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelperTests.swift; sourceTree = "<group>"; };
 		28E483BE26F3673200A58546 /* CyberArkAuthProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyberArkAuthProviderTests.swift; sourceTree = "<group>"; };
+		E201F400273C12080025CB00 /* PushTokenEndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTokenEndpointTests.swift; sourceTree = "<group>"; };
 		E204635D26DF759E00359236 /* UIColor+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Helper.swift"; sourceTree = "<group>"; };
 		E20CE28126FB022D005B717B /* JWTHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTHelper.swift; sourceTree = "<group>"; };
 		E22BC9D426AA938C00B3FD97 /* Device+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device+Helper.swift"; sourceTree = "<group>"; };
@@ -170,6 +176,10 @@
 		E27237EC26C5673300F748B8 /* EnrollmentProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentProvider.swift; sourceTree = "<group>"; };
 		E2778FEE26D7CCA400D84B1F /* EnrollmentEndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentEndpointTests.swift; sourceTree = "<group>"; };
 		E2778FF426D7CCB900D84B1F /* EnrollmentViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnrollmentViewModelTests.swift; sourceTree = "<group>"; };
+		E2B07062273B957100B62CF8 /* MFAChallendgeEndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFAChallendgeEndpointTests.swift; sourceTree = "<group>"; };
+		E2B07068273B95EA00B62CF8 /* MFAChallengeClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFAChallengeClientTests.swift; sourceTree = "<group>"; };
+		E2B0706E273B961E00B62CF8 /* MFAChallengeProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFAChallengeProviderTests.swift; sourceTree = "<group>"; };
+		E2B07072273B965100B62CF8 /* MFAViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFAViewModelTests.swift; sourceTree = "<group>"; };
 		E2C199A42727DF1C00FD21BC /* TOTPGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TOTPGenerator.swift; sourceTree = "<group>"; };
 		E2C669C226987AAF00E98544 /* Identity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Identity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2C669C526987AAF00E98544 /* Identity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Identity.h; sourceTree = "<group>"; };
@@ -413,6 +423,18 @@
 			path = OAuthTests;
 			sourceTree = "<group>";
 		};
+		E2B07061273B951D00B62CF8 /* PUSHMFATests */ = {
+			isa = PBXGroup;
+			children = (
+				E2B07062273B957100B62CF8 /* MFAChallendgeEndpointTests.swift */,
+				E2B07068273B95EA00B62CF8 /* MFAChallengeClientTests.swift */,
+				E2B0706E273B961E00B62CF8 /* MFAChallengeProviderTests.swift */,
+				E2B07072273B965100B62CF8 /* MFAViewModelTests.swift */,
+				E201F400273C12080025CB00 /* PushTokenEndpointTests.swift */,
+			);
+			path = PUSHMFATests;
+			sourceTree = "<group>";
+		};
 		E2C669B826987AAF00E98544 = {
 			isa = PBXGroup;
 			children = (
@@ -451,8 +473,9 @@
 				E28D0EE526BC05AB0005A245 /* OAuthTests */,
 				E2EFFF0D26C38997008EED7E /* BiometricTests */,
 				E2EFFF0826C3897E008EED7E /* QRAuthenticatorTests */,
-				E2C669D026987AAF00E98544 /* IdentityTests.swift */,
+				E2B07061273B951D00B62CF8 /* PUSHMFATests */,
 				E2C669D226987AAF00E98544 /* Info.plist */,
+				E2C669D026987AAF00E98544 /* IdentityTests.swift */,
 				E2C669C326987AAF00E98544 /* Products */,
 			);
 			path = IdentityTests;
@@ -714,21 +737,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2B07073273B965100B62CF8 /* MFAViewModelTests.swift in Sources */,
 				E2EFFF0126C2B855008EED7E /* OAuthEndPointTests.swift in Sources */,
 				E2C669D126987AAF00E98544 /* IdentityTests.swift in Sources */,
 				28F9A85326F489F5002EA7EA /* KeychainWrapper.swift in Sources */,
 				E2778FEF26D7CCA400D84B1F /* EnrollmentEndpointTests.swift in Sources */,
+				E2B07063273B957100B62CF8 /* MFAChallendgeEndpointTests.swift in Sources */,
 				28B98B6226FD9BAA00779445 /* StringsTests.swift in Sources */,
 				2899322D26A83AAF00DA4FE3 /* QRAuthEndPointTest.swift in Sources */,
 				285ADA9726B432B800417085 /* QRCodeReaderViewControllerTest.swift in Sources */,
 				28B98B6426FDFEB700779445 /* DateHelperTests.swift in Sources */,
 				282C846D26A5B0A9008C448C /* QRAuthViewModelTest.swift in Sources */,
 				28519BCC26B07003009F615D /* BiometricsAuthenticatorTest.swift in Sources */,
+				E201F401273C12080025CB00 /* PushTokenEndpointTests.swift in Sources */,
 				E2EFFF0526C2C3D8008EED7E /* AuthenticationViewModelTests.swift in Sources */,
 				285ADA9F26B4338700417085 /* MockCodeReader.swift in Sources */,
 				28E483BF26F3673200A58546 /* CyberArkAuthProviderTests.swift in Sources */,
 				285ADAA526B446D200417085 /* QRCodeReaderBuilderTest.swift in Sources */,
+				E2B07069273B95EA00B62CF8 /* MFAChallengeClientTests.swift in Sources */,
 				E2778FF526D7CCB900D84B1F /* EnrollmentViewModelTests.swift in Sources */,
+				E2B0706F273B961E00B62CF8 /* MFAChallengeProviderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

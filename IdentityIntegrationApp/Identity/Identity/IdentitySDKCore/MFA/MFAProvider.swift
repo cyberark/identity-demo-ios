@@ -45,7 +45,7 @@ public class MFAChallengeProvider: MFAProviderProtocol {
     public var didReceiveMFAApiResponse: ((Bool, String) -> Void)?
 
     //ViewModel
-    internal var viewModel: MFAViewModel?
+    var viewModel: MFAViewModel?
     
     /// initializers
     public init(){
