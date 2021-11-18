@@ -76,6 +76,7 @@ extension PushTokenEndpoint {
                 headers[HttpHeaderKeys.authorization.rawValue] = accessToken
             }
         } catch  {
+            debugPrint("error: \(error)")
         }
         
         let path = "/IosAppRest//UpdateDevSettings"

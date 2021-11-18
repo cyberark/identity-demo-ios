@@ -185,6 +185,7 @@ extension CyberarkAuthProvider {
             }
             viewmodel()?.sendRefreshToken(code: code, refreshToken: refreshToken, pkce: self.pkce)
         } catch  {
+            debugPrint("error: \(error)")
         }
     }
     public func dismiss(){

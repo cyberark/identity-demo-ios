@@ -55,7 +55,7 @@ class AuthenticationViewModelTests: XCTestCase {
             let data = "grantCode".toData() ?? Data()
             try keyChain.save(key: KeyChainStorageKeys.grantCode.rawValue, data: data)
         } catch {
-            print("Unexpected error: \(error)")
+            debugPrint("error: \(error)")
         }
     }
     func testFetchAuthToken_Success() {

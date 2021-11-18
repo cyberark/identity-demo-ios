@@ -67,12 +67,7 @@ extension SceneDelegate {
     ///   - URLContexts: context
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         for context in URLContexts {
-            do {
-                process(with: context.url)
-            } catch let error {
-                print("Unable to read file.")
-                print(error)
-            }
+            process(with: context.url)
         }
     }
     

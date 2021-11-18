@@ -169,7 +169,7 @@ extension HomeViewController {
             QR_button.setTitle("QR Code Authenticator", for: .normal)
             
         } else {
-            QR_button.setTitle("Opt in for QR Code Authenticator", for: .normal)
+            QR_button.setTitle("Opt in for MFA", for: .normal)
         }
     }
     @objc func launchBiomtericsOnForeground() {
@@ -404,15 +404,11 @@ extension HomeViewController {
     
     /// To setup the root view controller
     func configureInitialScreen() {
-        do {
-            let story = UIStoryboard(name: "Main", bundle:nil)
-            var vc: UIViewController = UIViewController()
-            vc = story.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-            let navController = UINavigationController.init(rootViewController: vc)
-            self.window?.rootViewController = navController
-        } catch{
-            print("Unexpected error: \(error)")
-        }
+        let story = UIStoryboard(name: "Main", bundle:nil)
+        var vc: UIViewController = UIViewController()
+        vc = story.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        let navController = UINavigationController.init(rootViewController: vc)
+        self.window?.rootViewController = navController
     }
     
     /// To enroll the device
@@ -539,7 +535,7 @@ extension HomeViewController {
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.refreshToken.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.access_token_expiresIn.rawValue)
         } catch {
-           // debugPrint("operation error")
+            debugPrint("error: \(error)")
         }
     }
 }

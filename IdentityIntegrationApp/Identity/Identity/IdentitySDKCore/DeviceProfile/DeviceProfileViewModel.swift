@@ -118,7 +118,7 @@ extension DeviceProfileViewModel {
             }
 
         } catch {
-            print("Unexpected error: \(error)")
+            debugPrint("error: \(error)")
         }
         
     }

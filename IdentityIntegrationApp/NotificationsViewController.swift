@@ -101,17 +101,14 @@ extension NotificationsViewController {
     /// To approve the mfa the device
     func handleChallange(isAccepted: Bool, challenge: String) {
         activityIndicator.startAnimating()
-        do {
-            guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
-            mfaProvider.handleMFAChallenge(isAccepted: isAccepted, challenge: challenge, baseURL: config.domain, withCompletionHandler: nil)
-        } catch  {
-        }
+        guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
+        mfaProvider.handleMFAChallenge(isAccepted: isAccepted, challenge: challenge, baseURL: config.domain, withCompletionHandler: nil)
     }
   
     /*
     ///
     /// Observer to get the MFA status
-    /// Must call this method before calling the enroll api
+    /// Must call this method before calling the MFA api
     */
     func addMFAObserver(){
         mfaProvider.didReceiveMFAApiResponse = { (result, message) in

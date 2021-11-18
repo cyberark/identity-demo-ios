@@ -89,6 +89,7 @@ extension ProfileEndpoint {
                 headers[HttpHeaderKeys.authorization.rawValue] = accessToken
             }
         } catch  {
+            print("Unexpected error: \(error)")
         }
         
         let path = "/IosAppRest/OtpEnroll"

@@ -126,11 +126,11 @@ extension AppDelegate {
             Notification.Name.handleNotification.post(userInfo: userInfo)
         }
     }
-    /// Biometrics coud be invoked here
+    /// Biometrics coud be invoked here to advanced authentication
     /// Developer can invoke the biomterics for the backend communication
     /// - Parameters:
-    ///   - center:
-    ///   - response:
+    ///   - center: center
+    ///   - response: response
     ///   - completionHandler: completionHandler description
     func userNotificationCenter(_ center: UNUserNotificationCenter,
            didReceive response: UNNotificationResponse,
@@ -193,7 +193,7 @@ extension AppDelegate {
   
     /*
     ///
-    /// Observer to get the enrollment status
+    /// Observer to get the MFA status
     /// Must call this method before calling the handleChallange api
     */
     func addMFAObserver(){

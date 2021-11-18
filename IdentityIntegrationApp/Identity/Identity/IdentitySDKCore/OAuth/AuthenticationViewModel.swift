@@ -204,7 +204,7 @@ extension AuthenticationViewModel {
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_SecretKey_version.rawValue)
             
         } catch {
-            //debugPrint("operation error")
+            debugPrint("error: \(error)")
         }
     }
 }

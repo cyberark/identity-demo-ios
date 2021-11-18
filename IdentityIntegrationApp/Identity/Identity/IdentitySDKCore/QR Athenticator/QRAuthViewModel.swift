@@ -80,6 +80,7 @@ extension QRAuthViewModel: QRAuthViewModelProtocol {
             }
             
         } catch  {
+            debugPrint("error: \(error)")
         }
     }
 }

@@ -78,6 +78,7 @@ extension MFAChallengeEndpoint {
                 headers[HttpHeaderKeys.authorization.rawValue] = accessToken
             }
         } catch  {
+            debugPrint("error: \(error)")
         }
         
         let path = "/IosAppRest//SubmitOtpCode"

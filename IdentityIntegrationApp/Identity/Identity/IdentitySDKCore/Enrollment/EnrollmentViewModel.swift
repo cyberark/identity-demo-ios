@@ -88,7 +88,7 @@ extension EnrollmentViewModel: EnrollmentViewModelProtocol {
                 }
             }
         } catch {
-            print("Unexpected error: \(error)")
+            debugPrint("error: \(error)")
         }
         
     }
