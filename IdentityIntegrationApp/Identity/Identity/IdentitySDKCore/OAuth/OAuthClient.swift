@@ -36,6 +36,15 @@ protocol OAuthClientProtocol {
     ///   - refreshToken: refreshToken
     ///   - completion: completion
     func fetchRefreshToken(with pkce: AuthOPKCE, code: String, refreshToken: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void)
+    
+    /// To update the Device token
+    /// for handling the push notifications
+    /// - Parameters:
+    ///   - deviceToken: deviceToken
+    ///   - completion: completion
+    func updateDeviceToken(with deviceToken: Data, baseURL: String , completion: @escaping (Result<BaseAPIResponse?, APIError>) -> Void)
+    
+
 }
 
 class OAuthClient: APIClient {
@@ -57,6 +66,7 @@ class OAuthClient: APIClient {
 }
 // MARK: - API Request calls
 extension OAuthClient: OAuthClientProtocol {
+    
     
     /// To fetch the access tokn
     /// - Parameters:
@@ -82,6 +92,20 @@ extension OAuthClient: OAuthClientProtocol {
         let request = endpoint.request
         fetch(with: request, decode: { json -> AccessToken? in
             guard let acccessToken = json as? AccessToken else { return  nil }
+            return acccessToken
+        }, completion: completion)
+    }
+    
+    /// To update the Device token
+    /// for handling the push notifications
+    /// - Parameters:
+    ///   - deviceToken: deviceToken
+    ///   - completion: completion
+    func updateDeviceToken(with deviceToken: Data, baseURL: String, completion: @escaping (Result<BaseAPIResponse?, APIError>) -> Void){
+        let endpoint: Endpoint = PushTokenEndpoint(token: deviceToken).updateDeviceToken(baseURL: baseURL)
+        let request = endpoint.request
+        fetch(with: request, decode: { json -> BaseAPIResponse? in
+            guard let acccessToken = json as? BaseAPIResponse else { return  nil }
             return acccessToken
         }, completion: completion)
     }

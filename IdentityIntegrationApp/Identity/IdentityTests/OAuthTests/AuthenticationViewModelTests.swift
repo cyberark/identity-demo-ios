@@ -55,7 +55,7 @@ class AuthenticationViewModelTests: XCTestCase {
             let data = "grantCode".toData() ?? Data()
             try keyChain.save(key: KeyChainStorageKeys.grantCode.rawValue, data: data)
         } catch {
-            print("Unexpected error: \(error)")
+            debugPrint("error: \(error)")
         }
     }
     func testFetchAuthToken_Success() {
@@ -76,16 +76,7 @@ class AuthenticationViewModelTests: XCTestCase {
     
 }
 class MockAuthViewModelApiService: OAuthClientProtocol {
-    func fetchAccessToken(from pkce: AuthOPKCE, code: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {
-        accessTokenCompletionClosure = completion
-    }
-    
-    func fetchRefreshToken(with pkce: AuthOPKCE, code: String, refreshToken: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {
-        
-    }
-    
-    
-    
+   
     public var didReceiveAccessToken: ((Bool,String) -> Void)?
     
     public var didReceiveRefreshToken: ((Bool, String) -> Void)?
@@ -110,6 +101,18 @@ class MockAuthViewModelApiService: OAuthClientProtocol {
         
     }
 
+    func fetchAccessToken(from pkce: AuthOPKCE, code: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {
+        accessTokenCompletionClosure = completion
+    }
+    
+    func fetchRefreshToken(with pkce: AuthOPKCE, code: String, refreshToken: String, completion: @escaping (Result<AccessToken?, APIError>) -> Void) {
+        
+    }
+    
+    func updateDeviceToken(with deviceToken: Data, baseURL: String, completion: @escaping (Result<BaseAPIResponse?, APIError>) -> Void) {
+        
+    }
+    
     func fetchSuccess() {
         if let handler = didReceiveAccessToken {
             handler(true, "")

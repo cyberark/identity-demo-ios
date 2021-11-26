@@ -18,6 +18,9 @@
 		E24ECDD7269C663C00C61EF5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E24ECDD6269C663C00C61EF5 /* Assets.xcassets */; };
 		E24ECDDA269C663C00C61EF5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E24ECDD8269C663C00C61EF5 /* LaunchScreen.storyboard */; };
 		E24ECDF0269C668C00C61EF5 /* IdentityConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = E24ECDEF269C668C00C61EF5 /* IdentityConfiguration.plist */; };
+		E2AD8A74270F09ED00F554B1 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AD8A73270F09ED00F554B1 /* NotificationsViewController.swift */; };
+		E2EB52E7271051D000027FF8 /* MFANotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EB52E5271051D000027FF8 /* MFANotificationTableViewCell.swift */; };
+		E2EB52E8271051D000027FF8 /* MFANotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2EB52E6271051D000027FF8 /* MFANotificationTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +68,9 @@
 		E24ECDD9269C663C00C61EF5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E24ECDDB269C663C00C61EF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E24ECDEF269C668C00C61EF5 /* IdentityConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = IdentityConfiguration.plist; sourceTree = "<group>"; };
+		E2AD8A73270F09ED00F554B1 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
+		E2EB52E5271051D000027FF8 /* MFANotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFANotificationTableViewCell.swift; sourceTree = "<group>"; };
+		E2EB52E6271051D000027FF8 /* MFANotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MFANotificationTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +121,9 @@
 				E24ECDD1269C663B00C61EF5 /* ViewController.swift */,
 				E231411526A550F000741657 /* HomeViewController.swift */,
 				E204635926DE2A8500359236 /* SettingsViewController.swift */,
+				E2AD8A73270F09ED00F554B1 /* NotificationsViewController.swift */,
+				E2EB52E5271051D000027FF8 /* MFANotificationTableViewCell.swift */,
+				E2EB52E6271051D000027FF8 /* MFANotificationTableViewCell.xib */,
 				E24ECDD3269C663B00C61EF5 /* Main.storyboard */,
 				E24ECDD6269C663C00C61EF5 /* Assets.xcassets */,
 				E24ECDD8269C663C00C61EF5 /* LaunchScreen.storyboard */,
@@ -212,6 +221,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2EB52E8271051D000027FF8 /* MFANotificationTableViewCell.xib in Resources */,
 				E24ECDDA269C663C00C61EF5 /* LaunchScreen.storyboard in Resources */,
 				E24ECDD7269C663C00C61EF5 /* Assets.xcassets in Resources */,
 				E24ECDD5269C663B00C61EF5 /* Main.storyboard in Resources */,
@@ -229,8 +239,10 @@
 				E24ECDD2269C663B00C61EF5 /* ViewController.swift in Sources */,
 				E24ECDCE269C663B00C61EF5 /* AppDelegate.swift in Sources */,
 				E24ECDD0269C663B00C61EF5 /* SceneDelegate.swift in Sources */,
+				E2AD8A74270F09ED00F554B1 /* NotificationsViewController.swift in Sources */,
 				E204635A26DE2A8500359236 /* SettingsViewController.swift in Sources */,
 				E231411626A550F000741657 /* HomeViewController.swift in Sources */,
+				E2EB52E7271051D000027FF8 /* MFANotificationTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -387,6 +399,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 20.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cyberark.Identity.CyberArkIdentitySample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = DEV_CIAMSDKSample;
@@ -410,6 +423,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 20.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.cyberark.Identity.CyberArkIdentitySample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = DEV_CIAMSDKSample;

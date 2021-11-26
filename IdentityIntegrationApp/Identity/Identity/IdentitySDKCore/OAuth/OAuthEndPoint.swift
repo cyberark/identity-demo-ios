@@ -82,7 +82,7 @@ internal class OAuthEndPoint {
         
         guard
             let clientId = values["clientid"] as? String,
-            let domain = values["domainautho"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String
+            let domain = values["domainoauth"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String
         else {
             print("IdentityConfiguration.plist file at \(path) is missing 'ClientId' and/or 'Domain' values!")
             return
@@ -103,17 +103,17 @@ extension OAuthEndPoint {
     /// - Returns: Endpoint
     func getAuthorizationEndpoint() -> Endpoint {
         let parameters: [String: String] = [:]
-    
+        
         let queryItems = [URLQueryItem(name: OAuth2Header.responseType.rawValue, value: OAuth2Header.code.rawValue),
                           URLQueryItem(name: OAuth2Header.clientId.rawValue, value: self.clientId),
                           URLQueryItem(name: OAuth2Header.scope.rawValue, value: self.scope),
                           URLQueryItem(name: OAuth2Header.redirecUri.rawValue, value: self.redirectUri),
                           URLQueryItem(name: OAuth2Header.codeChallenge.rawValue, value: self.pkce?.challenge),
                           URLQueryItem(name: OAuth2Header.codeChallengeMethod.rawValue, value: self.pkce?.method),             URLQueryItem(name: OAuth2Header.nozso.rawValue, value: "true")]
-                        
+        
         let headers: [String: String] = [:]
         let path = "/oauth2/authorize/\(applicationID ?? "")"
-
+        
         if let body = try? JSONSerialization.data(withJSONObject: parameters) {
             return Endpoint(path:path, httpMethod: .get, headers: headers, body: body, queryItems: queryItems, dataType: .JSON, base: self.domain!)
         }

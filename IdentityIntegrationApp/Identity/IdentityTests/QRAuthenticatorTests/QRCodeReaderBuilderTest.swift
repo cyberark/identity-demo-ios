@@ -162,7 +162,7 @@ class QRCodeReaderBuilderTest: XCTestCase {
         do {
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)
         } catch {
-            print("Unexpected error: \(error)")
+            debugPrint("error: \(error)")
         }
     }
 }

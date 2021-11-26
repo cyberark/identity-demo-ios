@@ -45,6 +45,12 @@ class HomeViewController: UIViewController {
     let builder = QRAuthenticationProvider()
     
     let enrollProvider = EnrollmentProvider()
+    
+    let mfaProvider = MFAChallengeProvider()
+
+    private let notificationsSegueIdentifier = "NotificationsSegueIdentifier"
+    
+    private var pushUserInfo = [AnyHashable : Any]()
 
 }
 //MARK:- Viewlife cycle
@@ -92,6 +98,7 @@ extension HomeViewController {
         }
         
         isFromEnrollORQRCode = false;
+        addListenersForNotification()
     }
     
     /// Button handlers
@@ -162,7 +169,7 @@ extension HomeViewController {
             QR_button.setTitle("QR Code Authenticator", for: .normal)
             
         } else {
-            QR_button.setTitle("Opt in for QR Code Authenticator", for: .normal)
+            QR_button.setTitle("Opt in for MFA", for: .normal)
         }
     }
     @objc func launchBiomtericsOnForeground() {
@@ -273,7 +280,7 @@ extension HomeViewController {
                 }
             }
         } else if (isAcessTokenExpired) {
-            let alertController = UIAlertController(title: "Unauthorized access", message: "Seems like the current session is expired. Please click on OK to get the new access token...", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "", message: "Access token is expired. Would you like get new Access Token using refresh token?", preferredStyle: .alert)
             let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in
                 self.getRefreshToken()
             })
@@ -337,7 +344,6 @@ extension HomeViewController {
     
     /// configure enrollment
     func configureEnrollment() {
-        
         if UserDefaults.standard.bool(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue) {
             scanQRCode()
         } else {
@@ -361,7 +367,7 @@ extension HomeViewController {
     /// Remove  all the data which is persisted locally
     func closeSession() {
         removePersistantStorage()
-        guard let config = plistValues(bundle: Bundle.main) else { return }
+        guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
         guard let account =  CyberArkAuthProvider.webAuth()?
                 .set(clientId: config.clientId)
                 .set(domain: config.domain)
@@ -381,33 +387,13 @@ extension HomeViewController {
             if result {
                 DispatchQueue.main.async {
                     self.dismiss(animated: true) {
+                        self.appDelegate.unregisterPushNotifications()
                         self.configureInitialScreen()
                     }
                 }
             }
             self.removeBlurrView()
         }
-    }
-    
-    /// To read from the plist
-    /// - Parameter bundle: bundle
-    /// - Returns: configuration
-    func plistValues(bundle: Bundle) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logouturi: String,systemurl: String)? {
-        guard
-            let path = bundle.path(forResource: "IdentityConfiguration", ofType: "plist"),
-            let values = NSDictionary(contentsOfFile: path) as? [String: Any]
-        else {
-            print("Missing CIAMConfiguration.plist file with 'ClientId' and 'Domain' entries in main bundle!")
-            return nil
-        }
-        guard
-            let clientId = values["clientid"] as? String,
-            let domain = values["domainautho"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String, let systemurl = values["systemurl"] as? String
-        else {
-            print("IdentityConfiguration.plist file at \(path) is missing 'ClientId' and/or 'Domain' values!")
-            return nil
-        }
-        return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, threshold: threshold, applicationID: applicationID, logouturi: logouturi, systemurl: systemurl)
     }
     func removePersistantStorage() {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
@@ -418,15 +404,11 @@ extension HomeViewController {
     
     /// To setup the root view controller
     func configureInitialScreen() {
-        do {
-            let story = UIStoryboard(name: "Main", bundle:nil)
-            var vc: UIViewController = UIViewController()
-            vc = story.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-            let navController = UINavigationController.init(rootViewController: vc)
-            self.window?.rootViewController = navController
-        } catch{
-            print("Unexpected error: \(error)")
-        }
+        let story = UIStoryboard(name: "Main", bundle:nil)
+        var vc: UIViewController = UIViewController()
+        vc = story.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        let navController = UINavigationController.init(rootViewController: vc)
+        self.window?.rootViewController = navController
     }
     
     /// To enroll the device
@@ -434,7 +416,7 @@ extension HomeViewController {
         activityIndicator.startAnimating()
 
         do {
-            guard let config = plistValues(bundle: Bundle.main) else { return }
+            guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
 
             guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.grantCode.rawValue), let code = data.toString() , let refreshTokenData = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.refreshToken.rawValue),let refreshToken = refreshTokenData.toString() else {
                 return
@@ -453,6 +435,7 @@ extension HomeViewController {
         enrollProvider.didReceiveEnrollmentApiResponse = { (result, accessToken) in
             if result {
                 self.configureEnrollButton()
+                self.appDelegate.registerPushNotifications()
             }else {
                 self.showAlert(message: accessToken)
             }
@@ -530,7 +513,7 @@ extension HomeViewController {
     
     /// Navigate to login screen
     func navigateToLogin(){
-        let alertController = UIAlertController(title: "Unauthorized access", message: "Seems like the current session is expired. Please login again to continue...", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "", message: "Refresh token is expired. You need to login again", preferredStyle: .alert)
         let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in
             self.closeSession()
             //self.configureInitialScreen()
@@ -552,7 +535,7 @@ extension HomeViewController {
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.refreshToken.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.access_token_expiresIn.rawValue)
         } catch {
-           // debugPrint("operation error")
+            debugPrint("error: \(error)")
         }
     }
 }
@@ -563,11 +546,64 @@ extension HomeViewController {
     // Accept and Reject handlers
     */
     func addListenersForNotification(){
-        Notification.Name.acceptButton.onPost { [weak self] _ in
+        
+        Notification.Name.acceptButton.onPost { [weak self] notification in
+            let info = notification.userInfo
+            self?.pushUserInfo = info ?? [AnyHashable : Any]()
+            //self?.performChallengeby(isAccepted: true)
         }
         
-        Notification.Name.rejectButton.onPost { [weak self] _ in
+        Notification.Name.rejectButton.onPost { [weak self] notification in
+            let info = notification.userInfo
+            self?.pushUserInfo = info ?? [AnyHashable : Any]()
+            //self?.performChallengeby(isAccepted: false)
+        }
+        
+        Notification.Name.handleNotification.onPost { [weak self] notification in
+            let info = notification.userInfo
+            self?.pushUserInfo = info ?? [AnyHashable : Any]()
+            self?.navigateToNotifications()
         }
     }
     
+}
+
+//MARK:- Navigation
+extension HomeViewController {
+    /*
+    // Observers for the notifications
+    // Accept and Reject handlers
+    */
+    func navigateToNotifications(){
+        var ispresent = false
+        if let viewControllers = navigationController?.viewControllers {
+            for viewController in viewControllers {
+                if viewController.isKind(of: NotificationsViewController.self) {
+                    ispresent = true
+                    let controller = viewController as! NotificationsViewController
+                    controller.pushUserInfo = pushUserInfo
+                    controller.reloadNotifications()
+                    break
+                }
+            }
+        }
+        if(!ispresent) {
+            self.performSegue(withIdentifier: notificationsSegueIdentifier, sender: self)
+        }
+    }
+    func addRightBar() {
+        let image = UIImage(named: "notification_icon")?.withRenderingMode(.alwaysOriginal)
+        let rightButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rightButtonAction(sender:)))
+        rightButtonItem.tintColor = .white
+        self.navigationItem.rightBarButtonItem = rightButtonItem
+    }
+    @objc func rightButtonAction(sender: UIBarButtonItem){
+        navigateToNotifications()
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == notificationsSegueIdentifier {
+            let destinationController = segue.destination as! NotificationsViewController
+            destinationController.pushUserInfo = pushUserInfo
+        }
+    }
 }

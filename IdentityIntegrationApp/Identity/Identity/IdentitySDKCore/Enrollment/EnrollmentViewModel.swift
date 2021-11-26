@@ -52,10 +52,13 @@ internal protocol EnrollmentViewModelProtocol {
         }
     }
     
+     let deviceProfileProvider = DeviceProfileProvider()
+
     /// Initializer
     /// - Parameter apiClient: apiClient 
     init(apiClient: EnrollmentClientProtocol = EnrollmentClient()) {
         self.client = apiClient
+        addDeviceProfileObserver()
     }
 }
 //MARK:- AuthenticationViewModelProtocol implementation
@@ -78,14 +81,40 @@ extension EnrollmentViewModel: EnrollmentViewModelProtocol {
                     }
                     UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue)
                     self?.enrollResponse = response
+                    self?.getDeviceProfile()
                 case .failure(let error):
                     self?.didReceiveEnrollmentApiResponse!(false, "unable to enroll the device")
                     print("the error \(error)")
                 }
             }
         } catch {
-            print("Unexpected error: \(error)")
+            debugPrint("error: \(error)")
         }
         
+    }
+    
+    /// To get the device profile
+    func getDeviceProfile() {
+        do {
+            guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
+
+            guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.grantCode.rawValue), let code = data.toString() , let refreshTokenData = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.refreshToken.rawValue),let refreshToken = refreshTokenData.toString() else {
+                return
+            }
+            deviceProfileProvider.getDeviceProfile(baseURL: config.domain)
+            
+        } catch  {
+        }
+    }
+    /*
+    ///
+    /// Observer to get the enrollment status
+    /// Must call this method before calling the enroll api
+    */
+    func addDeviceProfileObserver(){
+        deviceProfileProvider.didReceiveProfileApiResponse = { (result, accessToken) in
+            if result {
+            }
+        }
     }
 }

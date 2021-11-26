@@ -15,19 +15,30 @@
  */
 
 import UIKit
-
+import Identity
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
-    private let categoryIdentifier = "AcceptOrReject"
-    
-    private enum ActionIdentifier: String {
-        case accept, reject
-    }
     var window: UIWindow?
+    
+    let mfaProvider = MFAChallengeProvider()
+    
+    var notificationcompletionHandler: CheckNotificationResult? = nil
+    
+    private let categoryIdentifier = "MfaNotificationCategoryId"
+        
+    private let kMfaNotificationApproveActionID = "MfaNotificationApproveActionId"
+    
+    private let kMfaNotificationDenyActionID = "MfaNotificationDenyActionId"
+
+    private enum NotificationActionIdentifier: String {
+        case accept = "MfaNotificationApproveActionId", reject = "MfaNotificationDenyActionId"
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        UNUserNotificationCenter.current().delegate = self
+        addMFAObserver()
         return true
     }
     
@@ -48,60 +59,158 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate {
-    
+    func registerPushNotifications() {
+        let application = UIApplication.shared
+        UNUserNotificationCenter.current().requestAuthorization(options: [
+            .badge, .sound, .alert
+        ]) { granted, _ in
+            guard granted else { return }
+            self.registerCustomActions()
+            DispatchQueue.main.async {
+                application.registerForRemoteNotifications()
+            }
+        }
+    }
+    func unregisterPushNotifications() {
+        let application = UIApplication.shared
+        application.unregisterForRemoteNotifications()
+    }
     private func registerCustomActions() {
         let accept = UNNotificationAction(
-            identifier: ActionIdentifier.accept.rawValue,
-            title: "Accept")
+            identifier: kMfaNotificationApproveActionID,
+            title: "Approve",options: UNNotificationActionOptions(rawValue: 0))
         
         let reject = UNNotificationAction(
-            identifier: ActionIdentifier.reject.rawValue,
-            title: "Reject")
+            identifier: kMfaNotificationDenyActionID,
+            title: "Deny",options: UNNotificationActionOptions(rawValue: 0))
         
         let category = UNNotificationCategory(
             identifier: categoryIdentifier,
             actions: [accept, reject],
-            intentIdentifiers: [])
+            intentIdentifiers: [],options: .customDismissAction)
         
+        
+        /*let accept_background = UNNotificationAction(
+            identifier: kMfaNotificationBackgroundApproveActionID,
+            title: "Approve")
+        
+        let reject_background = UNNotificationAction(
+            identifier: kMfaNotificationBackgroundApproveActionID,
+            title: "Deny")
+        
+        let backgroundCategory = UNNotificationCategory(
+            identifier: backGroundCategoryIdentifier,
+            actions: [accept_background, reject_background],
+            intentIdentifiers: [],options: .customDismissAction)*/
+
         UNUserNotificationCenter.current()
             .setNotificationCategories([category])
     }
     func application(
         _ application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken
-            deviceToken: Data) {
-        
-        registerCustomActions()
+        deviceToken: Data) {
+            guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
+
+            CyberArkAuthProvider.handlePushToken(token: deviceToken, baseURL: config.domain)
+            //registerCustomActions()
+        }
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if UIApplication.shared.applicationState == .active {
+            Notification.Name.handleNotification.post(userInfo: userInfo)
+        }
     }
-    func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse,
-        withCompletionHandler completionHandler: @escaping () -> Void) {
-        defer { completionHandler() }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        if UIApplication.shared.applicationState == .active {
+            let userInfo = notification.request.content.userInfo
+            Notification.Name.handleNotification.post(userInfo: userInfo)
+        }
+    }
+    /// Biometrics coud be invoked here to advanced authentication
+    /// Developer can invoke the biomterics for the backend communication
+    /// - Parameters:
+    ///   - center: center
+    ///   - response: response
+    ///   - completionHandler: completionHandler description
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+           didReceive response: UNNotificationResponse,
+           withCompletionHandler completionHandler:
+                                @escaping () -> Void) {
         
+        notificationcompletionHandler = completionHandler
         let identity = response.notification
             .request.content.categoryIdentifier
-        guard identity == categoryIdentifier,
-              let action = ActionIdentifier(rawValue: response.actionIdentifier) else {
-            return
-        }
         let userInfo = response.notification.request.content.userInfo
-        
+
+        guard identity == categoryIdentifier, let action = NotificationActionIdentifier(rawValue: response.actionIdentifier) else {
+                  //if UIApplication.shared.applicationState == .active {
+                      Notification.Name.handleNotification.post(userInfo: userInfo)
+                        completionHandler()
+                 // }
+                  return
+              }
+        //
         switch action {
         case .accept:
-            Notification.Name.acceptButton.post(userInfo: userInfo)
+            self.performChallengeby(isAccepted: true, userInfo: userInfo, withCompletionHandler:
+                                        nil)
+            //Notification.Name.acceptButton.post(userInfo: userInfo)
         case .reject:
-            Notification.Name.rejectButton.post(userInfo: userInfo)
+            self.performChallengeby(isAccepted: false, userInfo: userInfo, withCompletionHandler:
+                                        nil)
+            //Notification.Name.rejectButton.post(userInfo: userInfo)
         }
-        print("You pressed \(response.actionIdentifier)")
+        
     }
 }
+extension AppDelegate {
+    
+    /// To handle the push MFA
+    /// - Parameters:
+    ///   - isAccepted: Aprrove or Deny?
+    ///   - userInfo: user info
+    ///   - completionHandler: handler
+    func performChallengeby(isAccepted: Bool, userInfo: [AnyHashable : Any]? = nil, withCompletionHandler completionHandler:
+                            CheckNotificationResult? ){
+        let userInfo = userInfo?["payload"] as! [AnyHashable: Any]
+        let info = userInfo["Options"] as! [AnyHashable: Any]
+        let challenge =  info["ChallengeAnswer"]
+        handleChallange(isAccepted: isAccepted, challenge: challenge as! String, withCompletionHandler: completionHandler)
+    }
+    
+    /// To handle the push MFA
+    /// - Parameters:
+    ///   - isAccepted: Aprrove or Deny?
+    ///   - challenge: challenge
+    ///   - completionHandler: handler
+    func handleChallange(isAccepted: Bool, challenge: String, withCompletionHandler completionHandler:
+                         CheckNotificationResult?) {
+        guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration")
+        else { return }
+        mfaProvider.handleMFAChallenge(isAccepted: isAccepted, challenge: challenge, baseURL: config.domain, withCompletionHandler: completionHandler)
+        
+    }
+  
+    /*
+    ///
+    /// Observer to get the MFA status
+    /// Must call this method before calling the handleChallange api
+    */
+    func addMFAObserver(){
+        mfaProvider.didReceiveMFAApiResponse = { (result, message) in
+            if let handler = self.notificationcompletionHandler {
+                handler()
+            }
+        }
+    }
+}
+
 extension Notification.Name {
-    // 1
+
+    static let handleNotification = Notification.Name("handleNotification")
     static let acceptButton = Notification.Name("acceptTapped")
     static let rejectButton = Notification.Name("rejectTapped")
     
-    // 2
     func post(
         center: NotificationCenter = NotificationCenter.default,
         object: Any? = nil,
@@ -110,7 +219,6 @@ extension Notification.Name {
         center.post(name: self, object: object, userInfo: userInfo)
     }
     
-    // 3
     @discardableResult
     func onPost(
         center: NotificationCenter = NotificationCenter.default,

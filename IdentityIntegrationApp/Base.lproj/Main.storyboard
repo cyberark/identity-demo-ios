@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--CyberArk Identity Sample-->
+        <!--Login-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" userLabel="Login" customClass="ViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -66,10 +66,10 @@
             </objects>
             <point key="canvasLocation" x="789.85507246376812" y="69.642857142857139"/>
         </scene>
-        <!--CyberArk Identity Sample-->
+        <!--Home-->
         <scene sceneID="CtB-5G-rrn">
             <objects>
-                <viewController storyboardIdentifier="HomeViewController" id="kMM-q3-Uhg" customClass="HomeViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeViewController" id="kMM-q3-Uhg" userLabel="Home" customClass="HomeViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YeJ-3w-amo">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -172,11 +172,12 @@
                         <outlet property="appLaunch_switch" destination="kL9-BG-OYU" id="Y7r-cU-Iv2"/>
                         <outlet property="enroll_button" destination="Nkr-kt-nEv" id="zVn-70-Eq4"/>
                         <outlet property="logout_button" destination="rws-De-Qwn" id="G7t-Sv-CLz"/>
+                        <segue destination="gvM-kx-yyi" kind="show" identifier="NotificationsSegueIdentifier" id="ii1-fK-TEU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UnQ-6Q-UNq" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1740.5797101449277" y="69.642857142857139"/>
+            <point key="canvasLocation" x="1872" y="70"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bc2-xw-bqx">
@@ -201,10 +202,10 @@
             </objects>
             <point key="canvasLocation" x="18.840579710144929" y="69.642857142857139"/>
         </scene>
-        <!--CyberArk Identity Sample-->
+        <!--Settings-->
         <scene sceneID="YaD-Yt-Mjd">
             <objects>
-                <viewController storyboardIdentifier="SettingsViewController" id="YaR-Sc-Cjp" customClass="SettingsViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" id="YaR-Sc-Cjp" userLabel="Settings" customClass="SettingsViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IXk-Td-VS8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -251,6 +252,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2X-bf-Wnk" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="771.01449275362324" y="-599.33035714285711"/>
+        </scene>
+        <!--Notifications-->
+        <scene sceneID="E22-e1-lWe">
+            <objects>
+                <viewController storyboardIdentifier="NotificationsViewController" id="gvM-kx-yyi" userLabel="Notifications" customClass="NotificationsViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MBN-oH-BPz">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dGp-IK-aTM">
+                                <rect key="frame" x="30" y="80" width="354" height="669"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <sections/>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ivE-3D-lSp"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="dGp-IK-aTM" firstAttribute="top" secondItem="ivE-3D-lSp" secondAttribute="top" constant="80" id="LLL-WT-j7l"/>
+                            <constraint firstItem="ivE-3D-lSp" firstAttribute="trailing" secondItem="dGp-IK-aTM" secondAttribute="trailing" constant="30" id="djB-KT-exf"/>
+                            <constraint firstItem="dGp-IK-aTM" firstAttribute="leading" secondItem="ivE-3D-lSp" secondAttribute="leading" constant="30" id="hBk-EA-46B"/>
+                            <constraint firstItem="ivE-3D-lSp" firstAttribute="bottom" secondItem="dGp-IK-aTM" secondAttribute="bottom" constant="25" id="wmK-FZ-Xk9"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="CyberArk Identity Sample" id="2se-FQ-6iO"/>
+                    <connections>
+                        <outlet property="tableView" destination="dGp-IK-aTM" id="xzH-do-fZC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wEn-hj-XH7" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2582.608695652174" y="69.642857142857139"/>
         </scene>
     </scenes>
     <resources>

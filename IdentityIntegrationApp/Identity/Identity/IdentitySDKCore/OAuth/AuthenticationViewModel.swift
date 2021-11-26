@@ -56,6 +56,12 @@ public protocol AuthenticationViewModelProtocol {
     ///   - code: code
     ///   - pkce: pkce
     func fetchAuthToken(code: String, pkce: AuthOPKCE?)
+    
+    
+    /// Handle Pushtoken
+    /// - Parameter token: token description
+    func updatePushToken(token: Data, baseURL: String)
+
 }
 //MARK:- ViewModel
 /*
@@ -97,6 +103,7 @@ extension AuthenticationViewModel: AuthenticationViewModelProtocol {
     ///   - code: code
     ///   - pkce: pkce
     public func fetchAuthToken(code: String, pkce: AuthOPKCE?) {
+        
         
         do {
             try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.grantCode.rawValue, data: code.toData() ?? Data())
@@ -185,8 +192,45 @@ extension AuthenticationViewModel {
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.refreshToken.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.access_token_expiresIn.rawValue)
+            
+            
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_SecretKey.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_SecretKey.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_Period.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_uuid.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_Digits.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_Counter.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.refreshToken.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.profile_SecretKey_version.rawValue)
+            
         } catch {
-            //debugPrint("operation error")
+            debugPrint("error: \(error)")
         }
     }
 }
+//MARK:- Push token implementation
+/// To send the refresh token
+extension AuthenticationViewModel {
+
+    /// To close the current session
+    /// - Parameters:
+    ///   - code: code
+    ///   - pkce: pkce
+    public func updatePushToken(token: Data, baseURL: String) {
+        
+        client.updateDeviceToken(with: token, baseURL: baseURL) { [weak self] result in
+            switch result {
+            case .success(let loginFeedResult):
+                guard let response = loginFeedResult else {
+                    //self?.didReceiveRefreshToken!(false, "unable to fecth accesstoken", nil)
+                    return
+                }
+                //self?.refreshTokenResponse = response
+            case .failure(let error):
+                //self?.didReceiveRefreshToken!(false, "unable to fecth accesstoken", nil)
+                print("the error \(error)")
+            }
+        }
+    }
+}
+

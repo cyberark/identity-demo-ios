@@ -1,10 +1,18 @@
-//
-//  DeviceProfileViewModel.swift
-//  Identity
-//
-//  Created by Mallikarjuna Punuru on 13/10/21.
-//
 
+/* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 import Foundation
 /*
 /// EnrollmentViewModelProtocol
@@ -39,7 +47,7 @@ internal class DeviceProfileViewModel {
     var didReceiveProfileApiResponse: ((Bool, String) -> Void)?
 
     ///EnrollResponse
-    var enrollResponse: EnrollResponse? {
+    var deviceProfileResponse: DeviceProfileInfo? {
         didSet {
             self.didReceiveProfileApiResponse!(true, "")
         }
@@ -68,8 +76,8 @@ extension DeviceProfileViewModel: DeviceProfileViewModelProtocol {
                         self?.didReceiveProfileApiResponse!(false, "unable to enroll the device")
                         return
                     }
-                    UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue)
-                    self?.enrollResponse = response
+                    self?.deviceProfileResponse = response
+                    self?.save()
                 case .failure(let error):
                     self?.didReceiveProfileApiResponse!(false, "unable to enroll the device")
                     print("the error \(error)")
@@ -82,3 +90,36 @@ extension DeviceProfileViewModel: DeviceProfileViewModelProtocol {
     }
 }
 
+extension DeviceProfileViewModel {
+    /// Save the required parameters to the kaychain
+    ///
+    internal func save() {
+        do {
+            if let algorithm = self.deviceProfileResponse?.info?.hmacAlgorithm {
+                try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.profile_HmacAlgorithm.rawValue, data: Data(from: algorithm) )
+            }
+            if let period = self.deviceProfileResponse?.info?.period {
+                try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.profile_Period.rawValue, data: Data(from: period))
+            }
+            if let secretkey = self.deviceProfileResponse?.info?.secretKey {
+                try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.profile_SecretKey.rawValue, data:  secretkey.toData() ?? Data())
+            }
+            if let secretkeyVersion = self.deviceProfileResponse?.info?.secretVersion {
+                try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.profile_SecretKey_version.rawValue, data: Data.init(from: secretkeyVersion))
+            }
+            if let digits = self.deviceProfileResponse?.info?.digits {
+                try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.profile_Digits.rawValue, data: Data.init(from: digits))
+            }
+            if let counter = self.deviceProfileResponse?.info?.counter {
+                try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.profile_Counter.rawValue, data: Data.init(from: counter))
+            }
+            if let oathProfileUuid = self.deviceProfileResponse?.info?.oathProfileUuid {
+                try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.profile_uuid.rawValue, data: oathProfileUuid.toData() ?? Data())
+            }
+
+        } catch {
+            debugPrint("error: \(error)")
+        }
+        
+    }
+}

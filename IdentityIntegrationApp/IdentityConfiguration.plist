@@ -5,15 +5,15 @@
 	<key>domainopenid</key>
 	<string></string>
 	<key>clientid</key>
-	<string>Axis</string>
+	<string>acme</string>
 	<key>clientsecret</key>
 	<string></string>
-	<key>domainautho</key>
-	<string>https://acme2.my.dev.idaptive.app</string>
+	<key>domainoauth</key>
+	<string>https://auth.cyberarklab.com</string>
 	<key>systemurl</key>
-	<string>https://aaj7617.my.dev.idaptive.app</string>
+	<string>https://aak7455.my.dev.idaptive.app</string>
 	<key>applicationid</key>
-	<string>OAuthTest</string>
+	<string>devtestoauth</string>
 	<key>redirecturi</key>
 	<string>ciamsdkdemo://com.cyberark.ciamsdk</string>
 	<key>scope</key>

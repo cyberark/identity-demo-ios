@@ -1,15 +1,25 @@
-//
-//  MFAChallengeEndpoint.swift
-//  Identity
-//
-//  Created by Mallikarjuna Punuru on 12/10/21.
-//
+
+/* Copyright (c) 2021 CyberArk Software Ltd. All rights reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
 
 import Foundation
 
 /*
 /// This class constructs the URL Request
-/// Push token
+/// MFA Challenge Header
 ///
 */
 
@@ -29,13 +39,20 @@ internal class MFAChallengeEndpoint {
     }
 }
 extension MFAChallengeEndpoint {
-    
-    /// To get the Refresh token
+        
+    /// To handle the MFA
     /// - Parameters:
-    ///   - code: code
-    ///   - refreshToken: Refresh token
+    ///   - accesstoken: accesstoken
+    ///   - baseURL: baseURL
+    ///   - isUserAccepted: isUserAccepted
+    ///   - otpCode: otpCode
+    ///   - optKeyVersion: optKeyVersion
+    ///   - otpCodeExpiryInterval: otpCodeExpiryInterval
+    ///   - oathProfileUuid: oathProfileUuid
+    ///   - otpTimestamp: otpTimestamp
+    ///   - challengeAnswer: challengeAnswer
     /// - Returns: Endpoint
-    func getMFAChallengeEndpoint(accesstoken: String, baseURL: String, isUserAccepted: Bool, otpCode: String, optKeyVersion: String, otpCodeExpiryInterval: String, oathProfileUuid: String, otpTimestamp: String, challengeAnswer: String) -> Endpoint {
+    func getMFAChallengeEndpoint(accesstoken: String, baseURL: String, isUserAccepted: Bool, otpCode: String, optKeyVersion: Int, otpCodeExpiryInterval: String, oathProfileUuid: String, otpTimestamp: Int, challengeAnswer: String) -> Endpoint {
                 
         let post = [
             MFAChallengeHeader.otpCode.rawValue: otpCode,
@@ -45,7 +62,7 @@ extension MFAChallengeEndpoint {
             MFAChallengeHeader.oathProfileUuid.rawValue: oathProfileUuid,
             MFAChallengeHeader.otpTimestamp.rawValue: otpTimestamp,
             MFAChallengeHeader.challengeAnswer.rawValue: challengeAnswer
-        ]
+        ] as [String : Any]
         
         let jsonData = post.jsonData
         
@@ -61,9 +78,10 @@ extension MFAChallengeEndpoint {
                 headers[HttpHeaderKeys.authorization.rawValue] = accessToken
             }
         } catch  {
+            debugPrint("error: \(error)")
         }
         
-        let path = "/SubmitOtpCode"
+        let path = "/IosAppRest//SubmitOtpCode"
         return Endpoint(path:path, httpMethod: .post, headers: headers, body: jsonData, queryItems: queryItems, dataType: .JSON, base: baseURL)
     }
 }

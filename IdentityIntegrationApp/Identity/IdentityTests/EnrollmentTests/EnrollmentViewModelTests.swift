@@ -43,7 +43,7 @@ class EnrollmentViewModelTests: XCTestCase {
             let keyChain = KeyChainWrapper.standard
             try keyChain.delete(key: KeyChainStorageKeys.grantCode.rawValue)
         } catch {
-            print("Unexpected error: \(error)")
+            debugPrint("error: \(error)")
         }
     }
     
@@ -53,7 +53,7 @@ class EnrollmentViewModelTests: XCTestCase {
             let data = "grantCode".toData() ?? Data()
             try keyChain.save(key: KeyChainStorageKeys.grantCode.rawValue, data: data)
         } catch {
-            print("Unexpected error: \(error)")
+            debugPrint("error: \(error)")
         }
     }
 
