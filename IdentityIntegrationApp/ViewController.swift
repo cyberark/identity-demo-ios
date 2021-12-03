@@ -58,7 +58,7 @@ extension ViewController {
         registerCell()
         addObserver()
         addLogoutObserver()
-        //addRightBar()
+        addRightBar()
     }
     func registerCell() {
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")

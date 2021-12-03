@@ -20,20 +20,25 @@ public enum UserDefaultsKeys: String {
     case isBiometricOnAppLaunchEnabled       = "isEnabledBiometricOnAppLaunch"
     case isBiometricWhenAccessTokenExpiresEnabled       = "isEnabledBiometricOnAccessTokenExpires"
 }
-public func plistValues(bundle: Bundle, plistFileName: String) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logouturi: String,systemurl: String)? {
-    guard
-        let path = bundle.path(forResource: plistFileName, ofType: "plist"),
-        let values = NSDictionary(contentsOfFile: path) as? [String: Any]
-    else {
+public func plistValues(bundle: Bundle, plistFileName: String) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, applicationID: String, systemurl: String, responseType: String)? {
+    var values: [String: Any] = [String: Any]()
+
+    if UserDefaults.standard.getDict(key: "OAuthConfig") != nil {
+        values = UserDefaults.standard.getDict(key: "OAuthConfig") ?? [String: Any]()
+    } else if let path = bundle.path(forResource: plistFileName, ofType: "plist"),
+              let info = NSDictionary(contentsOfFile: path) as? [String: Any] {
+        values = info
+    } else {
         print("Missing CIAMConfiguration.plist file with 'ClientId' and 'Domain' entries in main bundle!")
         return nil
+
     }
     guard
         let clientId = values["clientid"] as? String,
-        let domain = values["domainoauth"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String, let systemurl = values["systemurl"] as? String
+        let domain = values["domainoauth"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let applicationID = values["applicationid"] as? String, let systemurl = values["systemurl"] as? String, let responsetype = values["responsetype"] as? String
     else {
-        print("IdentityConfiguration.plist file at \(path) is missing 'ClientId' and/or 'Domain' values!")
+        print("IdentityConfiguration.plist file at \(bundle.path(forResource: plistFileName, ofType: "plist")) is missing 'ClientId' and/or 'Domain' values!")
         return nil
     }
-    return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, threshold: threshold, applicationID: applicationID, logouturi: logouturi, systemurl: systemurl)
+    return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, applicationID: applicationID, systemurl: systemurl, responseType: responsetype)
 }

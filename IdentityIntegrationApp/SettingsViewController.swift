@@ -18,23 +18,55 @@ import UIKit
 import Identity
 
 class SettingsViewController: UIViewController, UITextFieldDelegate {
+    
     @IBOutlet weak var tenant_textfeild: UITextField!
+    @IBOutlet weak var systemURL_textfeild: UITextField!
+    @IBOutlet weak var clientID_textfeild: UITextField!
+    @IBOutlet weak var appID_textfeild: UITextField!
+    @IBOutlet weak var responseType_textfeild: UITextField!
+    @IBOutlet weak var scope_textfeild: UITextField!
+    @IBOutlet weak var redirectURI_textfeild: UITextField!
+    @IBOutlet weak var widgetID_textfeild: UITextField!
 
+    @IBOutlet weak var scrollView: UIScrollView!
     override func viewDidLoad() {
         super.viewDidLoad()
         config()
-        tenant_textfeild.delegate = self
-        addDoneButtonOnKeyboard(textFeild: tenant_textfeild)
+        setupTextFeilds()
+        addKeyboardObservers()
+        addDoneBarButtonItem()
     }
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        removeKeyboardObservers()
+    }
 }
 extension SettingsViewController {
     func config(){
         guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
         tenant_textfeild.text = config.domain
+        systemURL_textfeild.text = config.systemurl
+        clientID_textfeild.text = config.clientId
+        appID_textfeild.text = config.applicationID
+        scope_textfeild.text = config.scope
+        redirectURI_textfeild.text = config.redirectUri
+        responseType_textfeild.text = config.responseType
     }
 }
 extension SettingsViewController {
+    func setupTextFeilds(){
+        addDoneButtonOnKeyboard(textFeild: tenant_textfeild)
+        addDoneButtonOnKeyboard(textFeild: systemURL_textfeild)
+        addDoneButtonOnKeyboard(textFeild: clientID_textfeild)
+        addDoneButtonOnKeyboard(textFeild: appID_textfeild)
+        addDoneButtonOnKeyboard(textFeild: responseType_textfeild)
+        addDoneButtonOnKeyboard(textFeild: scope_textfeild)
+        addDoneButtonOnKeyboard(textFeild: redirectURI_textfeild)
+        addDoneButtonOnKeyboard(textFeild: widgetID_textfeild)
+    }
     func addDoneButtonOnKeyboard(textFeild: UITextField){
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
         doneToolbar.barStyle = .default
@@ -44,6 +76,7 @@ extension SettingsViewController {
         doneToolbar.items = items
         doneToolbar.sizeToFit()
         textFeild.inputAccessoryView = doneToolbar
+        tenant_textfeild.delegate = self
     }
     
     @objc func doneButtonAction(){
@@ -54,23 +87,52 @@ extension SettingsViewController {
                 if (!urlString.lowercased().hasPrefix("http://") || !urlString.lowercased().hasPrefix("https://")) {
                     url = "https://\(url)"
                 }
-                //updatePlist(domain: url)
-                tenant_textfeild.resignFirstResponder()
             } else {
                 showAlert(message: "Please provide valid url...")
             }
         }
+        self.view.endEditing(true)
+
     }
-    /*func updatePlist(domain: String){
-        guard
-            let path = Bundle.main.path(forResource: "IdentityConfiguration", ofType: "plist"),
-            var values = NSDictionary(contentsOfFile: path) as? [String: Any]
-        else {
-            print("Missing CIAMConfiguration.plist file with 'ClientId' and 'Domain' entries in main bundle!")
-            return
-        }
-        values["domainautho"] = domain
-        values.writeToFile(path, atomically: true)
-    }*/
+    func addDoneBarButtonItem() {
+        let rightButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(done(sender:)))
+        rightButtonItem.tintColor = .white
+        self.navigationItem.rightBarButtonItem = rightButtonItem
+    }
+    @objc func done(sender: UIBarButtonItem){
+        var info = [String: Any]()
+        info["clientid"] = clientID_textfeild.text
+        info["domainoauth"] = tenant_textfeild.text
+        info["systemurl"] = systemURL_textfeild.text
+        info["applicationid"] = appID_textfeild.text
+        info["redirecturi"] = redirectURI_textfeild.text
+        info["scope"] = scope_textfeild.text
+        info["responsetype"] = responseType_textfeild.text
+        UserDefaults.standard.setDict(dict: info, for: "OAuthConfig")
+        self.navigationController?.popViewController(animated: true)
+    }
     
+}
+extension SettingsViewController {
+    func addKeyboardObservers(){
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    func removeKeyboardObservers() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: self.view.window)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: self.view.window)
+    }
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        if self.view.frame.origin.y != 0 {
+            self.view.frame.origin.y = 0
+        }
+    }
 }

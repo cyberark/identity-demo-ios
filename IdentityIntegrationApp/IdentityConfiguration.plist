@@ -2,12 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>domainopenid</key>
-	<string></string>
 	<key>clientid</key>
 	<string>acme</string>
-	<key>clientsecret</key>
-	<string></string>
 	<key>domainoauth</key>
 	<string>https://auth.cyberarklab.com</string>
 	<key>systemurl</key>
@@ -18,11 +14,9 @@
 	<string>ciamsdkdemo://com.cyberark.ciamsdk</string>
 	<key>scope</key>
 	<string>All</string>
-	<key>threshold</key>
-	<integer>60</integer>
 	<key>responsetype</key>
 	<string>code</string>
-	<key>logouturi</key>
-	<string>identitysdklogout://com.cyberark.identity</string>
+	<key>threshold</key>
+	<integer>60</integer>
 </dict>
 </plist>

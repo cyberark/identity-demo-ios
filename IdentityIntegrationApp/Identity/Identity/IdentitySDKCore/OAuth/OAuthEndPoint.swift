@@ -72,28 +72,14 @@ internal class OAuthEndPoint {
     /// To get the configured values
     /// 
     func config()  {
-        guard
-            let path = Bundle.main.path(forResource: "IdentityConfiguration", ofType: "plist"),
-            let values = NSDictionary(contentsOfFile: path) as? [String: Any]
-        else {
-            print("Seems like IdentityConfiguration.plist file is missing in the main bundle!")
-            return
-        }
-        
-        guard
-            let clientId = values["clientid"] as? String,
-            let domain = values["domainoauth"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let threshold = values["threshold"] as? Int, let applicationID = values["applicationid"] as? String, let logouturi = values["logouturi"] as? String
-        else {
-            print("IdentityConfiguration.plist file at \(path) is missing 'ClientId' and/or 'Domain' values!")
-            return
-        }
-        self.clientId = clientId
-        self.domain = domain
-        self.scope = scope
-        self.redirectUri = redirectUri
-        self.threshold = threshold
-        self.applicationID = applicationID
-        self.logoutUri = applicationID
+        guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
+        self.clientId = config.clientId
+        self.domain = config.domain
+        self.scope = config.scope
+        self.redirectUri = config.redirectUri
+        self.threshold = 60
+        self.applicationID = config.applicationID
+        self.logoutUri = config.applicationID
 
     }
 }
