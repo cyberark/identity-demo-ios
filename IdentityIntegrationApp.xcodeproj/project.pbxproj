@@ -10,6 +10,8 @@
 		2874EA1126B7EB2D005D64C4 /* Identity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2874EA0C26B7EB0E005D64C4 /* Identity.framework */; };
 		2874EA1226B7EB2D005D64C4 /* Identity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2874EA0C26B7EB0E005D64C4 /* Identity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E204635A26DE2A8500359236 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E204635926DE2A8500359236 /* SettingsViewController.swift */; };
+		E22BC4952760D8D400ABDFA8 /* CustomPopUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E22BC4932760D8D400ABDFA8 /* CustomPopUpViewController.xib */; };
+		E22BC4982760D8F200ABDFA8 /* CustomPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BC4972760D8F200ABDFA8 /* CustomPopUpViewController.swift */; };
 		E231411626A550F000741657 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231411526A550F000741657 /* HomeViewController.swift */; };
 		E24ECDCE269C663B00C61EF5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECDCD269C663B00C61EF5 /* AppDelegate.swift */; };
 		E24ECDD0269C663B00C61EF5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECDCF269C663B00C61EF5 /* SceneDelegate.swift */; };
@@ -21,6 +23,10 @@
 		E2AD8A74270F09ED00F554B1 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AD8A73270F09ED00F554B1 /* NotificationsViewController.swift */; };
 		E2EB52E7271051D000027FF8 /* MFANotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EB52E5271051D000027FF8 /* MFANotificationTableViewCell.swift */; };
 		E2EB52E8271051D000027FF8 /* MFANotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2EB52E6271051D000027FF8 /* MFANotificationTableViewCell.xib */; };
+		E2F4F8592760908B00237A91 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4F8582760908B00237A91 /* WelcomeViewController.swift */; };
+		E2F4F85E2760A69900237A91 /* LoginTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4F85C2760A69900237A91 /* LoginTypeTableViewCell.swift */; };
+		E2F4F85F2760A69900237A91 /* LoginTypeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2F4F85D2760A69900237A91 /* LoginTypeTableViewCell.xib */; };
+		E2F4F8612760B2E100237A91 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F4F8602760B2E100237A91 /* CardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +63,8 @@
 /* Begin PBXFileReference section */
 		2874EA0626B7EB0D005D64C4 /* Identity.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Identity.xcodeproj; path = Identity/Identity.xcodeproj; sourceTree = "<group>"; };
 		E204635926DE2A8500359236 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		E22BC4932760D8D400ABDFA8 /* CustomPopUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomPopUpViewController.xib; sourceTree = "<group>"; };
+		E22BC4972760D8F200ABDFA8 /* CustomPopUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPopUpViewController.swift; sourceTree = "<group>"; };
 		E231411526A550F000741657 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E2414FAF269EFF7F00230041 /* IdentityIntegrationApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = IdentityIntegrationApp.entitlements; sourceTree = "<group>"; };
 		E24ECDCA269C663A00C61EF5 /* IdentityIntegrationApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IdentityIntegrationApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +79,10 @@
 		E2AD8A73270F09ED00F554B1 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		E2EB52E5271051D000027FF8 /* MFANotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFANotificationTableViewCell.swift; sourceTree = "<group>"; };
 		E2EB52E6271051D000027FF8 /* MFANotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MFANotificationTableViewCell.xib; sourceTree = "<group>"; };
+		E2F4F8582760908B00237A91 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		E2F4F85C2760A69900237A91 /* LoginTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTypeTableViewCell.swift; sourceTree = "<group>"; };
+		E2F4F85D2760A69900237A91 /* LoginTypeTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginTypeTableViewCell.xib; sourceTree = "<group>"; };
+		E2F4F8602760B2E100237A91 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +104,24 @@
 				2874EA0E26B7EB0E005D64C4 /* IdentityTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E22BC48E2760D84600ABDFA8 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				E2F4F85C2760A69900237A91 /* LoginTypeTableViewCell.swift */,
+				E2F4F85D2760A69900237A91 /* LoginTypeTableViewCell.xib */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		E22BC4922760D8AC00ABDFA8 /* Others */ = {
+			isa = PBXGroup;
+			children = (
+				E22BC4972760D8F200ABDFA8 /* CustomPopUpViewController.swift */,
+				E22BC4932760D8D400ABDFA8 /* CustomPopUpViewController.xib */,
+			);
+			path = Others;
 			sourceTree = "<group>";
 		};
 		E24ECDC1269C663A00C61EF5 = {
@@ -121,9 +151,13 @@
 				E24ECDD1269C663B00C61EF5 /* ViewController.swift */,
 				E231411526A550F000741657 /* HomeViewController.swift */,
 				E204635926DE2A8500359236 /* SettingsViewController.swift */,
+				E2F4F8582760908B00237A91 /* WelcomeViewController.swift */,
 				E2AD8A73270F09ED00F554B1 /* NotificationsViewController.swift */,
 				E2EB52E5271051D000027FF8 /* MFANotificationTableViewCell.swift */,
 				E2EB52E6271051D000027FF8 /* MFANotificationTableViewCell.xib */,
+				E22BC48E2760D84600ABDFA8 /* Login */,
+				E22BC4922760D8AC00ABDFA8 /* Others */,
+				E2F4F8602760B2E100237A91 /* CardView.swift */,
 				E24ECDD3269C663B00C61EF5 /* Main.storyboard */,
 				E24ECDD6269C663C00C61EF5 /* Assets.xcassets */,
 				E24ECDD8269C663C00C61EF5 /* LaunchScreen.storyboard */,
@@ -222,10 +256,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2EB52E8271051D000027FF8 /* MFANotificationTableViewCell.xib in Resources */,
+				E2F4F85F2760A69900237A91 /* LoginTypeTableViewCell.xib in Resources */,
 				E24ECDDA269C663C00C61EF5 /* LaunchScreen.storyboard in Resources */,
 				E24ECDD7269C663C00C61EF5 /* Assets.xcassets in Resources */,
 				E24ECDD5269C663B00C61EF5 /* Main.storyboard in Resources */,
 				E24ECDF0269C668C00C61EF5 /* IdentityConfiguration.plist in Resources */,
+				E22BC4952760D8D400ABDFA8 /* CustomPopUpViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,9 +272,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E22BC4982760D8F200ABDFA8 /* CustomPopUpViewController.swift in Sources */,
 				E24ECDD2269C663B00C61EF5 /* ViewController.swift in Sources */,
+				E2F4F8592760908B00237A91 /* WelcomeViewController.swift in Sources */,
 				E24ECDCE269C663B00C61EF5 /* AppDelegate.swift in Sources */,
 				E24ECDD0269C663B00C61EF5 /* SceneDelegate.swift in Sources */,
+				E2F4F8612760B2E100237A91 /* CardView.swift in Sources */,
+				E2F4F85E2760A69900237A91 /* LoginTypeTableViewCell.swift in Sources */,
 				E2AD8A74270F09ED00F554B1 /* NotificationsViewController.swift in Sources */,
 				E204635A26DE2A8500359236 /* SettingsViewController.swift in Sources */,
 				E231411626A550F000741657 /* HomeViewController.swift in Sources */,

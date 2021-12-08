@@ -27,6 +27,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var scope_textfeild: UITextField!
     @IBOutlet weak var redirectURI_textfeild: UITextField!
     @IBOutlet weak var widgetID_textfeild: UITextField!
+    var activeField: UITextField?
 
     @IBOutlet weak var scrollView: UIScrollView!
     override func viewDidLoad() {
@@ -54,6 +55,10 @@ extension SettingsViewController {
         scope_textfeild.text = config.scope
         redirectURI_textfeild.text = config.redirectUri
         responseType_textfeild.text = config.responseType
+        scope_textfeild.isEnabled = false
+        responseType_textfeild.isEnabled = false
+        scope_textfeild.backgroundColor = .lightGray
+        responseType_textfeild.backgroundColor = .lightGray
     }
 }
 extension SettingsViewController {
@@ -76,6 +81,7 @@ extension SettingsViewController {
         doneToolbar.items = items
         doneToolbar.sizeToFit()
         textFeild.inputAccessoryView = doneToolbar
+        textFeild.autocorrectionType = .no
         tenant_textfeild.delegate = self
     }
     
@@ -100,18 +106,32 @@ extension SettingsViewController {
         self.navigationItem.rightBarButtonItem = rightButtonItem
     }
     @objc func done(sender: UIBarButtonItem){
-        var info = [String: Any]()
-        info["clientid"] = clientID_textfeild.text
-        info["domainoauth"] = tenant_textfeild.text
-        info["systemurl"] = systemURL_textfeild.text
-        info["applicationid"] = appID_textfeild.text
-        info["redirecturi"] = redirectURI_textfeild.text
-        info["scope"] = scope_textfeild.text
-        info["responsetype"] = responseType_textfeild.text
-        UserDefaults.standard.setDict(dict: info, for: "OAuthConfig")
-        self.navigationController?.popViewController(animated: true)
+         
+        if( clientID_textfeild.text?.count ?? 0 > 0 && tenant_textfeild.text?.count ?? 0 > 0 && systemURL_textfeild.text?.count ?? 0 > 0 && appID_textfeild.text?.count ?? 0 > 0 && redirectURI_textfeild.text?.count ?? 0 > 0 && scope_textfeild.text?.count ?? 0 > 0 && responseType_textfeild.text?.count ?? 0 > 0) {
+            var info = [String: Any]()
+            info["clientid"] = clientID_textfeild.text
+            info["domainoauth"] = tenant_textfeild.text
+            info["systemurl"] = systemURL_textfeild.text
+            info["applicationid"] = appID_textfeild.text
+            info["redirecturi"] = redirectURI_textfeild.text
+            info["scope"] = scope_textfeild.text
+            info["responsetype"] = responseType_textfeild.text
+            
+            UserDefaults.standard.setDict(dict: info, for: "OAuthConfig")
+            self.navigationController?.popViewController(animated: true)
+
+        } else {
+            showAlert(with: "", message: "Please enter all the input feilds")
+        }
+        
     }
-    
+    func textFieldDidBeginEditing(textField: UITextField!) {
+        activeField = textField
+    }
+
+    func textFieldDidEndEditing(textField: UITextField!) {
+        activeField = nil
+    }
 }
 extension SettingsViewController {
     func addKeyboardObservers(){
@@ -123,16 +143,30 @@ extension SettingsViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: self.view.window)
     }
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
+        self.scrollView.isScrollEnabled = true
+        let info = notification.userInfo!
+        let keyboardSize = (info[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
+        let contentInsets : UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize!.height + 60, right: 0.0)
+        self.scrollView.contentInset = contentInsets
+        self.scrollView.scrollIndicatorInsets = contentInsets
+
+        var aRect : CGRect = self.view.frame
+        aRect.size.height -= keyboardSize!.height
+        if let activeField = self.activeField {
+            if (!aRect.contains(activeField.frame.origin)){
+                self.scrollView.scrollRectToVisible(activeField.frame, animated: true)
             }
         }
     }
 
     @objc func keyboardWillHide(notification: NSNotification) {
-        if self.view.frame.origin.y != 0 {
-            self.view.frame.origin.y = 0
-        }
+        let info = notification.userInfo!
+        let keyboardSize = (info[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
+        let contentInsets : UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: -keyboardSize!.height, right: 0.0)
+        self.scrollView.contentInset = contentInsets
+        self.scrollView.scrollIndicatorInsets = contentInsets
+        self.view.endEditing(true)
+        self.scrollView.isScrollEnabled = false
     }
+   
 }

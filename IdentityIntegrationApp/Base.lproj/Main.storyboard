@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,18 +17,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hvu-Nx-fbZ">
-                                <rect key="frame" x="30" y="257" width="354" height="492"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hvu-Nx-fbZ">
+                                <rect key="frame" x="10" y="50" width="394" height="699"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                             </tableView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="acmelogo" translatesAutoresizingMaskIntoConstraints="NO" id="ot4-nc-oZT">
-                                <rect key="frame" x="87" y="100" width="240" height="128"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="128" id="8S6-m3-hoJ"/>
-                                </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="063-R7-FSN">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="063-R7-FSN">
                                 <rect key="frame" x="30" y="278" width="354" height="34"/>
                                 <color key="backgroundColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -44,14 +38,9 @@
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hvu-Nx-fbZ" secondAttribute="bottom" constant="25" id="1yi-DW-Jzs"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="063-R7-FSN" secondAttribute="trailing" constant="30" id="8Eg-73-tVJ"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hvu-Nx-fbZ" secondAttribute="trailing" constant="30" id="S73-nJ-2Bm"/>
-                            <constraint firstItem="hvu-Nx-fbZ" firstAttribute="top" secondItem="ot4-nc-oZT" secondAttribute="bottom" constant="29" id="XJA-TD-45J"/>
-                            <constraint firstItem="ot4-nc-oZT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="c2s-gc-Tpx"/>
-                            <constraint firstItem="063-R7-FSN" firstAttribute="top" secondItem="ot4-nc-oZT" secondAttribute="bottom" constant="50" id="fC2-EF-bzI"/>
-                            <constraint firstItem="hvu-Nx-fbZ" firstAttribute="top" secondItem="ot4-nc-oZT" secondAttribute="bottom" constant="29" id="gqo-0d-THh"/>
-                            <constraint firstItem="hvu-Nx-fbZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="ibl-Pg-H0I"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ot4-nc-oZT" secondAttribute="trailing" constant="87" id="t9J-7x-CS0"/>
-                            <constraint firstItem="ot4-nc-oZT" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="wLE-xr-kBQ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hvu-Nx-fbZ" secondAttribute="trailing" constant="10" id="S73-nJ-2Bm"/>
+                            <constraint firstItem="hvu-Nx-fbZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="ibl-Pg-H0I"/>
+                            <constraint firstItem="hvu-Nx-fbZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="t50-zZ-SoH"/>
                             <constraint firstItem="063-R7-FSN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="xfp-6A-4vJ"/>
                         </constraints>
                     </view>
@@ -64,7 +53,69 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="789.85507246376812" y="69.642857142857139"/>
+            <point key="canvasLocation" x="790" y="136"/>
+        </scene>
+        <!--Welcome View Controller-->
+        <scene sceneID="hDv-ln-BGp">
+            <objects>
+                <viewController storyboardIdentifier="WelcomeViewController" id="e3f-xT-80v" customClass="WelcomeViewController" customModule="IdentityIntegrationApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xZH-C4-YGk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="acme_logo" translatesAutoresizingMaskIntoConstraints="NO" id="DXz-HS-lAY">
+                                <rect key="frame" x="30" y="60" width="354" height="166"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SLO-6Z-y2I">
+                                <rect key="frame" x="116" y="640" width="182" height="34"/>
+                                <color key="backgroundColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="34" id="iUx-UG-ZEj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal" title="Get Started"/>
+                                <connections>
+                                    <action selector="login_click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="L6R-Rs-09X"/>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="7Rs-h9-yH1"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="AET-Rz-TaZ">
+                                <rect key="frame" x="30" y="236" width="354" height="374"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" link="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="O0E-aC-3cb"/>
+                        <color key="backgroundColor" red="0.098039215686274508" green="0.14117647058823529" blue="0.21176470588235294" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="O0E-aC-3cb" firstAttribute="bottom" secondItem="SLO-6Z-y2I" secondAttribute="bottom" constant="100" id="2su-KR-yWk"/>
+                            <constraint firstItem="SLO-6Z-y2I" firstAttribute="top" secondItem="AET-Rz-TaZ" secondAttribute="bottom" constant="30" id="9ak-8q-UeW"/>
+                            <constraint firstItem="DXz-HS-lAY" firstAttribute="leading" secondItem="O0E-aC-3cb" secondAttribute="leading" constant="30" id="Dwn-8M-Pto"/>
+                            <constraint firstItem="AET-Rz-TaZ" firstAttribute="leading" secondItem="O0E-aC-3cb" secondAttribute="leading" constant="30" id="Neg-1S-8x7"/>
+                            <constraint firstItem="O0E-aC-3cb" firstAttribute="trailing" secondItem="SLO-6Z-y2I" secondAttribute="trailing" constant="116" id="Rdc-6q-DLQ"/>
+                            <constraint firstItem="DXz-HS-lAY" firstAttribute="top" secondItem="O0E-aC-3cb" secondAttribute="top" constant="60" id="ZDs-4D-wXt"/>
+                            <constraint firstItem="AET-Rz-TaZ" firstAttribute="top" secondItem="DXz-HS-lAY" secondAttribute="bottom" constant="10" id="ggM-Z3-WR1"/>
+                            <constraint firstItem="O0E-aC-3cb" firstAttribute="trailing" secondItem="AET-Rz-TaZ" secondAttribute="trailing" constant="30" id="hsA-rS-9Fx"/>
+                            <constraint firstItem="O0E-aC-3cb" firstAttribute="trailing" secondItem="DXz-HS-lAY" secondAttribute="trailing" constant="30" id="jd9-5M-3Dl"/>
+                            <constraint firstItem="SLO-6Z-y2I" firstAttribute="leading" secondItem="O0E-aC-3cb" secondAttribute="leading" constant="116" id="tWs-0v-qq4"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="BFP-44-Ecz"/>
+                    <connections>
+                        <outlet property="body_textView" destination="AET-Rz-TaZ" id="Kh0-m9-2CP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TBO-8v-O7l" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="789.85507246376812" y="-585.26785714285711"/>
         </scene>
         <!--Home-->
         <scene sceneID="CtB-5G-rrn">
@@ -195,12 +246,12 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="1CV-O1-0ra"/>
+                        <segue destination="e3f-xT-80v" kind="relationship" relationship="rootViewController" id="BF0-oo-x07"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fLa-5a-nxe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="18.840579710144929" y="69.642857142857139"/>
+            <point key="canvasLocation" x="-151" y="-621"/>
         </scene>
         <!--Settings-->
         <scene sceneID="YaD-Yt-Mjd">
@@ -421,7 +472,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M2X-bf-Wnk" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="771.01449275362324" y="-599.33035714285711"/>
+            <point key="canvasLocation" x="1781" y="-728"/>
         </scene>
         <!--Notifications-->
         <scene sceneID="E22-e1-lWe">
@@ -458,6 +509,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="acme_logo" width="461" height="166"/>
         <image name="acmelogo" width="179.5" height="54.5"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

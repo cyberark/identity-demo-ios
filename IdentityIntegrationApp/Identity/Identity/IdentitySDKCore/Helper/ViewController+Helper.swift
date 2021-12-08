@@ -17,16 +17,68 @@
 import Foundation
 import UIKit
 
-extension UIViewController {
+public extension UIViewController {
+    static func initFromNib() -> Self {
+         func instanceFromNib<T: UIViewController>() -> T {
+             return T(nibName: String(describing: self), bundle: nil)
+         }
+         return instanceFromNib()
+     }
+     class func loadFromNib<T: UIViewController>() -> T {
+         return T(nibName: String(describing: self), bundle: nil)
+     }
     class func loadFromNib() -> Self {
-        func instantiateFromNib<T: UIViewController>() -> T {
-            let frameworkBundleID  = "com.cyberark.Identity"
-            let bundle = Bundle(identifier: frameworkBundleID)
-            return T.init(nibName: String(describing: T.self), bundle: bundle)
-        }
+            func instantiateFromNib<T: UIViewController>() -> T {
+                let frameworkBundleID  = "com.cyberark.Identity"
+                let bundle = Bundle(identifier: frameworkBundleID)
+                return T.init(nibName: String(describing: T.self), bundle: bundle)
+            }
 
-        return instantiateFromNib()
+            return instantiateFromNib()
+        }
+    func present(_ viewControllerToPresent: UIViewController, completion: @escaping (() -> ())) {
+        present(viewControllerToPresent, animated: true, completion: completion)
     }
+
+    func present(_ viewControllerToPresent: UIViewController) {
+        viewControllerToPresent.modalPresentationStyle = .fullScreen
+        present(viewControllerToPresent, animated: true, completion: nil)
+    }
+
+    func presentTranslucent(_ viewController: UIViewController, modalTransitionStyle: UIModalTransitionStyle = .coverVertical, animated flag: Bool = true, completion: (() -> ())? = nil) {
+        viewController.modalPresentationStyle = .custom
+        viewController.modalTransitionStyle =  modalTransitionStyle
+        view.window?.rootViewController?.modalPresentationStyle = .currentContext
+        present(viewController, animated: flag, completion: completion)
+    }
+    func push(_ viewController: UIViewController) {
+        navigationController?.show(viewController, sender: self)
+    }
+
+    func pop(animated: Bool = true) {
+        //if let presentingViewController = presentingViewController {
+       //     presentingViewController.dismiss(animated: animated, completion: nil)
+       // } else {
+            _ = navigationController?.popViewController(animated: animated)
+        //}
+    }
+    func popToViewController(ofClass: AnyClass, animated: Bool = true) {
+        if let vc = navigationController?.viewControllers.last(where: { $0.isKind(of: ofClass) }) {
+            navigationController?.popToViewController(vc, animated: animated)
+      }
+    }
+
+    func popToRoot(animated: Bool = true) {
+        if let presentingViewController = presentingViewController {
+            presentingViewController.dismiss(animated: animated, completion: nil)
+        } else {
+            _ = navigationController?.popToRootViewController(animated: animated)
+        }
+    }
+    func dismiss(completion: (() -> Void)? = nil) {
+        presentingViewController?.dismiss(animated: true, completion: completion)
+    }
+
 }
 extension UIViewController {
    public func showAlert(with title: String? = "", message: String) {

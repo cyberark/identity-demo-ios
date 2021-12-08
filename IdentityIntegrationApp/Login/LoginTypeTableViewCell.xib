@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LoginTypeTableViewCell" rowHeight="133" id="KGk-i7-Jjw" customClass="LoginTypeTableViewCell" customModule="IdentityIntegrationApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="134"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" restorationIdentifier="LoginTypeTableViewCell" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="134"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qbi-lg-P2H" customClass="CardView" customModule="IdentityIntegrationApp" customModuleProvider="target">
+                        <rect key="frame" x="10" y="10" width="300" height="114"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CyberArk Hosted Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="he9-Z3-xdq">
+                                <rect key="frame" x="10" y="10" width="280" height="44.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cFa-50-6kD">
+                                <rect key="frame" x="107.5" y="66" width="80" height="38"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="SZf-pf-4FA"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="&gt;&gt;&gt;">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="30"/>
+                                    <color key="baseForegroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </buttonConfiguration>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vVc-bZ-Ku1">
+                                <rect key="frame" x="207.5" y="79" width="83.5" height="25"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="idv-Pv-BXs"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Learn More">
+                                    <fontDescription key="titleFontDescription" type="system" pointSize="11"/>
+                                    <color key="baseForegroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </buttonConfiguration>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.23921568630000001" green="0.49803921569999998" blue="0.71764705880000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="vVc-bZ-Ku1" firstAttribute="leading" secondItem="cFa-50-6kD" secondAttribute="trailing" constant="20" id="4Uz-P2-7XY"/>
+                            <constraint firstItem="he9-Z3-xdq" firstAttribute="leading" secondItem="qbi-lg-P2H" secondAttribute="leading" constant="10" id="6yB-9W-rF6"/>
+                            <constraint firstItem="he9-Z3-xdq" firstAttribute="top" secondItem="qbi-lg-P2H" secondAttribute="top" constant="10" id="SFa-Kk-M5f"/>
+                            <constraint firstAttribute="trailing" secondItem="vVc-bZ-Ku1" secondAttribute="trailing" constant="9" id="UZb-9e-xaq"/>
+                            <constraint firstAttribute="bottom" secondItem="vVc-bZ-Ku1" secondAttribute="bottom" constant="10" id="VT0-Mt-A2T"/>
+                            <constraint firstItem="cFa-50-6kD" firstAttribute="top" secondItem="he9-Z3-xdq" secondAttribute="bottom" constant="11.5" id="Xgu-eP-Ij8"/>
+                            <constraint firstAttribute="bottom" secondItem="cFa-50-6kD" secondAttribute="bottom" constant="10" id="Yqj-rD-cfe"/>
+                            <constraint firstAttribute="trailing" secondItem="he9-Z3-xdq" secondAttribute="trailing" constant="10" id="aku-Ud-8l4"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="qbi-lg-P2H" secondAttribute="trailing" constant="10" id="2ZS-4P-uoD"/>
+                    <constraint firstAttribute="bottom" secondItem="qbi-lg-P2H" secondAttribute="bottom" constant="10" id="LFZ-Rg-clR"/>
+                    <constraint firstItem="qbi-lg-P2H" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Wfn-fT-V7w"/>
+                    <constraint firstItem="qbi-lg-P2H" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="xfi-TX-mg0"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="cardView" destination="qbi-lg-P2H" id="Xmr-5s-2nZ"/>
+                <outlet property="login_button" destination="cFa-50-6kD" id="qut-y6-FGE"/>
+                <outlet property="more_button" destination="vVc-bZ-Ku1" id="zEN-qj-r6R"/>
+                <outlet property="title_label" destination="he9-Z3-xdq" id="4ye-Ke-gyG"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="148.66071428571428"/>
+        </tableViewCell>
+    </objects>
+</document>

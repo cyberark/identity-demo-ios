@@ -30,7 +30,9 @@ class ViewController: UIViewController {
         }
     }
     var loginTypes = [
-        "Login"
+        "CyberArk Hosted Login",
+        "Login Widget",
+        "",
     ]
     
 }
@@ -61,8 +63,16 @@ extension ViewController {
         addRightBar()
     }
     func registerCell() {
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        let logo = UIImage(named: "acme_logo")
+        let imageView = UIImageView(image:logo)
+        imageView.contentMode = .scaleAspectFit
+        self.navigationItem.titleView = imageView
+        tableView.estimatedRowHeight = 120
+        tableView.rowHeight = UITableView.automaticDimension;
+        tableView.allowsSelection = true
+        tableView.register(UINib(nibName: "LoginTypeTableViewCell", bundle: nil), forCellReuseIdentifier: "LoginTypeTableViewCell")
     }
+   
     func addRightBar() {
         let image = UIImage(named: "settings_icon")?.withRenderingMode(.alwaysOriginal)
         let rightButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rightButtonAction(sender:)))
@@ -73,9 +83,18 @@ extension ViewController {
         navigateToSettingsScreen()
     }
     func navigate(index: Int) {
-        if index == 0 {
+        //if index == 0 {
             doLogin()
-        }
+        //}
+    }
+    @objc func navigateToCyberArkHostedLogin(){
+        doLogin()
+    }
+    @objc func navigateToLoginWidget(){
+        doLogin()
+    }
+    @objc func navigateToMore(){
+        self.showCustomAlert(type: .success, actionType: .defaultCase, title: "", message: "")
     }
 }
 //MARK:- UITableViewDelegate, UITableViewDataSource
@@ -84,12 +103,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         loginTypes.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = loginTypes[indexPath.row]
+        let cell: LoginTypeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "LoginTypeTableViewCell", for: indexPath) as! LoginTypeTableViewCell
+        cell.selectionStyle = .none
+        cell.title_label.text = loginTypes[indexPath.row]
+        cell.more_button.addTarget(self, action:#selector(navigateToMore), for: .touchUpInside)
+        cell.login_button.addTarget(self, action:#selector(navigateToLoginWidget), for: .touchUpInside)
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         navigate(index: indexPath.row)
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
     }
 }
 //MARK: Weblogin
@@ -184,6 +209,52 @@ extension ViewController {
     }
     func navigateToSettingsScreen() {
         performSegue(withIdentifier: settingsViewSegueIdentifier, sender: self)
+    }
+    func showCustomAlert(type: PopUpType, actionType: PopUpActionType, title: String, message: String, onCompletion: (() -> Void)? = nil) {
+        let alertViewController: CustomPopUpViewController =  CustomPopUpViewController.loadFromNib()
+        
+        let attributedString = NSMutableAttributedString(string: "CyberArk Hosted Login​\n​\nIn this scenario the Acme wants to use the MFA provided by CyberArk Identity by authenticating the users with the CyberArk Identity login.​\n​\nThe user will be redirected to the CyberArk Identity Login page and prompted to enter username and the corresponding MFA factors. On successful authentication an access token will be returned for the user​\n​\nPlease visit link for details on implementation\n\n")
+
+        let attributes0: [NSAttributedString.Key : Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 18.0),
+           .foregroundColor: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
+        ]
+        attributedString.addAttributes(attributes0, range: NSRange(location: 0, length: 21))
+
+        let attributes2: [NSAttributedString.Key : Any] = [
+           .foregroundColor: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
+        ]
+        attributedString.addAttributes(attributes2, range: NSRange(location: 25, length: 138))
+
+        let attributes4: [NSAttributedString.Key : Any] = [
+           .foregroundColor: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
+        ]
+        attributedString.addAttributes(attributes4, range: NSRange(location: 167, length: 204))
+
+        let attributes6: [NSAttributedString.Key : Any] = [
+           .foregroundColor: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
+        ]
+        attributedString.addAttributes(attributes6, range: NSRange(location: 375, length: 47))
+        
+        alertViewController.callCompletion {
+            if (onCompletion != nil) {
+                onCompletion!()
+            }
+            alertViewController.dismiss()
+        }
+        alertViewController.continueCallCompletion {
+            if (onCompletion != nil) {
+                onCompletion!()
+            }
+            alertViewController.dismiss {
+                self.doLogin()
+            }
+        }
+        
+        alertViewController.popUpType = type
+        alertViewController.meessageAtributedText = attributedString
+        alertViewController.labelTitle = title
+        presentTranslucent(alertViewController, modalTransitionStyle: .crossDissolve, animated: true, completion: nil)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == homeViewSegueIdentifier) {

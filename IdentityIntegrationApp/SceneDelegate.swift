@@ -84,16 +84,17 @@ extension SceneDelegate {
     /// - Parameter windowScene: window scene
     func configureInitialScreen(windowScene: UIWindowScene) {
         do {
-            UINavigationBar.appearance().backgroundColor = UIColor(red: 0.0/255.0, green: 115.0/255.0, blue: 186.0/255.0, alpha: 1.0)
-            UINavigationBar.appearance().barTintColor = UIColor(red: 0.0/255.0, green: 115.0/255.0, blue: 186.0/255.0, alpha: 1.0)
+            UINavigationBar.appearance().backgroundColor = UIColor.hexToUIColor(hex: "#192436")
+            UINavigationBar.appearance().barTintColor = UIColor.hexToUIColor(hex: "#192436")
             UINavigationBar.appearance().titleTextAttributes = [.foregroundColor : UIColor.white,
                                                                 .font : UIFont.systemFont(ofSize: 16.0)]
+            
             let story = UIStoryboard(name: "Main", bundle:nil)
             var vc: UIViewController = UIViewController()
             if (try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue)) != nil {
                 vc = story.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
             }else {
-                vc = story.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+                vc = story.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
             }
             let window = UIWindow(windowScene: windowScene)
             let navController = UINavigationController.init(rootViewController: vc)
