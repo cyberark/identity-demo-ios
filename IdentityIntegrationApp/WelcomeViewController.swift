@@ -44,49 +44,18 @@ extension WelcomeViewController {
         body_textView.attributedText = getAttributedString()
         body_textView.delegate = self
         body_textView.textAlignment = .center
+        body_textView.isEditable = false
+        body_textView.isSelectable = true
+        body_textView.dataDetectorTypes = .link
 
     }
     func getAttributedString() -> NSMutableAttributedString {
         
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
-        let attributedString = NSMutableAttributedString(string: "Welcome to Acme Inc. !!​\n​\nAcme Inc. is a banking company using CyberArk Identity APIs, SDKs, and widgets to secure its web applications. This playground application shows all the possible variations that a developer from Acme has at their disposal. ​\n​\nFor developer guides and API documentation, please visit CyberArk Identity Developer Program website.​\n\n", attributes: [.paragraphStyle: paragraph])
-
+        let normalText = "Welcome to Acme Inc. !!​\n​\nAcme Inc. is a banking company using CyberArk Identity APIs, SDKs, and widgets to secure its web applications. This playground application shows all the possible variations that a developer from Acme has at their disposal. ​\n​\nFor developer guides and API documentation, please visit CyberArk Identity Developer Program website.​\n\n"
         
-        let attributes0: [NSAttributedString.Key : Any] = [
-           .foregroundColor: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0),
-           .font: UIFont.boldSystemFont(ofSize: 18.0)
-        ]
-        attributedString.addAttributes(attributes0, range: NSRange(location: 0, length: 23))
-
-        let attributes1: [NSAttributedString.Key : Any] = [
-            .font: UIFont.boldSystemFont(ofSize: 18.0)
-        ]
-        attributedString.addAttributes(attributes1, range: NSRange(location: 23, length: 1))
-
-        let attributes3: [NSAttributedString.Key : Any] = [
-            .font: UIFont.boldSystemFont(ofSize: 12.0),
-           .foregroundColor: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-        ]
-        attributedString.addAttributes(attributes3, range: NSRange(location: 27, length: 223))
-
-        let attributes5: [NSAttributedString.Key : Any] = [
-            .font: UIFont.boldSystemFont(ofSize: 12.0),
-           .foregroundColor: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-        ]
-        attributedString.addAttributes(attributes5, range: NSRange(location: 254, length: 57))
-
-        let attributes6: [NSAttributedString.Key : Any] = [
-            .font: UIFont.boldSystemFont(ofSize: 12.0),
-           .foregroundColor: UIColor(red: 5/255, green: 99/255, blue: 193/255, alpha: 1.0)
-        ]
-        attributedString.addAttributes(attributes6, range: NSRange(location: 311, length: 36))
-
-        let attributes7: [NSAttributedString.Key : Any] = [
-            .font: UIFont.boldSystemFont(ofSize: 12.0),
-           .foregroundColor: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-        ]
-        attributedString.addAttributes(attributes7, range: NSRange(location: 347, length: 8))
+        let attributedString = normalText.getLinkAttributes(header: "Welcome to Acme Inc. !!", linkAttribute: "CyberArk Identity Developer Program", headerFont: UIFont.boldSystemFont(ofSize: 25.0), textFont:  UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .blue, linkValue: "https://identity-developer.cyberark.com/docs/cyberark-identity-sdk-for-ios")
         
         return attributedString
     }
@@ -101,4 +70,5 @@ extension WelcomeViewController {
             }
         }
     }
+    
 }

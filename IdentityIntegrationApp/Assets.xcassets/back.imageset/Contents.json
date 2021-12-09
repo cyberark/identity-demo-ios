@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "acme_logo_new.png",
+      "filename" : "browser_back.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "browser_back@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

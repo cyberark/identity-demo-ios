@@ -20,7 +20,11 @@ class LoginTypeTableViewCell: UITableViewCell {
     @IBOutlet weak var cardView: CardView!
     @IBOutlet weak var more_button: UIButton!
     @IBOutlet weak var login_button: UIButton!
-
+    let customAttributes: [NSAttributedString.Key: Any] = [
+        .font: UIFont.systemFont(ofSize: 14),
+        .foregroundColor: UIColor.white,
+        .underlineStyle: NSUnderlineStyle.single.rawValue
+    ]
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -32,18 +36,11 @@ class LoginTypeTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     func configure(){
-        more_button.titleLabel?.attributedText = getMoreAttributedText()
+        let attributeString = NSMutableAttributedString(
+            string: "Learn More\n",
+            attributes: customAttributes
+        )
+        more_button.setAttributedTitle(attributeString, for: .normal)
     }
-    func getMoreAttributedText() -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: " Learn More\n")
-        let attributes0: [NSAttributedString.Key : Any] = [
-           .foregroundColor: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-        ]
-        attributedString.addAttributes(attributes0, range: NSRange(location: 0, length: 1))
-        let attributes1: [NSAttributedString.Key : Any] = [
-           .foregroundColor: UIColor(red: 5/255, green: 99/255, blue: 193/255, alpha: 1.0)
-        ]
-        attributedString.addAttributes(attributes1, range: NSRange(location: 1, length: 10))
-        return attributedString
-    }
+    
 }

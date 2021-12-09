@@ -406,7 +406,7 @@ extension HomeViewController {
     func configureInitialScreen() {
         let story = UIStoryboard(name: "Main", bundle:nil)
         var vc: UIViewController = UIViewController()
-        vc = story.instantiateViewController(withIdentifier: "ViewController") as! ViewController
+        vc = story.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
         let navController = UINavigationController.init(rootViewController: vc)
         self.window?.rootViewController = navController
     }

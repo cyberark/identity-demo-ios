@@ -87,7 +87,7 @@ extension SceneDelegate {
             UINavigationBar.appearance().backgroundColor = UIColor.hexToUIColor(hex: "#192436")
             UINavigationBar.appearance().barTintColor = UIColor.hexToUIColor(hex: "#192436")
             UINavigationBar.appearance().titleTextAttributes = [.foregroundColor : UIColor.white,
-                                                                .font : UIFont.systemFont(ofSize: 16.0)]
+                                                                .font : UIFont.boldSystemFont(ofSize: 16.0)]
             
             let story = UIStoryboard(name: "Main", bundle:nil)
             var vc: UIViewController = UIViewController()

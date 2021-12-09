@@ -15,7 +15,7 @@
 */
 
 import Foundation
-
+import UIKit
 public extension String {
     /// Encode the string
     /// - Returns: encoded string
@@ -61,5 +61,57 @@ public extension String {
             return stringData.sha256()
         }
         return ""
+    }
+    func fetchAttributedTextContent(firstText:String, firstTintColor:UIColor, secondText:String, secondTintColor:UIColor) -> NSMutableAttributedString {
+        
+        let firstAttribute: [NSAttributedString.Key: Any] = [.foregroundColor: firstTintColor]
+        let secondtAttribute: [NSAttributedString.Key: Any] = [.foregroundColor: secondTintColor]
+        let partOne = NSMutableAttributedString(string: firstText, attributes: firstAttribute as [NSAttributedString.Key : Any])
+        let partTwo = NSMutableAttributedString(string: secondText, attributes: secondtAttribute as [NSAttributedString.Key : Any])
+        partOne.append(partTwo)
+        return partOne
+    }
+    func fetchAttributedTextContentWithParagraphStyle(firstText:String, firstTintColor:UIColor, secondText:String, secondTintColor:UIColor) -> NSMutableAttributedString {
+        
+        let firstAttribute: [NSAttributedString.Key: Any] = [.foregroundColor: firstTintColor]
+        let secondtAttribute: [NSAttributedString.Key: Any] = [.foregroundColor: secondTintColor]
+        let partOne = NSMutableAttributedString(string: firstText, attributes: firstAttribute as [NSAttributedString.Key : Any])
+        let partTwo = NSMutableAttributedString(string: secondText, attributes: secondtAttribute as [NSAttributedString.Key : Any])
+        partOne.append(partTwo)
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = 1.33
+        let paragraphAtributes = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
+        let range = partOne.mutableString.range(of: partOne.string, options: .caseInsensitive)
+        partOne.addAttributes(paragraphAtributes, range: range)
+        return partOne
+    }
+    func getLinkAttributes(header: String, linkAttribute: String, headerFont : UIFont ,textFont : UIFont , color: UIColor, underLineColor: UIColor, linkValue: String) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: self)
+        let paragraphStyle = NSMutableParagraphStyle()
+        let paragraphAtributes = [NSAttributedString.Key.paragraphStyle: paragraphStyle]
+        attributedString.addAttributes(paragraphAtributes, range:  NSRange(location: 0, length: self.count))
+
+        let selfAttributes = [[NSAttributedString.Key.font: textFont],[NSAttributedString.Key.foregroundColor: UIColor.white]]
+        
+        for attribute in selfAttributes {
+            attributedString.addAttributes(attribute, range: NSRange(location: 0, length: self.count))
+        }
+        
+        let headerAttributes = [[NSAttributedString.Key.font:headerFont],[NSAttributedString.Key.foregroundColor: color]]
+        let headerRange = (self as NSString).range(of: header)
+        for attribute in headerAttributes {
+            attributedString.addAttributes(attribute, range: headerRange)
+        }
+        
+        let range = (self as NSString).range(of: linkAttribute)
+        let attributes = [[NSAttributedString.Key.font: textFont], [NSAttributedString.Key.foregroundColor: color],        [.underlineStyle: NSUnderlineStyle.single.rawValue]]
+        
+        for attribute in attributes {
+            attributedString.addAttributes(attribute, range: range)
+        }
+        attributedString.addAttribute(.link, value: linkValue, range: range)
+      
+        return attributedString
     }
 }

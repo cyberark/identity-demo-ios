@@ -3,20 +3,20 @@
 <plist version="1.0">
 <dict>
 	<key>clientid</key>
-	<string>acme</string>
+	<string>Axis</string>
 	<key>domainoauth</key>
-	<string>https://auth.cyberarklab.com</string>
+	<string>https://acme2.my.dev.idaptive.app</string>
 	<key>systemurl</key>
-	<string>https://aak7455.my.dev.idaptive.app</string>
+	<string>https://aaj7617.my.dev.idaptive.app</string>
 	<key>applicationid</key>
-	<string>devtestoauth</string>
+	<string>OAuthTest</string>
 	<key>redirecturi</key>
 	<string>ciamsdkdemo://com.cyberark.ciamsdk</string>
 	<key>scope</key>
 	<string>All</string>
-	<key>responsetype</key>
-	<string>code</string>
 	<key>threshold</key>
 	<integer>60</integer>
+	<key>responsetype</key>
+	<string>code</string>
 </dict>
 </plist>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QSu-nY-VJ1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QSu-nY-VJ1">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,33 +18,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="hvu-Nx-fbZ">
-                                <rect key="frame" x="10" y="50" width="394" height="699"/>
+                                <rect key="frame" x="10" y="30" width="394" height="719"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="063-R7-FSN">
-                                <rect key="frame" x="30" y="278" width="354" height="34"/>
-                                <color key="backgroundColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="bwM-Pk-ITT"/>
-                                </constraints>
-                                <state key="normal" title="Login"/>
-                                <connections>
-                                    <action selector="login_click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="h8D-Tk-GbJ"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="hvu-Nx-fbZ" secondAttribute="bottom" constant="25" id="1yi-DW-Jzs"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="063-R7-FSN" secondAttribute="trailing" constant="30" id="8Eg-73-tVJ"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="hvu-Nx-fbZ" secondAttribute="trailing" constant="10" id="S73-nJ-2Bm"/>
                             <constraint firstItem="hvu-Nx-fbZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="ibl-Pg-H0I"/>
-                            <constraint firstItem="hvu-Nx-fbZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="t50-zZ-SoH"/>
-                            <constraint firstItem="063-R7-FSN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="xfp-6A-4vJ"/>
+                            <constraint firstItem="hvu-Nx-fbZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="t50-zZ-SoH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="CyberArk Identity Sample" id="t1F-lD-hZu"/>
+                    <navigationItem key="navigationItem" title="Acme" id="t1F-lD-hZu"/>
                     <connections>
                         <outlet property="tableView" destination="hvu-Nx-fbZ" id="bi6-Wy-Ipk"/>
                         <segue destination="kMM-q3-Uhg" kind="show" identifier="HomeViewSegueIdentifier" id="Jye-4a-qsj"/>
@@ -68,20 +55,25 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SLO-6Z-y2I">
-                                <rect key="frame" x="116" y="640" width="182" height="34"/>
+                                <rect key="frame" x="116" y="634" width="182" height="40"/>
                                 <color key="backgroundColor" red="0.0" green="0.36470588240000001" blue="0.67450980390000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="34" id="iUx-UG-ZEj"/>
+                                    <constraint firstAttribute="height" constant="40" id="iUx-UG-ZEj"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <state key="normal" title="Get Started"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="20"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <action selector="login_click:" destination="BYZ-38-t0r" eventType="touchUpInside" id="L6R-Rs-09X"/>
                                     <segue destination="BYZ-38-t0r" kind="show" id="7Rs-h9-yH1"/>
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="AET-Rz-TaZ">
-                                <rect key="frame" x="30" y="236" width="354" height="374"/>
+                                <rect key="frame" x="30" y="236" width="354" height="368"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" link="YES" notEnabled="YES"/>
@@ -216,7 +208,7 @@
                             <constraint firstItem="1mL-jD-OLA" firstAttribute="leading" secondItem="LWo-6j-NfF" secondAttribute="leading" constant="30" id="xp7-hi-7DL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="CyberArk Identity Sample" id="miC-1a-Unv"/>
+                    <navigationItem key="navigationItem" title="Acme" id="miC-1a-Unv"/>
                     <connections>
                         <outlet property="QR_button" destination="6ew-GS-P8B" id="zgn-2U-YGo"/>
                         <outlet property="accessToken_Switch" destination="2Ql-J9-2Kj" id="Igm-Ro-Drg"/>
@@ -262,7 +254,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5BJ-cd-6KU">
-                                <rect key="frame" x="20" y="0.0" width="374" height="724"/>
+                                <rect key="frame" x="20" y="30" width="374" height="694"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hCo-St-maI">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="480"/>
@@ -452,12 +444,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="kd6-eM-B4C" firstAttribute="bottom" secondItem="5BJ-cd-6KU" secondAttribute="bottom" constant="50" id="Dny-Q1-gcJ"/>
-                            <constraint firstItem="5BJ-cd-6KU" firstAttribute="top" secondItem="kd6-eM-B4C" secondAttribute="top" id="TbX-LE-L5c"/>
+                            <constraint firstItem="5BJ-cd-6KU" firstAttribute="top" secondItem="kd6-eM-B4C" secondAttribute="top" constant="30" id="TbX-LE-L5c"/>
                             <constraint firstItem="5BJ-cd-6KU" firstAttribute="leading" secondItem="kd6-eM-B4C" secondAttribute="leading" constant="20" id="VYx-pf-tbR"/>
                             <constraint firstItem="kd6-eM-B4C" firstAttribute="trailing" secondItem="5BJ-cd-6KU" secondAttribute="trailing" constant="20" id="m20-uY-ErB"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="CyberArk Identity Sample" id="UWJ-iO-O6h"/>
+                    <navigationItem key="navigationItem" title="Acme" id="UWJ-iO-O6h"/>
                     <connections>
                         <outlet property="appID_textfeild" destination="7P3-AS-EJM" id="Gei-36-ms6"/>
                         <outlet property="clientID_textfeild" destination="XFj-dG-977" id="mnU-9G-IKb"/>
@@ -498,7 +490,7 @@
                             <constraint firstItem="ivE-3D-lSp" firstAttribute="bottom" secondItem="dGp-IK-aTM" secondAttribute="bottom" constant="25" id="wmK-FZ-Xk9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="CyberArk Identity Sample" id="2se-FQ-6iO"/>
+                    <navigationItem key="navigationItem" title="Acme" id="2se-FQ-6iO"/>
                     <connections>
                         <outlet property="tableView" destination="dGp-IK-aTM" id="xzH-do-fZC"/>
                     </connections>

@@ -36,6 +36,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         setupTextFeilds()
         addKeyboardObservers()
         addDoneBarButtonItem()
+        modifyTopbar()
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -59,6 +60,14 @@ extension SettingsViewController {
         responseType_textfeild.isEnabled = false
         scope_textfeild.backgroundColor = .lightGray
         responseType_textfeild.backgroundColor = .lightGray
+    }
+    func modifyTopbar() {
+        self.navigationItem.title = "Acme"
+        let backButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(back))
+        self.navigationItem.leftBarButtonItem = backButton
+    }
+    @objc func back()  {
+        pop()
     }
 }
 extension SettingsViewController {

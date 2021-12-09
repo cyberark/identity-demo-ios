@@ -30,9 +30,7 @@ class ViewController: UIViewController {
         }
     }
     var loginTypes = [
-        "CyberArk Hosted Login",
-        "Login Widget",
-        "",
+        "CyberArk Hosted Login"
     ]
     
 }
@@ -63,16 +61,21 @@ extension ViewController {
         addRightBar()
     }
     func registerCell() {
-        let logo = UIImage(named: "acme_logo")
+        /*let logo = UIImage(named: "acme_logo")
         let imageView = UIImageView(image:logo)
         imageView.contentMode = .scaleAspectFit
-        self.navigationItem.titleView = imageView
+        self.navigationItem.titleView = imageView*/
+        self.navigationItem.title = "Acme"
+        let backButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(back))
+        self.navigationItem.leftBarButtonItem = backButton
         tableView.estimatedRowHeight = 120
         tableView.rowHeight = UITableView.automaticDimension;
         tableView.allowsSelection = true
         tableView.register(UINib(nibName: "LoginTypeTableViewCell", bundle: nil), forCellReuseIdentifier: "LoginTypeTableViewCell")
     }
-   
+    @objc func back()  {
+        pop()
+    }
     func addRightBar() {
         let image = UIImage(named: "settings_icon")?.withRenderingMode(.alwaysOriginal)
         let rightButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rightButtonAction(sender:)))
@@ -211,30 +214,11 @@ extension ViewController {
         performSegue(withIdentifier: settingsViewSegueIdentifier, sender: self)
     }
     func showCustomAlert(type: PopUpType, actionType: PopUpActionType, title: String, message: String, onCompletion: (() -> Void)? = nil) {
-        let alertViewController: CustomPopUpViewController =  CustomPopUpViewController.loadFromNib()
+        let alertViewController: CustomPopUpViewController =  CustomPopUpViewController.initFromNib()
         
-        let attributedString = NSMutableAttributedString(string: "CyberArk Hosted Login​\n​\nIn this scenario the Acme wants to use the MFA provided by CyberArk Identity by authenticating the users with the CyberArk Identity login.​\n​\nThe user will be redirected to the CyberArk Identity Login page and prompted to enter username and the corresponding MFA factors. On successful authentication an access token will be returned for the user​\n​\nPlease visit link for details on implementation\n\n")
-
-        let attributes0: [NSAttributedString.Key : Any] = [
-            .font: UIFont.boldSystemFont(ofSize: 18.0),
-           .foregroundColor: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-        ]
-        attributedString.addAttributes(attributes0, range: NSRange(location: 0, length: 21))
-
-        let attributes2: [NSAttributedString.Key : Any] = [
-           .foregroundColor: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-        ]
-        attributedString.addAttributes(attributes2, range: NSRange(location: 25, length: 138))
-
-        let attributes4: [NSAttributedString.Key : Any] = [
-           .foregroundColor: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-        ]
-        attributedString.addAttributes(attributes4, range: NSRange(location: 167, length: 204))
-
-        let attributes6: [NSAttributedString.Key : Any] = [
-           .foregroundColor: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
-        ]
-        attributedString.addAttributes(attributes6, range: NSRange(location: 375, length: 47))
+        let normalText = "CyberArk Hosted Login​\n​\nIn this scenario the Acme wants to use the MFA provided by CyberArk Identity by authenticating the users with the CyberArk Identity login.​\n​\nThe user will be redirected to the CyberArk Identity Login page and prompted to enter username and the corresponding MFA factors. On successful authentication an access token will be returned for the user​\n​\nPlease visit link for details on implementation.​\n\n"
+        
+        let attributedString = normalText.getLinkAttributes(header: "CyberArk Hosted Login​", linkAttribute: "link", headerFont: UIFont.boldSystemFont(ofSize: 25.0), textFont:  UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .white, linkValue: "https://identity-developer.cyberark.com/docs/cyberark-identity-sdk-for-ios")
         
         alertViewController.callCompletion {
             if (onCompletion != nil) {
