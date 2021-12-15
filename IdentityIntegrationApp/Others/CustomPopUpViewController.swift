@@ -23,13 +23,12 @@ class CustomPopUpViewController: UIViewController {
 
     private var observers = [String: PopUpCompletionHandler]()
 
-    @IBOutlet var message: UILabel!
     @IBOutlet var message_textview: UITextView!
 
     var handler: PopUpCompletionHandler?
     var labelTitle: String = ""
     var text: String = ""
-    var meessageAtributedText: NSMutableAttributedString =  NSMutableAttributedString(string: "")
+    var meessageAtributedText: NSMutableAttributedString? 
 
     var popUpType: PopUpType = .success
     var continueHandler: PopUpCompletionHandler?
@@ -38,8 +37,6 @@ class CustomPopUpViewController: UIViewController {
         super.viewDidLoad()
         self.view.isOpaque = false
         self.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        message.textAlignment = .center
-        self.message.attributedText = meessageAtributedText
         configure()
     }
     func configure() {

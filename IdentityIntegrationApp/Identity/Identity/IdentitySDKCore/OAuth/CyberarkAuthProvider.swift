@@ -158,6 +158,7 @@ extension CyberarkAuthProvider {
             if let code =  url.queryParameter(with:"code") {
                 fetchAuthToken(code: code)
             } else {
+                //To-Do
                 dismiss()
             }
         }

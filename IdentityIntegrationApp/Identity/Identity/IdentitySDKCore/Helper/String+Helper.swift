@@ -106,12 +106,10 @@ public extension String {
         
         let range = (self as NSString).range(of: linkAttribute)
         let attributes = [[NSAttributedString.Key.font: textFont], [NSAttributedString.Key.foregroundColor: color],        [.underlineStyle: NSUnderlineStyle.single.rawValue]]
-        
+        attributedString.addAttribute(.link, value: linkValue, range: range)
         for attribute in attributes {
             attributedString.addAttributes(attribute, range: range)
         }
-        attributedString.addAttribute(.link, value: linkValue, range: range)
-      
         return attributedString
     }
 }
