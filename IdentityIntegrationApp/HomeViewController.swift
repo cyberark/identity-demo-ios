@@ -582,7 +582,7 @@ extension HomeViewController {
                     ispresent = true
                     let controller = viewController as! NotificationsViewController
                     controller.pushUserInfo = pushUserInfo
-                    controller.reloadNotifications()
+                    controller.configureNotificationData()
                     break
                 }
             }
