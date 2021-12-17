@@ -20,7 +20,7 @@ import Identity
 /*
  /// HomeViewController
  */
-class HomeViewController: UIViewController {
+class HomeViewController: UIViewController, UITextViewDelegate {
     
     @IBOutlet weak var enroll_button: UIButton!
     
@@ -29,11 +29,9 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var logout_button: UIButton!
     
     @IBOutlet weak var refresh_button: UIButton!
-        
-    @IBOutlet weak var accessToken_Switch: UISwitch!
-    
-    @IBOutlet weak var appLaunch_switch: UISwitch!
-    
+            
+    @IBOutlet weak var body_textView: UITextView!
+
     var isAuthenticated = false
     
     var isFromLogin = false
@@ -50,6 +48,8 @@ class HomeViewController: UIViewController {
 
     private let notificationsSegueIdentifier = "NotificationsSegueIdentifier"
     
+    private let settingControllerSegueIdentifier = "SettingControllerSegueIdentifier"
+
     private var pushUserInfo = [AnyHashable : Any]()
 
 }
@@ -68,10 +68,7 @@ extension HomeViewController {
         super.viewWillDisappear(animated)
         removeOberver()
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        configureBiometricsUI()
-    }
+    
 }
 //MARK:- Intial configuration and UI Handlers
 extension HomeViewController {
@@ -83,7 +80,6 @@ extension HomeViewController {
     
     func configure() {
         addLogoutObserver()
-        configureBiometricsUI()
         addDidBecomeActiveObserver()
         configureEnrollButton()
         addEnrollObserver()
@@ -93,12 +89,20 @@ extension HomeViewController {
             lauchBiomtrics()
         } else {
             isFromLogin = false
-            appLaunch_switch.isUserInteractionEnabled = true
-            accessToken_Switch.isUserInteractionEnabled = true
+            if(UserDefaults.standard.object(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue) == nil) {
+                UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
+            }
+            if(UserDefaults.standard.object(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue) == nil) {
+                UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
+            }
+            if(UserDefaults.standard.object(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue) == nil) {
+                UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue)
+            }
         }
         
         isFromEnrollORQRCode = false;
         addListenersForNotification()
+        addRightbarButtons()
     }
     
     /// Button handlers
@@ -107,38 +111,10 @@ extension HomeViewController {
         navigate(button: sender as! UIButton)
     }
     
-    /// Handler
-    /// - Parameter sender:
-    @IBAction func enableApplaunch(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
-        UserDefaults.standard.synchronize()
-
-    }
-    
-    /// Handler
-    /// - Parameter sender: <#sender description#>
-    @IBAction func enableOnAccesstokeExpires(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
-        UserDefaults.standard.synchronize()
-    }
 }
 //MARK:- Initial Configurations
 extension HomeViewController {
-    /*
-     /// To configure the biomtrics
-     /// Setup UI
-     */
-    func configureBiometricsUI() {
-        if(UserDefaults.standard.object(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue) == nil) {
-            UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
-        }
-        if(UserDefaults.standard.object(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue) == nil) {
-            UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
-        }
-        UserDefaults.standard.synchronize()
-        appLaunch_switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue), animated: true)
-        accessToken_Switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue), animated: true)
-    }
+    
     /*
      /// Obsever for didbecome active
      /// Check for biometrics
@@ -157,7 +133,6 @@ extension HomeViewController {
             isAuthenticated = false
         }
         configureEnrollButton()
-        configureBiometricsUI()
     }
     // To remove the biometrics
     func removeOberver() {
@@ -167,8 +142,9 @@ extension HomeViewController {
     func configureEnrollButton(){
         if UserDefaults.standard.bool(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue) {
             QR_button.setTitle("QR Code Authenticator", for: .normal)
-            
+            configureTextView(with: getQRcodeAAttributedString())
         } else {
+            configureTextView(with: getActivateMFAAttributedString())
             QR_button.setTitle("Opt in for MFA", for: .normal)
         }
     }
@@ -178,7 +154,6 @@ extension HomeViewController {
         if isBiometricsEnabled && !isSystemBiomtericsEnabled {
             showBiometricsNotConfigurationAlert()
         }
-        //enableBiomtericSwitches(isBiometricsEnabled: isBiometricsEnabled)
     }
     func evaluateSystemBiometrics() -> Bool {
         let systemBiomtericsEnabled = BiometricsAuthenticator().canEvaluatePolicy()
@@ -194,17 +169,7 @@ extension HomeViewController {
         
         return isNeedBiomtrics
     }
-    func enableBiomtericSwitches(isBiometricsEnabled: Bool){
-        if(!isBiometricsEnabled){
-            appLaunch_switch.isUserInteractionEnabled = false
-            appLaunch_switch.tintColor = .gray
-            accessToken_Switch.isUserInteractionEnabled = false
-            accessToken_Switch.tintColor = .gray
-        }else {
-            appLaunch_switch.isUserInteractionEnabled = true
-            accessToken_Switch.isUserInteractionEnabled = true
-        }
-    }
+    
     func showBiometricsNotConfigurationAlert(){
         
         let state = UIApplication.shared.applicationState
@@ -591,14 +556,22 @@ extension HomeViewController {
             self.performSegue(withIdentifier: notificationsSegueIdentifier, sender: self)
         }
     }
-    func addRightBar() {
-        let image = UIImage(named: "notification_icon")?.withRenderingMode(.alwaysOriginal)
-        let rightButtonItem = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(rightButtonAction(sender:)))
+    func addRightbarButtons() {
+        let settingsImage = UIImage(named: "settings_icon")?.withRenderingMode(.alwaysOriginal)
+        let rightButtonItem = UIBarButtonItem(image: settingsImage, style: .plain, target: self, action: #selector(settingsAction(sender:)))
         rightButtonItem.tintColor = .white
-        self.navigationItem.rightBarButtonItem = rightButtonItem
+        
+        let LogoutImage = UIImage(named: "logout")?.withRenderingMode(.alwaysOriginal)
+        let logoutButtonItem = UIBarButtonItem(image: LogoutImage, style: .plain, target: self, action: #selector(logoutAction(sender:)))
+        rightButtonItem.tintColor = .white
+        
+        self.navigationItem.rightBarButtonItems = [logoutButtonItem, rightButtonItem]
     }
-    @objc func rightButtonAction(sender: UIBarButtonItem){
-        navigateToNotifications()
+    @objc func settingsAction(sender: UIBarButtonItem){
+        self.performSegue(withIdentifier: settingControllerSegueIdentifier, sender: self)
+    }
+    @objc func logoutAction(sender: UIBarButtonItem){
+        closeSession()
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == notificationsSegueIdentifier {
@@ -606,4 +579,47 @@ extension HomeViewController {
             destinationController.pushUserInfo = pushUserInfo
         }
     }
+}
+extension HomeViewController {
+    func configureTextView(with text :NSMutableAttributedString) {
+        body_textView.attributedText = text
+        body_textView.delegate = self
+        body_textView.textAlignment = .center
+        body_textView.isEditable = false
+        body_textView.isSelectable = true
+        body_textView.dataDetectorTypes = .link
+
+    }
+    func getActivateMFAAttributedString() -> NSMutableAttributedString {
+        
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
+        let normalText = "Click on “Opt in for MFA” button to silently enroll the mobile device to CyberArk Identity. The access token retrieved in previous step is used to enroll the user.\n​\nEnrolling the mobile device enables to user to leverage the QR code authenticator and mobile push authentication service provided by CyberArk Identity.\n​\nPlease visit link for details on implementation."
+        
+        let attributedString = normalText.getLinkAttributes(header: "Welcome to Acme Inc. !!", linkAttribute: "link", headerFont: UIFont.boldSystemFont(ofSize: 25.0), textFont:  UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .blue, linkValue: "https://identity-developer.cyberark.com/docs/cyberark-identity-sdk-for-ios")
+        
+        return attributedString
+    }
+    func getQRcodeAAttributedString() -> NSMutableAttributedString {
+        
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
+        let normalText = "Click on “QR code authenticator” to open the QR code scanner. The user should scan the QRCode displayed on the Acme website using this scanner for successful authentication to the website.\n​\nPlease visit link for details on implementation.​"
+        
+        let attributedString = normalText.getLinkAttributes(header: "Welcome to Acme Inc. !!", linkAttribute: "link", headerFont: UIFont.boldSystemFont(ofSize: 25.0), textFont:  UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .blue, linkValue: "https://identity-developer.cyberark.com/docs/cyberark-identity-sdk-for-ios")
+        
+        return attributedString
+    }
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        launchURL()
+        return true
+    }
+    func launchURL() {
+        DispatchQueue.main.async {
+            if let settingsURL = URL(string: "https://identity-developer.cyberark.com/docs/cyberark-identity-sdk-for-ios") {
+                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            }
+        }
+    }
+    
 }

@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "iOS_checkbox_on_.png",
+      "filename" : "icons8-logout-rounded-up-50.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "iOS_checkbox_on_@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "iOS_checkbox_on_@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

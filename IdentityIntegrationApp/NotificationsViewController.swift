@@ -19,7 +19,9 @@ import Identity
 class NotificationsViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var content_label: UILabel!
-    
+    @IBOutlet weak var approve_button: UIButton!
+    @IBOutlet weak var deny_button: UIButton!
+
     var pushUserInfo = [AnyHashable : Any]()
 
     let mfaProvider = MFAChallengeProvider()
@@ -39,6 +41,11 @@ extension NotificationsViewController {
         configureNotificationData()
         showActivityIndicator(on: self.view)
         self.navigationItem.setHidesBackButton(true, animated: true)
+        approve_button.layer.cornerRadius = approve_button.frame.width / 2
+        approve_button.layer.masksToBounds = true
+        deny_button.layer.cornerRadius = approve_button.frame.width / 2
+        deny_button.layer.masksToBounds = true
+
     }
     func configureNotificationData(){
         let userInfo = pushUserInfo["payload"] as! [AnyHashable: Any]

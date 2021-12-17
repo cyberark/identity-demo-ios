@@ -26,7 +26,11 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var responseType_textfeild: UITextField!
     @IBOutlet weak var scope_textfeild: UITextField!
     @IBOutlet weak var redirectURI_textfeild: UITextField!
-    @IBOutlet weak var widgetID_textfeild: UITextField!
+    
+    @IBOutlet weak var accessToken_Switch: UISwitch!
+    @IBOutlet weak var appLaunch_switch: UISwitch!
+    @IBOutlet weak var qrLaunch_switch: UISwitch!
+
     var activeField: UITextField?
 
     @IBOutlet weak var scrollView: UIScrollView!
@@ -38,12 +42,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         addDoneBarButtonItem()
         modifyTopbar()
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeKeyboardObservers()
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        configureBiometricsUI()
     }
 }
 extension SettingsViewController {
@@ -79,7 +84,6 @@ extension SettingsViewController {
         addDoneButtonOnKeyboard(textFeild: responseType_textfeild)
         addDoneButtonOnKeyboard(textFeild: scope_textfeild)
         addDoneButtonOnKeyboard(textFeild: redirectURI_textfeild)
-        addDoneButtonOnKeyboard(textFeild: widgetID_textfeild)
     }
     func addDoneButtonOnKeyboard(textFeild: UITextField){
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
@@ -110,11 +114,11 @@ extension SettingsViewController {
 
     }
     func addDoneBarButtonItem() {
-        let rightButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(done(sender:)))
+        let rightButtonItem = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(save(sender:)))
         rightButtonItem.tintColor = .white
         self.navigationItem.rightBarButtonItem = rightButtonItem
     }
-    @objc func done(sender: UIBarButtonItem){
+    @objc func save(sender: UIBarButtonItem){
          
         if( clientID_textfeild.text?.count ?? 0 > 0 && tenant_textfeild.text?.count ?? 0 > 0 && systemURL_textfeild.text?.count ?? 0 > 0 && appID_textfeild.text?.count ?? 0 > 0 && redirectURI_textfeild.text?.count ?? 0 > 0 && scope_textfeild.text?.count ?? 0 > 0 && responseType_textfeild.text?.count ?? 0 > 0) {
             var info = [String: Any]()
@@ -125,14 +129,11 @@ extension SettingsViewController {
             info["redirecturi"] = redirectURI_textfeild.text
             info["scope"] = scope_textfeild.text
             info["responsetype"] = responseType_textfeild.text
-            
             UserDefaults.standard.setDict(dict: info, for: "OAuthConfig")
-            self.navigationController?.popViewController(animated: true)
-
+            navigateToWelcomeScreen()
         } else {
             showAlert(with: "", message: "Please enter all the input feilds")
         }
-        
     }
     func textFieldDidBeginEditing(textField: UITextField!) {
         activeField = textField
@@ -140,6 +141,31 @@ extension SettingsViewController {
 
     func textFieldDidEndEditing(textField: UITextField!) {
         activeField = nil
+    }
+    func navigateToWelcomeScreen(){
+        var ispresent = false
+        if let viewControllers = navigationController?.viewControllers {
+            for viewController in viewControllers {
+                if viewController.isKind(of: WelcomeViewController.self) {
+                    ispresent = true
+                    clearCachedData()
+                    popToViewController(ofClass: WelcomeViewController.self)
+                    break
+                }
+            }
+        }
+        if(!ispresent) {
+            self.configureInitialScreen()
+        }
+        
+    }
+    /// To setup the root view controller
+    func configureInitialScreen() {
+        let story = UIStoryboard(name: "Main", bundle:nil)
+        var vc: UIViewController = UIViewController()
+        vc = story.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
+        let navController = UINavigationController.init(rootViewController: vc)
+        self.window?.rootViewController = navController
     }
 }
 extension SettingsViewController {
@@ -178,4 +204,55 @@ extension SettingsViewController {
         self.scrollView.isScrollEnabled = false
     }
    
+}
+//MARK:- Biomtrics
+extension SettingsViewController {
+    /*
+     /// To configure the biomtrics
+     /// Setup UI
+     */
+    func configureBiometricsUI() {
+       
+        UserDefaults.standard.synchronize()
+        appLaunch_switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue), animated: true)
+        accessToken_Switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue), animated: true)
+        qrLaunch_switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue), animated: true)
+    }
+    /// Handler
+    /// - Parameter sender:
+    @IBAction func enableApplaunch(_ sender: Any) {
+        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
+        UserDefaults.standard.synchronize()
+
+    }
+    
+    /// Handler
+    /// - Parameter sender: <#sender description#>
+    @IBAction func enableOnAccesstokeExpires(_ sender: Any) {
+        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
+        UserDefaults.standard.synchronize()
+    }
+    /// Handler
+    /// - Parameter sender: <#sender description#>
+    @IBAction func enableOnQRLaunch(_ sender: Any) {
+        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue)
+        UserDefaults.standard.synchronize()
+    }
+    /*
+    /// To clear the local cache
+    /// No longer needed the persistant data,Need to remove the userdafaults and keychain storage.
+     */
+    func clearCachedData() {
+        do {
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue)
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.accessToken.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.refreshToken.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.access_token_expiresIn.rawValue)
+        } catch {
+            debugPrint("error: \(error)")
+        }
+    }
 }
