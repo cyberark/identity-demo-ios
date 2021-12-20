@@ -41,9 +41,9 @@ extension NotificationsViewController {
         configureNotificationData()
         showActivityIndicator(on: self.view)
         self.navigationItem.setHidesBackButton(true, animated: true)
-        approve_button.layer.cornerRadius = approve_button.frame.width / 2
+        approve_button.layer.cornerRadius = 15
         approve_button.layer.masksToBounds = true
-        deny_button.layer.cornerRadius = approve_button.frame.width / 2
+        deny_button.layer.cornerRadius = 15
         deny_button.layer.masksToBounds = true
 
     }

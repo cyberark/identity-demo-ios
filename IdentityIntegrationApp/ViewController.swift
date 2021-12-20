@@ -65,7 +65,7 @@ extension ViewController {
         let imageView = UIImageView(image:logo)
         imageView.contentMode = .scaleAspectFit
         self.navigationItem.titleView = imageView*/
-        self.navigationItem.title = "Acme"
+        self.navigationItem.title = "Acme Inc"
         let backButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(back))
         self.navigationItem.leftBarButtonItem = backButton
         tableView.estimatedRowHeight = 120

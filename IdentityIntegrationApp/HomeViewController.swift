@@ -38,6 +38,8 @@ class HomeViewController: UIViewController, UITextViewDelegate {
 
     var isFromEnrollORQRCode = false
 
+    var isFromORQRCodeLaunch = false
+
     let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
 
     let builder = QRAuthenticationProvider()
@@ -162,8 +164,10 @@ extension HomeViewController {
     func evaluateBiometrics() -> Bool {
         let isBiometricOnAppLaunchEnabled = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
         let isBiometricWhenAccessTokenExpiresEnabled = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
+        let isBiometricNeededOnQRLaunch = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue)
+
         var isNeedBiomtrics = false
-        if (isBiometricOnAppLaunchEnabled || isBiometricWhenAccessTokenExpiresEnabled) {
+        if (isBiometricOnAppLaunchEnabled || isBiometricWhenAccessTokenExpiresEnabled || isBiometricNeededOnQRLaunch) {
             isNeedBiomtrics = true
         }
         
@@ -194,8 +198,8 @@ extension HomeViewController {
     /// To add biometrics
     func addBiometrics() {
         let isAcessTokenExpired = checkForAccessTokenExpiry()
-        if ( UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue) || (UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue) && isAcessTokenExpired)) {
-            if (!isAcessTokenExpired && isFromEnrollORQRCode) {
+        if ( UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue) || (UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue) && isAcessTokenExpired) || UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue)) {
+            if ((!isAcessTokenExpired) && (isFromEnrollORQRCode || (isFromORQRCodeLaunch && !UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue)))) {
                 configureEnrollment()
                 isFromEnrollORQRCode = false
                 return
@@ -210,6 +214,9 @@ extension HomeViewController {
                     self.isAuthenticated = true
                     if isAcessTokenExpired {
                         self.getRefreshToken()
+                    } else if self.isFromORQRCodeLaunch{
+                        self.isFromORQRCodeLaunch = false;
+                        self.configureEnrollment()
                     }
                 case .failure(let error):
                     self.isAuthenticated = false
@@ -217,7 +224,7 @@ extension HomeViewController {
                     DispatchQueue.main.async {
                         let state = UIApplication.shared.applicationState
                         if state == .active  {
-                             let errorType = error as BiometricError
+                            let errorType = error as BiometricError
                             if errorType == .biometricsNotEnrolled {
                                 let mesage = error.errorDescription
                                 let alertController = UIAlertController(title: "Biometrics configuration error", message: mesage, preferredStyle: .alert)
@@ -251,7 +258,7 @@ extension HomeViewController {
             })
             alertController.addAction(action)
             self.present(alertController, animated: true, completion: nil)
-        }else if (!isAcessTokenExpired && isFromEnrollORQRCode) {
+        }else if (!isAcessTokenExpired && (isFromEnrollORQRCode || isFromORQRCodeLaunch)) {
             configureEnrollment()
         }
 
@@ -298,7 +305,11 @@ extension HomeViewController {
                     showBiometricsNotConfigurationAlert()
                     return
                 }
-                isFromEnrollORQRCode = true
+                if !UserDefaults.standard.bool(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue) {
+                    isFromEnrollORQRCode = true
+                }else {
+                    isFromORQRCodeLaunch = true
+                }
                 lauchBiomtrics()
             }
            
@@ -363,6 +374,8 @@ extension HomeViewController {
     func removePersistantStorage() {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue)
+
     }
 }
 extension HomeViewController {
@@ -495,6 +508,7 @@ extension HomeViewController {
             UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue)
             UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
             UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.accessToken.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.refreshToken.rawValue)

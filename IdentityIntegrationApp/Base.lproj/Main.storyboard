@@ -31,7 +31,7 @@
                             <constraint firstItem="hvu-Nx-fbZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="t50-zZ-SoH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Acme" id="t1F-lD-hZu"/>
+                    <navigationItem key="navigationItem" title="Acme Inc" id="t1F-lD-hZu"/>
                     <connections>
                         <outlet property="tableView" destination="hvu-Nx-fbZ" id="bi6-Wy-Ipk"/>
                         <segue destination="kMM-q3-Uhg" kind="show" identifier="HomeViewSegueIdentifier" id="Jye-4a-qsj"/>
@@ -118,7 +118,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ew-GS-P8B">
-                                <rect key="frame" x="100" y="513" width="214" height="40"/>
+                                <rect key="frame" x="100" y="550" width="214" height="40"/>
                                 <color key="backgroundColor" red="0.098039215690000001" green="0.14117647059999999" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="Z1M-78-z30"/>
@@ -136,16 +136,16 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1UD-rW-4xN">
-                                <rect key="frame" x="30" y="58" width="354" height="407"/>
+                                <rect key="frame" x="30" y="58" width="354" height="447"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="i8Y-Da-inE">
-                                        <rect key="frame" x="20" y="40" width="314" height="317"/>
+                                        <rect key="frame" x="20" y="40" width="314" height="367"/>
                                         <color key="backgroundColor" red="0.098039215690000001" green="0.14117647059999999" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <color key="tintColor" systemColor="tintColor"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" link="YES"/>
                                         </accessibility>
-                                        <mutableString key="text">Click on “Active MFA” button to silently enroll the mobile device to CyberArk Identity. The access token retrieved in previous step is used to enroll the user. ​
+                                        <string key="text">Click on “Active MFA” button to silently enroll the mobile device to CyberArk Identity. The access token retrieved in previous step is used to enroll the user. ​
 
 ​
 
@@ -153,7 +153,7 @@ Enrolling the mobile device enables to user to leverage the QR code authenticato
 
 ​
 
-Please visit link for details on implementation.​</mutableString>
+Please visit link for details on implementation.​</string>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -163,7 +163,7 @@ Please visit link for details on implementation.​</mutableString>
                                 <color key="backgroundColor" red="0.098039215690000001" green="0.14117647059999999" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="i8Y-Da-inE" secondAttribute="trailing" constant="20" id="1S4-xc-fwO"/>
-                                    <constraint firstAttribute="bottom" secondItem="i8Y-Da-inE" secondAttribute="bottom" constant="50" id="a5a-tG-bnj"/>
+                                    <constraint firstAttribute="bottom" secondItem="i8Y-Da-inE" secondAttribute="bottom" constant="40" id="a5a-tG-bnj"/>
                                     <constraint firstItem="i8Y-Da-inE" firstAttribute="top" secondItem="1UD-rW-4xN" secondAttribute="top" constant="40" id="cF5-ba-B9I"/>
                                     <constraint firstItem="i8Y-Da-inE" firstAttribute="leading" secondItem="1UD-rW-4xN" secondAttribute="leading" constant="20" id="dR6-LS-m1E"/>
                                 </constraints>
@@ -178,17 +178,17 @@ Please visit link for details on implementation.​</mutableString>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="6ew-GS-P8B" firstAttribute="leading" secondItem="LWo-6j-NfF" secondAttribute="leading" constant="100" id="01G-xk-jSu"/>
-                            <constraint firstItem="6ew-GS-P8B" firstAttribute="centerY" secondItem="YeJ-3w-amo" secondAttribute="centerY" constant="129" id="AG8-Nn-Bt9"/>
+                            <constraint firstItem="6ew-GS-P8B" firstAttribute="centerY" secondItem="YeJ-3w-amo" secondAttribute="centerY" constant="166" id="AG8-Nn-Bt9"/>
                             <constraint firstItem="1UD-rW-4xN" firstAttribute="leading" secondItem="LWo-6j-NfF" secondAttribute="leading" constant="30" id="ETr-KW-szx"/>
                             <constraint firstItem="1UD-rW-4xN" firstAttribute="top" secondItem="LWo-6j-NfF" secondAttribute="top" constant="58" id="KiG-mz-HkX"/>
                             <constraint firstItem="LWo-6j-NfF" firstAttribute="trailing" secondItem="1UD-rW-4xN" secondAttribute="trailing" constant="30" id="Q6d-M8-Drg"/>
                             <constraint firstItem="1UD-rW-4xN" firstAttribute="centerX" secondItem="YeJ-3w-amo" secondAttribute="centerX" id="TIV-fG-jJM"/>
-                            <constraint firstItem="6ew-GS-P8B" firstAttribute="top" secondItem="1UD-rW-4xN" secondAttribute="bottom" constant="48" id="eU6-rv-ydo"/>
+                            <constraint firstItem="6ew-GS-P8B" firstAttribute="top" secondItem="1UD-rW-4xN" secondAttribute="bottom" constant="45" id="eU6-rv-ydo"/>
                             <constraint firstItem="LWo-6j-NfF" firstAttribute="trailing" secondItem="6ew-GS-P8B" secondAttribute="trailing" constant="100" id="wDQ-iK-xQn"/>
                             <constraint firstItem="6ew-GS-P8B" firstAttribute="centerX" secondItem="YeJ-3w-amo" secondAttribute="centerX" id="x8U-2v-iSG"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Acme" id="miC-1a-Unv"/>
+                    <navigationItem key="navigationItem" title="Acme Inc" id="miC-1a-Unv"/>
                     <connections>
                         <outlet property="QR_button" destination="6ew-GS-P8B" id="zgn-2U-YGo"/>
                         <outlet property="body_textView" destination="i8Y-Da-inE" id="6rt-xl-hyE"/>
@@ -377,9 +377,9 @@ Please visit link for details on implementation.​</mutableString>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="fmf-b7-hU1">
                                                         <rect key="frame" x="0.0" y="490" width="374" height="18"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invoke Biometrcis:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wdu-rN-ENj">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invoke Biometrics:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wdu-rN-ENj">
                                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="18"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
@@ -478,12 +478,15 @@ Please visit link for details on implementation.​</mutableString>
                             <constraint firstItem="kd6-eM-B4C" firstAttribute="trailing" secondItem="5BJ-cd-6KU" secondAttribute="trailing" constant="20" id="m20-uY-ErB"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Acme" id="UWJ-iO-O6h"/>
+                    <navigationItem key="navigationItem" title="Acme Inc" id="UWJ-iO-O6h"/>
                     <connections>
                         <outlet property="accessToken_Switch" destination="nC5-u4-dy9" id="mvy-ms-xfS"/>
                         <outlet property="appID_textfeild" destination="7P3-AS-EJM" id="Gei-36-ms6"/>
                         <outlet property="appLaunch_switch" destination="U3G-gB-aGi" id="ceD-7R-98B"/>
                         <outlet property="clientID_textfeild" destination="XFj-dG-977" id="mnU-9G-IKb"/>
+                        <outlet property="contentStackView" destination="qLw-DR-ILF" id="hoF-Ys-wpu"/>
+                        <outlet property="invokeBiometricsStackView" destination="axl-dp-Nkp" id="zKh-Na-Zje"/>
+                        <outlet property="invokeBiometricsTitleStackView" destination="fmf-b7-hU1" id="Jrl-0r-yx5"/>
                         <outlet property="qrLaunch_switch" destination="b4Q-7Z-lgq" id="TUN-a0-XlY"/>
                         <outlet property="redirectURI_textfeild" destination="6jJ-9I-3yE" id="wyw-X1-8EQ"/>
                         <outlet property="responseType_textfeild" destination="Z8A-BS-dPe" id="xkp-kH-Uss"/>
@@ -511,7 +514,7 @@ Please visit link for details on implementation.​</mutableString>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login Request" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oql-y5-2bl">
                                         <rect key="frame" x="0.0" y="40" width="334" height="26.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="acme_logo" translatesAutoresizingMaskIntoConstraints="NO" id="LUC-BR-m7I">
@@ -524,17 +527,17 @@ Please visit link for details on implementation.​</mutableString>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Acme Inc. has sent  a notification to confirm the user identity. Please approve the login request if logging into Acme Inc.​" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2VN-04-B1b">
                                         <rect key="frame" x="50" y="221.5" width="234" height="72"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="27" translatesAutoresizingMaskIntoConstraints="NO" id="5hC-E0-QRr">
-                                        <rect key="frame" x="94" y="335" width="146" height="84.5"/>
+                                        <rect key="frame" x="94" y="335" width="147" height="84.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="d6G-d1-lUb">
-                                                <rect key="frame" x="0.0" y="0.0" width="59.5" height="84.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="60" height="84.5"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y1a-du-2dc">
-                                                        <rect key="frame" x="0.0" y="0.0" width="59.5" height="60"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                                         <color key="backgroundColor" systemColor="systemRedColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="60" id="LDw-cZ-i8H"/>
@@ -549,18 +552,18 @@ Please visit link for details on implementation.​</mutableString>
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deny" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XQk-Bb-GwI">
-                                                        <rect key="frame" x="0.0" y="70" width="59.5" height="14.5"/>
+                                                        <rect key="frame" x="0.0" y="70" width="60" height="14.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                        <color key="textColor" red="0.098039215690000001" green="0.14117647059999999" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
                                             </stackView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="HVn-mm-wF5">
-                                                <rect key="frame" x="86.5" y="0.0" width="59.5" height="84.5"/>
+                                                <rect key="frame" x="87" y="0.0" width="60" height="84.5"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QTM-PV-2kd">
-                                                        <rect key="frame" x="0.0" y="0.0" width="59.5" height="60"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
                                                         <color key="backgroundColor" systemColor="systemGreenColor"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="60" id="euE-8D-qGy"/>
@@ -575,17 +578,20 @@ Please visit link for details on implementation.​</mutableString>
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Approve" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4dk-Q8-38t">
-                                                        <rect key="frame" x="0.0" y="70" width="59.5" height="14.5"/>
+                                                        <rect key="frame" x="0.0" y="70" width="60" height="14.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                        <color key="textColor" red="0.14117647059999999" green="0.21960784310000001" blue="0.3803921569" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="84.5" id="I0A-4i-ndw"/>
+                                                </constraints>
                                             </stackView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <color key="backgroundColor" red="0.098039215690000001" green="0.14117647059999999" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="2VN-04-B1b" firstAttribute="top" secondItem="LUC-BR-m7I" secondAttribute="bottom" constant="40" id="0MS-5V-I0M"/>
                                     <constraint firstItem="5hC-E0-QRr" firstAttribute="top" secondItem="2VN-04-B1b" secondAttribute="bottom" constant="41.5" id="1gl-NW-isG"/>
@@ -597,7 +603,6 @@ Please visit link for details on implementation.​</mutableString>
                                     <constraint firstItem="2VN-04-B1b" firstAttribute="centerX" secondItem="LUC-BR-m7I" secondAttribute="centerX" id="k9l-bI-OrT"/>
                                     <constraint firstItem="oql-y5-2bl" firstAttribute="top" secondItem="l4C-PY-vqS" secondAttribute="top" constant="40" id="kaF-XS-2f4"/>
                                     <constraint firstItem="2VN-04-B1b" firstAttribute="leading" secondItem="l4C-PY-vqS" secondAttribute="leading" constant="50" id="ojB-nx-WzI"/>
-                                    <constraint firstItem="5hC-E0-QRr" firstAttribute="centerX" secondItem="2VN-04-B1b" secondAttribute="centerX" id="tPN-Lu-Add"/>
                                     <constraint firstItem="LUC-BR-m7I" firstAttribute="top" secondItem="oql-y5-2bl" secondAttribute="bottom" constant="40" id="xcd-UO-4k8"/>
                                     <constraint firstItem="LUC-BR-m7I" firstAttribute="leading" secondItem="l4C-PY-vqS" secondAttribute="leading" constant="58" id="yHW-FY-dK4"/>
                                 </constraints>
@@ -612,7 +617,7 @@ Please visit link for details on implementation.​</mutableString>
                             <constraint firstItem="ivE-3D-lSp" firstAttribute="trailing" secondItem="l4C-PY-vqS" secondAttribute="trailing" constant="40" id="vHb-k0-x37"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Acme" id="2se-FQ-6iO"/>
+                    <navigationItem key="navigationItem" title="Acme Inc" id="2se-FQ-6iO"/>
                     <connections>
                         <outlet property="approve_button" destination="QTM-PV-2kd" id="vfe-hZ-IJP"/>
                         <outlet property="content_label" destination="2VN-04-B1b" id="3ZX-Do-TDb"/>
@@ -633,9 +638,6 @@ Please visit link for details on implementation.​</mutableString>
         <image name="close_icon" width="13" height="13"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

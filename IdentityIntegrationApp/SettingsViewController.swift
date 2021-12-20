@@ -34,13 +34,14 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     var activeField: UITextField?
 
     @IBOutlet weak var scrollView: UIScrollView!
+
+    @IBOutlet weak var contentStackView: UIStackView!
+    @IBOutlet weak var invokeBiometricsStackView: UIStackView!
+    @IBOutlet weak var invokeBiometricsTitleStackView: UIStackView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         config()
-        setupTextFeilds()
-        addKeyboardObservers()
-        addDoneBarButtonItem()
-        modifyTopbar()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -48,11 +49,19 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        configureBiometricsUI()
     }
 }
 extension SettingsViewController {
     func config(){
+        setupData()
+        setupTextFeilds()
+        addKeyboardObservers()
+        addDoneBarButtonItem()
+        addTopbar()
+        setupStackViewUI()
+        configureBiometricsUI()
+    }
+    func setupData(){
         guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
         tenant_textfeild.text = config.domain
         systemURL_textfeild.text = config.systemurl
@@ -66,8 +75,30 @@ extension SettingsViewController {
         scope_textfeild.backgroundColor = .lightGray
         responseType_textfeild.backgroundColor = .lightGray
     }
-    func modifyTopbar() {
-        self.navigationItem.title = "Acme"
+    func setupStackViewUI(){
+        do {
+            if (try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue)) != nil {
+                setupStackViews(isHidden: true)
+                invokeBiometricsStackView.isHidden = false
+                invokeBiometricsTitleStackView.isHidden = false
+
+            }else {
+                setupStackViews(isHidden: false)
+                invokeBiometricsStackView.isHidden = true
+                invokeBiometricsTitleStackView.isHidden = true
+
+            }
+        } catch {
+            print("Unexpected error: \(error)")
+        }
+    }
+    func setupStackViews(isHidden: Bool){
+        for subview in contentStackView.subviews {
+            subview.isHidden = isHidden
+        }
+    }
+    func addTopbar() {
+        self.navigationItem.title = "Acme Inc"
         let backButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(named: "back")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(back))
         self.navigationItem.leftBarButtonItem = backButton
     }
@@ -130,7 +161,8 @@ extension SettingsViewController {
             info["scope"] = scope_textfeild.text
             info["responsetype"] = responseType_textfeild.text
             UserDefaults.standard.setDict(dict: info, for: "OAuthConfig")
-            navigateToWelcomeScreen()
+            pop()
+            //navigateToWelcomeScreen()
         } else {
             showAlert(with: "", message: "Please enter all the input feilds")
         }
@@ -213,7 +245,6 @@ extension SettingsViewController {
      */
     func configureBiometricsUI() {
        
-        UserDefaults.standard.synchronize()
         appLaunch_switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue), animated: true)
         accessToken_Switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue), animated: true)
         qrLaunch_switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue), animated: true)
@@ -247,6 +278,7 @@ extension SettingsViewController {
             UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue)
             UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
             UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.accessToken.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.refreshToken.rawValue)

@@ -188,6 +188,8 @@ extension AuthenticationViewModel {
             UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isDeviceEnrolled.rawValue)
             UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
             UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
+            UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue)
+
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.accessToken.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.grantCode.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.refreshToken.rawValue)
