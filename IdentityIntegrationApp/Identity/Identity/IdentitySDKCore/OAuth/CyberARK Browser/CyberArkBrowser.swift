@@ -79,13 +79,7 @@ public class CyberArkBrowser: NSObject {
     /// Navigate to broswer
     /// - Parameter completion: to get the callback
     public func login(completion: @escaping didFinishingbrowserOperationCallback) {
-        //  Makes sure if the user is already authenticated or not
-        /*if let _ = FRUser.currentUser?.token {
-            completion(nil, AuthError.userAlreadyAuthenticated(true))
-            return
-        }*/
         
-        //self.pkce = AuthOPKCE()
         self.browserCallback = completion
         let endpoint = oAuthEndPoint?.getAuthorizationEndpoint()
         //let encodedURL = endpoint?.request.url?.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)

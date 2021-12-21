@@ -50,7 +50,7 @@ extension NotificationsViewController {
     func configureNotificationData(){
         let userInfo = pushUserInfo["payload"] as! [AnyHashable: Any]
         let info = userInfo["Options"] as! [AnyHashable: Any]
-        let message =  "\(info["Message"] as! String) for \(info["TargetAuthUser"] as! String)"
+        let message =  "\(info["Message"] as! String)"
         content_label.text = message
     }
 }

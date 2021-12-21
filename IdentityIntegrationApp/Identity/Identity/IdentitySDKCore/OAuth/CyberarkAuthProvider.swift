@@ -158,8 +158,11 @@ extension CyberarkAuthProvider {
             if let code =  url.queryParameter(with:"code") {
                 fetchAuthToken(code: code)
             } else {
-                //To-Do
-                dismiss()
+                if let message =  url.queryParameter(with:"error_description") {
+                    self.didReceiveAccessToken!(false, message,nil)
+                } else {
+                    self.didReceiveAccessToken!(false, "Access Denied",nil)
+                }
             }
         }
     }

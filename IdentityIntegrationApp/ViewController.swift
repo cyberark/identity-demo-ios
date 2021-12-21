@@ -166,7 +166,11 @@ extension ViewController {
                     }
                 }
             } else {
-                self.showAlert(with: "Seems like something went wrong", message: message)
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true) {
+                        UIApplication.getTopMostViewController()?.showAlert(message: message)
+                    }
+                }
             }
         }
     }
