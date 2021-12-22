@@ -220,9 +220,9 @@ extension ViewController {
     func showCustomAlert(type: PopUpType, actionType: PopUpActionType, title: String, message: String, onCompletion: (() -> Void)? = nil) {
         let alertViewController: CustomPopUpViewController =  CustomPopUpViewController.initFromNib()
         
-        let normalText = "CyberArk Hosted Login​\n​\nIn this scenario the Acme wants to use the MFA provided by CyberArk Identity by authenticating the users with the CyberArk Identity login.​\n​\nThe user will be redirected to the CyberArk Identity Login page and prompted to enter username and the corresponding MFA factors. On successful authentication an access token will be returned for the user​\n​\nPlease visit link for details on implementation.​\n\n"
+        let normalText = "CyberArk Hosted Login​\n​\nIn this scenario the Acme wants to use the MFA provided by CyberArk Identity by authenticating the users with the CyberArk Identity login.​\n​\nThe user will be redirected to the CyberArk Identity Login page and prompted to enter username and the corresponding MFA factors. On successful authentication an access token will be returned for the user​\n​\nPlease visit here for details on implementation.​\n\n"
         
-        let attributedString = normalText.getLinkAttributes(header: "CyberArk Hosted Login​", linkAttribute: "link", headerFont: UIFont.boldSystemFont(ofSize: 22.0), textFont:UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .white, linkValue: "https://identity-developer.cyberark.com/docs/cyberark-identity-sdk-for-ios")
+        let attributedString = normalText.getLinkAttributes(header: "CyberArk Hosted Login​", linkAttribute: "here", headerFont: UIFont.boldSystemFont(ofSize: 22.0), textFont:UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .white, linkValue: "https://identity-developer.cyberark.com/docs/cyberark-identity-sdk-for-ios")
         
         alertViewController.callCompletion {
             if (onCompletion != nil) {

@@ -608,9 +608,9 @@ extension HomeViewController {
         
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
-        let normalText = "Click on “Opt in for MFA” button to silently enroll the mobile device to CyberArk Identity. The access token retrieved in previous step is used to enroll the user.\n​\nEnrolling the mobile device enables to user to leverage the QR code authenticator and mobile push authentication service provided by CyberArk Identity.\n​\nPlease visit link for details on implementation."
+        let normalText = "Click on “Opt in for MFA” button to silently enroll the mobile device to CyberArk Identity. The access token retrieved in previous step is used to enroll the user.\n​\nEnrolling the mobile device enables to user to leverage the QR code authenticator and mobile push authentication service provided by CyberArk Identity.\n​\nPlease visit here for details on implementation."
         
-        let attributedString = normalText.getLinkAttributes(header: "Welcome to Acme Inc. !!", linkAttribute: "link", headerFont: UIFont.boldSystemFont(ofSize: 25.0), textFont:  UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .blue, linkValue: "https://identity-developer.cyberark.com/docs/cyberark-identity-sdk-for-ios")
+        let attributedString = normalText.getLinkAttributes(header: "Welcome to Acme Inc. !!", linkAttribute: "here", headerFont: UIFont.boldSystemFont(ofSize: 25.0), textFont:  UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .blue, linkValue: "https://identity-developer.cyberark.com/docs/cyberark-identity-sdk-for-ios")
         
         return attributedString
     }
@@ -618,9 +618,9 @@ extension HomeViewController {
         
         let paragraph = NSMutableParagraphStyle()
         paragraph.alignment = .center
-        let normalText = "Click on “QR code authenticator” to open the QR code scanner. The user should scan the QRCode displayed on the Acme website using this scanner for successful authentication to the website.\n​\nPlease visit link for details on implementation.​"
+        let normalText = "Click on “QR code authenticator” to open the QR code scanner. The user should scan the QRCode displayed on the Acme website using this scanner for successful authentication to the website.\n​\nPlease visit here for details on implementation.​"
         
-        let attributedString = normalText.getLinkAttributes(header: "Welcome to Acme Inc. !!", linkAttribute: "link", headerFont: UIFont.boldSystemFont(ofSize: 25.0), textFont:  UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .blue, linkValue: "https://identity-developer.cyberark.com/docs/cyberark-identity-sdk-for-ios")
+        let attributedString = normalText.getLinkAttributes(header: "Welcome to Acme Inc. !!", linkAttribute: "here", headerFont: UIFont.boldSystemFont(ofSize: 25.0), textFont:  UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .blue, linkValue: "https://identity-developer.cyberark.com/docs/cyberark-identity-sdk-for-ios")
         
         return attributedString
     }
