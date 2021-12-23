@@ -53,7 +53,7 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>We need to access camera to serve you better</string>
+	<string>We need to access camera to scan the QR codes</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Identify yourself to continue to access to this app</string>
 	<key>ITSAppUsesNonExemptEncryption</key>

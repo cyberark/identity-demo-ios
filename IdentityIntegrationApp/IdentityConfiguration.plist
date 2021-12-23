@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>clientid</key>
-	<string>Axis</string>
+	<string>acme</string>
 	<key>domainoauth</key>
-	<string>https://acme2.my.dev.idaptive.app</string>
+	<string>https://auth.cyberarklab.com</string>
 	<key>systemurl</key>
-	<string>https://aaj7617.my.dev.idaptive.app</string>
+	<string>https://aar5203.my.idaptive.qa</string>
 	<key>applicationid</key>
-	<string>OAuthTest</string>
+	<string>AcmeIOSApp</string>
 	<key>redirecturi</key>
 	<string>ciamsdkdemo://com.cyberark.ciamsdk</string>
 	<key>scope</key>

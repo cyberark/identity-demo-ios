@@ -161,7 +161,7 @@ extension CyberarkAuthProvider {
                 if let message =  url.queryParameter(with:"error_description") {
                     self.didReceiveAccessToken!(false, message,nil)
                 } else {
-                    self.didReceiveAccessToken!(false, "Access Denied",nil)
+                    self.dismiss()
                 }
             }
         }
