@@ -262,7 +262,7 @@
 				E24ECD2A269C63B100C61EF5 /* OAuth */,
 				E2EFFF1426C3AD5F008EED7E /* Enrollment */,
 				28519BC026B00E7E009F615D /* Biometric */,
-				E24ECD45269C63B100C61EF5 /* QR Athenticator */,
+				E24ECD45269C63B100C61EF5 /* QRAthenticator */,
 				E2EB52FC2716D9C300027FF8 /* DeviceProfile */,
 				E259CE682706E9DD00F4E8C5 /* MFA */,
 				E24ECD4B269C63B100C61EF5 /* Helper */,
@@ -338,7 +338,7 @@
 			path = NetworkLayer;
 			sourceTree = "<group>";
 		};
-		E24ECD45269C63B100C61EF5 /* QR Athenticator */ = {
+		E24ECD45269C63B100C61EF5 /* QRAthenticator */ = {
 			isa = PBXGroup;
 			children = (
 				E24ECD46269C63B100C61EF5 /* QRAuthenticationProvider.swift */,
@@ -349,7 +349,7 @@
 				285ADA8826B4025200417085 /* AVCodeReader.swift */,
 				285ADA8C26B4026E00417085 /* QRCodeReaderProtocol.swift */,
 			);
-			path = "QR Athenticator";
+			path = QRAthenticator;
 			sourceTree = "<group>";
 		};
 		E24ECD4B269C63B100C61EF5 /* Helper */ = {
