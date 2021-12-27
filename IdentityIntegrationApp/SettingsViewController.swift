@@ -70,9 +70,9 @@ extension SettingsViewController {
         scope_textfeild.text = config.scope
         redirectURI_textfeild.text = config.redirectUri
         responseType_textfeild.text = config.responseType
-        scope_textfeild.isEnabled = false
+        //scope_textfeild.isEnabled = false
         responseType_textfeild.isEnabled = false
-        scope_textfeild.backgroundColor = .lightGray
+        //scope_textfeild.backgroundColor = .lightGray
         responseType_textfeild.backgroundColor = .lightGray
     }
     func setupStackViewUI(){

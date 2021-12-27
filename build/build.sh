@@ -24,7 +24,7 @@ EOF
 }
 
 genrate_info_plist
-xcrun xcodebuild -scheme "IdentityIntegrationApp" -configuration "Release" -archivePath "out/app.xcarchive" archive
+xcrun xcodebuild -scheme "IdentityIntegrationApp" -configuration "Release" -archivePath "out/app.xcarchive" archive -allowProvisioningUpdates
 
 xcodebuild -exportArchive -archivePath "out/app.xcarchive" -exportPath "ipa/" -exportOptionsPlist "info.plist" -allowProvisioningUpdates
 

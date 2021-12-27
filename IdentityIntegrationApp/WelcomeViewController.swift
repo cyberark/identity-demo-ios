@@ -55,7 +55,7 @@ extension WelcomeViewController {
         paragraph.alignment = .center
         let normalText = "Welcome to Acme Inc. !!​\n​\nAcme Inc. is a banking company using CyberArk Identity APIs, SDKs, and widgets to secure its web applications. This playground application shows all the possible variations that a developer from Acme has at their disposal. ​\n​\nFor developer guides and API documentation, please visit CyberArk Identity Developer Program website.​\n\n"
         
-        let attributedString = normalText.getLinkAttributes(header: "Welcome to Acme Inc. !!", linkAttribute: "CyberArk Identity Developer Program", headerFont: UIFont.boldSystemFont(ofSize: 25.0), textFont:  UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .blue, linkValue: "https://docs.cyberark.com/Product-Doc/OnlineHelp/Portal/Content/Resources/_TopNav/cc_Portal.htm")
+        let attributedString = normalText.getLinkAttributes(header: "Welcome to Acme Inc. !!", linkAttribute: "CyberArk Identity Developer Program", headerFont: UIFont.boldSystemFont(ofSize: 25.0), textFont:  UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .blue, linkValue: "https://identity-developer.cyberark.com/")
         
         return attributedString
     }
@@ -65,7 +65,7 @@ extension WelcomeViewController {
     }
     func launchURL() {
         DispatchQueue.main.async {
-            if let settingsURL = URL(string: "https://docs.cyberark.com/Product-Doc/OnlineHelp/Portal/Content/Resources/_TopNav/cc_Portal.htm") {
+            if let settingsURL = URL(string: "https://identity-developer.cyberark.com/") {
                 UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
             }
         }
