@@ -21,7 +21,10 @@
                         <rect key="frame" x="10" y="10" width="300" height="132"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CyberArk Hosted Login" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="he9-Z3-xdq">
-                                <rect key="frame" x="10" y="10" width="280" height="44"/>
+                                <rect key="frame" x="10" y="10" width="280" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="26" id="Ufx-li-p5K"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -36,7 +39,7 @@
                                 <state key="normal" title="Learn More "/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cFa-50-6kD">
-                                <rect key="frame" x="135" y="64" width="40" height="40"/>
+                                <rect key="frame" x="130" y="46" width="40" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="40" id="K4D-jy-Z0C"/>
@@ -48,14 +51,14 @@
                         </subviews>
                         <color key="backgroundColor" red="0.098039215690000001" green="0.14117647059999999" blue="0.21176470589999999" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="vVc-bZ-Ku1" firstAttribute="leading" secondItem="cFa-50-6kD" secondAttribute="trailing" constant="48" id="4Uz-P2-7XY"/>
                             <constraint firstItem="he9-Z3-xdq" firstAttribute="leading" secondItem="qbi-lg-P2H" secondAttribute="leading" constant="10" id="6yB-9W-rF6"/>
+                            <constraint firstItem="cFa-50-6kD" firstAttribute="centerY" secondItem="qbi-lg-P2H" secondAttribute="centerY" id="Anj-XZ-WBl"/>
                             <constraint firstItem="he9-Z3-xdq" firstAttribute="top" secondItem="qbi-lg-P2H" secondAttribute="top" constant="10" id="SFa-Kk-M5f"/>
                             <constraint firstAttribute="trailing" secondItem="vVc-bZ-Ku1" secondAttribute="trailing" constant="9" id="UZb-9e-xaq"/>
                             <constraint firstAttribute="bottom" secondItem="vVc-bZ-Ku1" secondAttribute="bottom" constant="8" id="VT0-Mt-A2T"/>
                             <constraint firstItem="cFa-50-6kD" firstAttribute="top" secondItem="he9-Z3-xdq" secondAttribute="bottom" constant="10" id="Xgu-eP-Ij8"/>
-                            <constraint firstAttribute="bottom" secondItem="cFa-50-6kD" secondAttribute="bottom" constant="28" id="Yqj-rD-cfe"/>
                             <constraint firstAttribute="trailing" secondItem="he9-Z3-xdq" secondAttribute="trailing" constant="10" id="aku-Ud-8l4"/>
+                            <constraint firstItem="cFa-50-6kD" firstAttribute="centerX" secondItem="qbi-lg-P2H" secondAttribute="centerX" id="iVC-Z8-E72"/>
                         </constraints>
                     </view>
                 </subviews>

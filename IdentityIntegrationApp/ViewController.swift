@@ -168,7 +168,7 @@ extension ViewController {
             } else {
                 DispatchQueue.main.async {
                     self.dismiss(animated: true) {
-                        UIApplication.getTopMostViewController()?.showAlert(message: message)
+                        self.showAlert(message: message)
                     }
                 }
             }
@@ -253,7 +253,43 @@ extension ViewController {
     }
   
 }
+extension ViewController {
+    func showAlert(message: String){
+        
+        let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        let settingsAction = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+            self.closeSession()
+        })
+        alertController.addAction(settingsAction)
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+}
+extension ViewController {
+    
+    /// To close the current session
+    /// Remove  all the data which is persisted locally
+    func closeSession() {
+        removePersistantStorage()
+        guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
+        guard let account =  CyberArkAuthProvider.webAuth()?
+                .set(clientId: config.clientId)
+                .set(domain: config.domain)
+                .set(redirectUri: config.redirectUri)
+                .set(applicationID: config.applicationID)
+                .set(presentingViewController: self)
+                .setCustomParam(key: "", value: "")
+                .set(webType: .sfsafari)
+                .build() else { return }
+        CyberArkAuthProvider.closeSession(account: account)
+    }
+    func removePersistantStorage() {
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue)
 
+    }
+}
 extension UIViewController {
     var appDelegate: AppDelegate {
         return UIApplication.shared.delegate as! AppDelegate
@@ -288,4 +324,6 @@ extension UIViewController {
             blurView.removeFromSuperview()
         }
     }
+    
 }
+
