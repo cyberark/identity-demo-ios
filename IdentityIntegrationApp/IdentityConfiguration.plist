@@ -6,6 +6,8 @@
 	<string>acme</string>
 	<key>domainoauth</key>
 	<string>https://auth.cyberarklab.com</string>
+	<key>loginurl</key>
+	<string>https://ciam.cyberarklab.com</string>
 	<key>systemurl</key>
 	<string>https://aar5203.my.idaptive.qa</string>
 	<key>applicationid</key>

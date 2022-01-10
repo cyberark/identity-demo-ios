@@ -21,6 +21,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var tenant_textfeild: UITextField!
     @IBOutlet weak var systemURL_textfeild: UITextField!
+    @IBOutlet weak var loginURL_textfeild: UITextField!
     @IBOutlet weak var clientID_textfeild: UITextField!
     @IBOutlet weak var appID_textfeild: UITextField!
     @IBOutlet weak var responseType_textfeild: UITextField!
@@ -30,6 +31,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var accessToken_Switch: UISwitch!
     @IBOutlet weak var appLaunch_switch: UISwitch!
     @IBOutlet weak var qrLaunch_switch: UISwitch!
+    @IBOutlet weak var transferFunds_switch: UISwitch!
 
     var activeField: UITextField?
 
@@ -38,6 +40,14 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var contentStackView: UIStackView!
     @IBOutlet weak var invokeBiometricsStackView: UIStackView!
     @IBOutlet weak var invokeBiometricsTitleStackView: UIStackView!
+    @IBOutlet weak var qrLaunchStackView: UIStackView!
+    @IBOutlet weak var accesstokenExpiresStackView: UIStackView!
+    @IBOutlet weak var cyberarkHostedloginStackView: UIStackView!
+    @IBOutlet weak var mfaTitleStackView: UIStackView!
+    @IBOutlet weak var transferFundsStackView: UIStackView!
+
+    var loginType: LoginType?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +75,7 @@ extension SettingsViewController {
         guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
         tenant_textfeild.text = config.domain
         systemURL_textfeild.text = config.systemurl
+        loginURL_textfeild.text = config.loginURL
         clientID_textfeild.text = config.clientId
         appID_textfeild.text = config.applicationID
         scope_textfeild.text = config.scope
@@ -77,17 +88,37 @@ extension SettingsViewController {
     }
     func setupStackViewUI(){
         do {
-            if (try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue)) != nil {
+            if (try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue)) != nil  {
                 setupStackViews(isHidden: true)
                 invokeBiometricsStackView.isHidden = false
                 invokeBiometricsTitleStackView.isHidden = false
-
-            }else {
+                transferFundsStackView.isHidden = true
+                accesstokenExpiresStackView.isHidden = false
+                qrLaunch_switch.isHidden = false
+                cyberarkHostedloginStackView.isHidden = true
+            }else if (try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue)) != nil  {
+                setupStackViews(isHidden: true)
+                invokeBiometricsStackView.isHidden = false
+                invokeBiometricsTitleStackView.isHidden = false
+                transferFundsStackView.isHidden = false
+                accesstokenExpiresStackView.isHidden = true
+                qrLaunchStackView.isHidden = true
+                cyberarkHostedloginStackView.isHidden = true
+            }else if loginType == .stepupauthenticationusingMFA {
+                mfaTitleStackView.isHidden = false
+                transferFundsStackView.isHidden = false
+                cyberarkHostedloginStackView.isHidden = true
+                invokeBiometricsStackView.isHidden = true
+                invokeBiometricsTitleStackView.isHidden = true
+            } else {
                 setupStackViews(isHidden: false)
                 invokeBiometricsStackView.isHidden = true
                 invokeBiometricsTitleStackView.isHidden = true
-
+                cyberarkHostedloginStackView.isHidden = false
+                mfaTitleStackView.isHidden = false
+                transferFundsStackView.isHidden = false
             }
+            
         } catch {
             print("Unexpected error: \(error)")
         }
@@ -110,6 +141,7 @@ extension SettingsViewController {
     func setupTextFeilds(){
         addDoneButtonOnKeyboard(textFeild: tenant_textfeild)
         addDoneButtonOnKeyboard(textFeild: systemURL_textfeild)
+        addDoneButtonOnKeyboard(textFeild: loginURL_textfeild)
         addDoneButtonOnKeyboard(textFeild: clientID_textfeild)
         addDoneButtonOnKeyboard(textFeild: appID_textfeild)
         addDoneButtonOnKeyboard(textFeild: responseType_textfeild)
@@ -156,6 +188,7 @@ extension SettingsViewController {
             info["clientid"] = clientID_textfeild.text
             info["domainoauth"] = tenant_textfeild.text
             info["systemurl"] = systemURL_textfeild.text
+            info["loginurl"] = loginURL_textfeild.text
             info["applicationid"] = appID_textfeild.text
             info["redirecturi"] = redirectURI_textfeild.text
             info["scope"] = scope_textfeild.text
@@ -248,6 +281,8 @@ extension SettingsViewController {
         appLaunch_switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue), animated: true)
         accessToken_Switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue), animated: true)
         qrLaunch_switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue), animated: true)
+        transferFunds_switch.setOn(UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricEnabledOnTransfeFunds.rawValue), animated: true)
+
     }
     /// Handler
     /// - Parameter sender:
@@ -267,6 +302,12 @@ extension SettingsViewController {
     /// - Parameter sender: <#sender description#>
     @IBAction func enableOnQRLaunch(_ sender: Any) {
         UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue)
+        UserDefaults.standard.synchronize()
+    }
+    /// Handler
+    /// - Parameter sender: <#sender description#>
+    @IBAction func enableOnTransferFundsLaunch(_ sender: Any) {
+        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: UserDefaultsKeys.isBiometricEnabledOnTransfeFunds.rawValue)
         UserDefaults.standard.synchronize()
     }
     /*

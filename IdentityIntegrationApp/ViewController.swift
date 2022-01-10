@@ -17,21 +17,43 @@
 import UIKit
 import Identity
 
+
+enum LoginType: Int {
+    case cyberarkhostedlogin
+    case stepupauthenticationusingMFA
+
+    var index: Int {
+        return rawValue
+    }
+    var value: String {
+        switch self {
+        case .cyberarkhostedlogin:
+            return "CyberArk Hosted Login"
+        case .stepupauthenticationusingMFA:
+            return "Step-up authentication using MFA widget"
+        }
+    }
+}
+
 class ViewController: UIViewController {
     
     //Segue identifiers
     let homeViewSegueIdentifier = "HomeViewSegueIdentifier"
     let settingsViewSegueIdentifier = "SettingsSugueidentifier"
-
+    let nativeLoginSegueIdentifier = "NativeLoginSegueIdentifier"
+    
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.delegate = self
             tableView.dataSource = self
         }
     }
-    var loginTypes = [
-        "CyberArk Hosted Login"
-    ]
+    
+    var loginTypes: [LoginType] = [.cyberarkhostedlogin, .stepupauthenticationusingMFA]
+    
+    func updateSections() {
+        // When some kind of state changes, rebuild `sections` to include the relevant sections
+    }
     
 }
 //MARK:- View life cycle
@@ -85,19 +107,31 @@ extension ViewController {
     @objc func rightButtonAction(sender: UIBarButtonItem){
         navigateToSettingsScreen()
     }
-    func navigate(index: Int) {
-        //if index == 0 {
+    func navigate(type: LoginType) {
+        if type == .cyberarkhostedlogin {
             doLogin()
-        //}
+        } else {
+            navigateToLoginWidget()
+        }
     }
     @objc func navigateToCyberArkHostedLogin(){
         doLogin()
     }
     @objc func navigateToLoginWidget(){
-        doLogin()
+        doNativeLogin()
     }
-    @objc func navigateToMore(){
-        self.showCustomAlert(type: .success, actionType: .defaultCase, title: "", message: "")
+    @objc func navigateToMore(sender: UIButton){
+        let type = loginTypes[sender.tag]
+        if type == .cyberarkhostedlogin {
+            showCyberArkHostedLoginAlert(type: .success, actionType: .defaultCase, title: "", message: "")
+        } else {
+            showNativeLoginAlert(type: .success, actionType: .defaultCase, title: "", message: "")
+        }
+
+    }
+    @objc func navigateTo(sender: UIButton) {
+        let type = loginTypes[sender.tag]
+        navigate(type: type)
     }
 }
 //MARK:- UITableViewDelegate, UITableViewDataSource
@@ -108,13 +142,17 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: LoginTypeTableViewCell = tableView.dequeueReusableCell(withIdentifier: "LoginTypeTableViewCell", for: indexPath) as! LoginTypeTableViewCell
         cell.selectionStyle = .none
-        cell.title_label.text = loginTypes[indexPath.row]
+        let type = loginTypes[indexPath.row]
+        cell.title_label.text = type.value
+        cell.more_button.tag = type.index
+        cell.login_button.tag = type.index
         cell.more_button.addTarget(self, action:#selector(navigateToMore), for: .touchUpInside)
-        cell.login_button.addTarget(self, action:#selector(navigateToLoginWidget), for: .touchUpInside)
+        cell.login_button.addTarget(self, action:#selector(navigateTo), for: .touchUpInside)
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        navigate(index: indexPath.row)
+        let type = loginTypes[indexPath.row]
+        navigate(type: type)
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
@@ -217,7 +255,10 @@ extension ViewController {
     func navigateToSettingsScreen() {
         performSegue(withIdentifier: settingsViewSegueIdentifier, sender: self)
     }
-    func showCustomAlert(type: PopUpType, actionType: PopUpActionType, title: String, message: String, onCompletion: (() -> Void)? = nil) {
+    func doNativeLogin(){
+        performSegue(withIdentifier: nativeLoginSegueIdentifier, sender: self)
+    }
+    func showCyberArkHostedLoginAlert(type: PopUpType, actionType: PopUpActionType, title: String, message: String, onCompletion: (() -> Void)? = nil) {
         let alertViewController: CustomPopUpViewController =  CustomPopUpViewController.initFromNib()
         
         let normalText = "CyberArk Hosted Login​\n​\nIn this scenario the Acme Inc wants to use the MFA provided by CyberArk Identity by authenticating the users with the CyberArk Identity login.​\n​\nThe user will be redirected to the CyberArk Identity Login page and prompted to enter username and the corresponding MFA factors. On successful authentication an access token will be returned for the user​\n​\nPlease visit here for details on implementation.​\n\n"
@@ -236,6 +277,32 @@ extension ViewController {
             }
             alertViewController.dismiss {
                 self.doLogin()
+            }
+        }
+        
+        alertViewController.popUpType = type
+        alertViewController.meessageAtributedText = attributedString
+        presentTranslucent(alertViewController, modalTransitionStyle: .crossDissolve, animated: true, completion: nil)
+    }
+    func showNativeLoginAlert(type: PopUpType, actionType: PopUpActionType, title: String, message: String, onCompletion: (() -> Void)? = nil) {
+        let alertViewController: CustomPopUpViewController =  CustomPopUpViewController.initFromNib()
+        
+        let normalText = "Step-up authentication using MFA widget\n​\nIn this scenario Acme Inc wants to provide step-up authentication to end user when the user tries to do funds transfer.\n​\nTo satisfy this scenario Acme Inc uses the CyberArk Identity MFA widget and embeds the widget into the Acme mobile app using the CyberArk Identity mobile SDK.\n​\nPlease visit here for details on implementation."
+        
+        let attributedString = normalText.getLinkAttributes(header: "Step-up authentication using MFA widget​", linkAttribute: "here", headerFont: UIFont.boldSystemFont(ofSize: 22.0), textFont:UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .white, linkValue: "https://identity-developer.cyberark.com/docs/cyberark-identity-sdk-for-ios")
+        
+        alertViewController.callCompletion {
+            if (onCompletion != nil) {
+                onCompletion!()
+            }
+            alertViewController.dismiss()
+        }
+        alertViewController.continueCallCompletion {
+            if (onCompletion != nil) {
+                onCompletion!()
+            }
+            alertViewController.dismiss {
+                self.doNativeLogin()
             }
         }
         
@@ -327,3 +394,9 @@ extension UIViewController {
     
 }
 
+extension CaseIterable where Self: Equatable {
+
+    var index: Self.AllCases.Index? {
+        return Self.allCases.index { self == $0 }
+    }
+}

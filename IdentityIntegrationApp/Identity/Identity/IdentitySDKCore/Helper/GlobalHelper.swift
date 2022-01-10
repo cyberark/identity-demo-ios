@@ -20,9 +20,10 @@ public enum UserDefaultsKeys: String {
     case isBiometricOnAppLaunchEnabled       = "isEnabledBiometricOnAppLaunch"
     case isBiometricWhenAccessTokenExpiresEnabled       = "isEnabledBiometricOnAccessTokenExpires"
     case isBiometricOnQRLaunch       = "isBiometricOnQRLaunch"
+    case isBiometricEnabledOnTransfeFunds       = "isBiometricEnabledOnTransfeFunds"
 
 }
-public func plistValues(bundle: Bundle, plistFileName: String) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, applicationID: String, systemurl: String, responseType: String)? {
+public func plistValues(bundle: Bundle, plistFileName: String) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, applicationID: String, systemurl: String, responseType: String, loginURL: String)? {
     var values: [String: Any] = [String: Any]()
 
     if UserDefaults.standard.getDict(key: "OAuthConfig") != nil {
@@ -33,14 +34,13 @@ public func plistValues(bundle: Bundle, plistFileName: String) -> (clientId: Str
     } else {
         print("Missing CIAMConfiguration.plist file with 'ClientId' and 'Domain' entries in main bundle!")
         return nil
-
     }
     guard
         let clientId = values["clientid"] as? String,
-        let domain = values["domainoauth"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let applicationID = values["applicationid"] as? String, let systemurl = values["systemurl"] as? String, let responsetype = values["responsetype"] as? String
+        let domain = values["domainoauth"] as? String, let scope = values["scope"] as? String, let redirectUri = values["redirecturi"] as? String, let applicationID = values["applicationid"] as? String, let systemurl = values["systemurl"] as? String, let responsetype = values["responsetype"] as? String, let loginURL =  values["loginurl"] as? String
     else {
         print("IdentityConfiguration.plist file at \(bundle.path(forResource: plistFileName, ofType: "plist")) is missing 'ClientId' and/or 'Domain' values!")
         return nil
     }
-    return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, applicationID: applicationID, systemurl: systemurl, responseType: responsetype)
+    return (clientId: clientId, domain: domain, domain_auth0: domain, scope: scope, redirectUri: redirectUri, applicationID: applicationID, systemurl: systemurl, responseType: responsetype, loginURL: loginURL)
 }

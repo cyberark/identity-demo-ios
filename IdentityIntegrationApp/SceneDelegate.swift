@@ -93,6 +93,8 @@ extension SceneDelegate {
             var vc: UIViewController = UIViewController()
             if (try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue)) != nil {
                 vc = story.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
+            } else if (try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue)) != nil {
+                vc = story.instantiateViewController(withIdentifier: "TransferFundsViewContoller") as! TransferFundsViewContoller
             }else {
                 vc = story.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
             }

@@ -157,10 +157,6 @@ extension HomeViewController {
             showBiometricsNotConfigurationAlert()
         }
     }
-    func evaluateSystemBiometrics() -> Bool {
-        let systemBiomtericsEnabled = BiometricsAuthenticator().canEvaluatePolicy()
-        return systemBiomtericsEnabled
-    }
     func evaluateBiometrics() -> Bool {
         let isBiometricOnAppLaunchEnabled = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
         let isBiometricWhenAccessTokenExpiresEnabled = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
