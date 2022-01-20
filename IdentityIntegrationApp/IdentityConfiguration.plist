@@ -20,5 +20,9 @@
 	<integer>60</integer>
 	<key>responsetype</key>
 	<string>code</string>
+	<key>widgetid</key>
+	<string>5f06f919-237b-4d5b-8ccb-516e82e1b13e</string>
+	<key>mfatenanturl</key>
+	<string>https://auth.cyberarklab.com</string>
 </dict>
 </plist>

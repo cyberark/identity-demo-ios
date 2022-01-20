@@ -28,7 +28,7 @@ internal protocol LoginViewModelProtocol {
     /// - Parameters:
     ///   - Bool: result
     ///   - String: error or success message
-    var didReceiveLoginApiResponse: ((Bool,String?, String?) -> Void)? { get set }
+    var didReceiveLoginApiResponse: ((Bool, String?, String?, String?) -> Void)? { get set }
     
     /// Description
     /// - Parameters:
@@ -50,12 +50,12 @@ internal protocol LoginViewModelProtocol {
     private let client : LoginClientProtocol
     
     /// Callback when enrollment is done
-    var didReceiveLoginApiResponse: ((Bool, String?, String?) -> Void)?
+    var didReceiveLoginApiResponse: ((Bool, String?, String?, String?) -> Void)?
 
     ///EnrollResponse
     var loginResponse: LoginResponse? {
         didSet {
-            self.didReceiveLoginApiResponse!(true, loginResponse?.errorMessage ?? "" , loginResponse?.loginInfo?.sessionUuid ?? "")
+            self.didReceiveLoginApiResponse!(true, loginResponse?.errorMessage ?? "" , loginResponse?.loginInfo?.sessionUuid ?? "", loginResponse?.loginInfo?.userName ?? "")
         }
     }
     
@@ -84,12 +84,12 @@ extension LoginViewModel: LoginViewModelProtocol {
                 switch result {
                 case .success(let loginFeedResult):
                     guard let response: LoginResponse = loginFeedResult else {
-                        self?.didReceiveLoginApiResponse!(false, loginFeedResult?.errorMessage ?? "", nil)
+                        self?.didReceiveLoginApiResponse!(false, loginFeedResult?.errorMessage ?? "", nil, nil)
                         return
                     }
                     self?.loginResponse = response
                 case .failure(let error):
-                    self?.didReceiveLoginApiResponse!(false, "Unable to login", nil)
+                    self?.didReceiveLoginApiResponse!(false, "Unable to login", nil, nil)
                     print("the error \(error)")
                 }
             }

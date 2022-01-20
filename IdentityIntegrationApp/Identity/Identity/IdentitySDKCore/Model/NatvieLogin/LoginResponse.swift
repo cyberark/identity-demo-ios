@@ -41,14 +41,18 @@ public class LoginResponse : BaseAPIResponse {
 struct LoginInfo : Codable {
     
     let sessionUuid : String?
-    
+    let userName : String?
+
     enum CodingKeys: String, CodingKey {
         case sessionUuid = "sessionUuid"
+        case userName = "MFAUserName"
     }
     
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         sessionUuid = try values.decodeIfPresent(String.self, forKey: .sessionUuid)
+        userName = try values.decodeIfPresent(String.self, forKey: .userName)
+
     }
     
 }

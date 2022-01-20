@@ -10,6 +10,8 @@
 		2874EA1126B7EB2D005D64C4 /* Identity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2874EA0C26B7EB0E005D64C4 /* Identity.framework */; };
 		2874EA1226B7EB2D005D64C4 /* Identity.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2874EA0C26B7EB0E005D64C4 /* Identity.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E204635A26DE2A8500359236 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E204635926DE2A8500359236 /* SettingsViewController.swift */; };
+		E20D25C827994E2E0093061F /* InfoPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20D25C627994E2E0093061F /* InfoPopupViewController.swift */; };
+		E20D25C927994E2E0093061F /* InfoPopupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E20D25C727994E2E0093061F /* InfoPopupViewController.xib */; };
 		E22BC4952760D8D400ABDFA8 /* CustomPopUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E22BC4932760D8D400ABDFA8 /* CustomPopUpViewController.xib */; };
 		E22BC4982760D8F200ABDFA8 /* CustomPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BC4972760D8F200ABDFA8 /* CustomPopUpViewController.swift */; };
 		E231411626A550F000741657 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E231411526A550F000741657 /* HomeViewController.swift */; };
@@ -65,6 +67,8 @@
 /* Begin PBXFileReference section */
 		2874EA0626B7EB0D005D64C4 /* Identity.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Identity.xcodeproj; path = Identity/Identity.xcodeproj; sourceTree = "<group>"; };
 		E204635926DE2A8500359236 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		E20D25C627994E2E0093061F /* InfoPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPopupViewController.swift; sourceTree = "<group>"; };
+		E20D25C727994E2E0093061F /* InfoPopupViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoPopupViewController.xib; sourceTree = "<group>"; };
 		E22BC4932760D8D400ABDFA8 /* CustomPopUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomPopUpViewController.xib; sourceTree = "<group>"; };
 		E22BC4972760D8F200ABDFA8 /* CustomPopUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPopUpViewController.swift; sourceTree = "<group>"; };
 		E231411526A550F000741657 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +128,8 @@
 			children = (
 				E22BC4972760D8F200ABDFA8 /* CustomPopUpViewController.swift */,
 				E22BC4932760D8D400ABDFA8 /* CustomPopUpViewController.xib */,
+				E20D25C627994E2E0093061F /* InfoPopupViewController.swift */,
+				E20D25C727994E2E0093061F /* InfoPopupViewController.xib */,
 			);
 			path = Others;
 			sourceTree = "<group>";
@@ -162,6 +168,7 @@
 				E2709BA6277DDB2500500FE6 /* TransferFunds */,
 				E2E77B61277B752C00D3A443 /* NativeLogin */,
 				E22BC48E2760D84600ABDFA8 /* Login */,
+				E258C8A427954C69003F3463 /* MFAWidget */,
 				E22BC4922760D8AC00ABDFA8 /* Others */,
 				E2F4F8602760B2E100237A91 /* CardView.swift */,
 				E24ECDD3269C663B00C61EF5 /* Main.storyboard */,
@@ -178,6 +185,13 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E258C8A427954C69003F3463 /* MFAWidget */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MFAWidget;
 			sourceTree = "<group>";
 		};
 		E2709BA6277DDB2500500FE6 /* TransferFunds */ = {
@@ -280,6 +294,7 @@
 				E2EB52E8271051D000027FF8 /* MFANotificationTableViewCell.xib in Resources */,
 				E2F4F85F2760A69900237A91 /* LoginTypeTableViewCell.xib in Resources */,
 				E24ECDDA269C663C00C61EF5 /* LaunchScreen.storyboard in Resources */,
+				E20D25C927994E2E0093061F /* InfoPopupViewController.xib in Resources */,
 				E24ECDD7269C663C00C61EF5 /* Assets.xcassets in Resources */,
 				E24ECDD5269C663B00C61EF5 /* Main.storyboard in Resources */,
 				E24ECDF0269C668C00C61EF5 /* IdentityConfiguration.plist in Resources */,
@@ -295,6 +310,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2E77B67277B767000D3A443 /* LoginViewController.swift in Sources */,
+				E20D25C827994E2E0093061F /* InfoPopupViewController.swift in Sources */,
 				E22BC4982760D8F200ABDFA8 /* CustomPopUpViewController.swift in Sources */,
 				E24ECDD2269C663B00C61EF5 /* ViewController.swift in Sources */,
 				E2F4F8592760908B00237A91 /* WelcomeViewController.swift in Sources */,

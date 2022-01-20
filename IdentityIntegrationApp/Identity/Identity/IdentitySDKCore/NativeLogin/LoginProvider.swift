@@ -33,7 +33,7 @@ public protocol LoginProviderProtocol {
     /// Callback when MFA is done
     /// Handler for the enrollment api response
      */
-    var didReceiveLoginApiResponse: ((Bool,String?, String?) -> Void)? { get set}
+    var didReceiveLoginApiResponse: ((Bool,String?, String?, String?) -> Void)? { get set}
 
 }
 /*
@@ -42,7 +42,7 @@ public protocol LoginProviderProtocol {
 public class LoginProvider: LoginProviderProtocol {
     
     /// callback when enrollmentt is done
-    public var didReceiveLoginApiResponse: ((Bool, String?, String?) -> Void)?
+    public var didReceiveLoginApiResponse: ((Bool, String?, String?, String?) -> Void)?
 
     //ViewModel
     var viewModel: LoginViewModel?
@@ -54,8 +54,8 @@ public class LoginProvider: LoginProviderProtocol {
     }
     /// Handler for the enrollment api response
     func addObserver(){
-        viewModel?.didReceiveLoginApiResponse = { (result, message, sessionToken) in
-            self.didReceiveLoginApiResponse!(result, message, sessionToken)
+        viewModel?.didReceiveLoginApiResponse = { (result, message, sessionToken, userName) in
+            self.didReceiveLoginApiResponse!(result, message, sessionToken, userName)
         }
     }
 }

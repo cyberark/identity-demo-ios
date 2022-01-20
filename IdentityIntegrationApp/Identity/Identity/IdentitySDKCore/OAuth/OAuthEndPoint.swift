@@ -40,6 +40,10 @@ internal class OAuthEndPoint {
     /// logoutUri configured in the server
     var logoutUri: String? = nil
     /// Acount with the given configuration
+    
+    var widgetID: String? = nil
+    /// Acount with the given configuration
+
     var cyberarkAccount: CyberarkAccount? = nil
 
     /*public convenience init(pkce: AuthOPKCE?) {
@@ -66,6 +70,7 @@ internal class OAuthEndPoint {
         self.logoutUri = self.cyberarkAccount?.logoutUri
         self.redirectUri = self.cyberarkAccount?.redirectUri
         self.pkce = self.cyberarkAccount?.pkce
+        self.widgetID = self.cyberarkAccount?.widgetID
     }
     
     /// Initial Configuration
@@ -80,6 +85,7 @@ internal class OAuthEndPoint {
         self.threshold = 60
         self.applicationID = config.applicationID
         self.logoutUri = config.applicationID
+        self.widgetID = config.widgetID
 
     }
 }

@@ -71,7 +71,9 @@ public class CyberArkBrowserBuilder: NSObject {
     /// pkce
     var pkce: AuthOPKCE?
 
-    
+    /// widgetID
+    var widgetID: String? = nil
+
     init(_ oAuthEndPoint: OAuthEndPoint? = nil, pkce: AuthOPKCE? = nil) {
         self.oAuthEndPoint = oAuthEndPoint ?? OAuthEndPoint(pkce: pkce)
         self.pkce = pkce
@@ -172,10 +174,19 @@ public class CyberArkBrowserBuilder: NSObject {
         self.logoutUri = logoutUri
         return self
     }
+    /// Sets custom URL Query parameters to be added to /authorize request
+    /// - Parameters:
+    ///   - key: URL Query parameter key
+    ///   - value: URL Query parameter value
+    /// - Returns: BrowserBuilder object to progressively build Browser object
+    @discardableResult @objc(setWidgetID:) public func set(widgetID: String) -> CyberArkBrowserBuilder {
+        self.widgetID = widgetID
+        return self
+    }
     
     /// builds the  Browser
     /// - Returns: the browser object
     @objc public func build() -> CyberarkAccount {
-        return CyberarkAccount(clientId: self.clientId ?? "", domain: self.domain ?? "", scope: self.scope ?? "", redirectUri: self.redirectUri ?? "", threshold: self.threshold ?? 0, applicationID: self.applicationID ?? "", logoutUri: self.logoutUri ?? "", pkce: self.pkce ?? AuthOPKCE(), presentingViewController: self.presentingViewController ?? UIViewController(), systemURL: self.systemURL ?? "")
+        return CyberarkAccount(clientId: self.clientId ?? "", domain: self.domain ?? "", scope: self.scope ?? "", redirectUri: self.redirectUri ?? "", threshold: self.threshold ?? 0, applicationID: self.applicationID ?? "", logoutUri: self.logoutUri ?? "", pkce: self.pkce ?? AuthOPKCE(), presentingViewController: self.presentingViewController ?? UIViewController(), systemURL: self.systemURL ?? "", widgetID: self.widgetID ?? "")
     }
 }

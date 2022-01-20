@@ -38,6 +38,7 @@ public enum KeyChainStorageKeys: String {
     case profile_uuid = "OathProfileUuid"
     case profile_Counter = "Counter"
     case session_Id = "SessionUuid"
+    case userName = "userName"
     
 }
 /// Keychain Wrapper

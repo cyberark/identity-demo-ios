@@ -106,13 +106,16 @@ extension LoginViewController {
 extension LoginViewController {
     // To get the logout response
     func addLoginObserver(){
-        loginProvider.didReceiveLoginApiResponse = { (result, message, accessToken) in
+        loginProvider.didReceiveLoginApiResponse = { (result, message, accessToken, userName) in
             self.activityIndicator.stopAnimating()
             if result {
                 do {
                     if let sessionToken = accessToken {
                        try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.session_Id.rawValue, data: sessionToken.toData() ?? Data())
                     }
+                    if let name = userName {
+                        try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.userName.rawValue, data: name.toData() ?? Data())
+                     }
                 } catch {
                     print("Unexpected error: \(error)")
                 }

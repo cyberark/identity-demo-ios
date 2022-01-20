@@ -11,13 +11,18 @@ import Identity
 class TransferFundsViewContoller:  UIViewController, UITextViewDelegate, UITextFieldDelegate {
                 
     @IBOutlet weak var body_textView: UITextView!
+    
     @IBOutlet weak var amount_textFeild: UITextField!
 
     let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+    
     var isAuthenticated = false
+    
     var isFromLogin = false
 
     private let settingControllerSegueIdentifier = "TransferFundsSettingsSegueIdentifier"
+
+    let provider = MFAWidgetProvider()
 
 }
 //MARK:- Viewlife cycle
@@ -31,6 +36,7 @@ extension TransferFundsViewContoller {
         super.viewWillAppear(animated)
         navigationItem.hidesBackButton = true
         self.addKeyboardObserver()
+        amount_textFeild.text = ""
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -130,6 +136,8 @@ extension TransferFundsViewContoller {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricEnabledOnTransfeFunds.rawValue)
         do {
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.session_Id.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.userName.rawValue)
+
         } catch {
         }
     }
@@ -293,7 +301,33 @@ extension TransferFundsViewContoller {
         }
     }
     func initiateFundsTransfer(){
+        do {
+            guard let userName = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.userName.rawValue) else { return }
+            guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
+            provider.launchMFAWidget(userName: userName.toString() ?? "", widgetID: config.widgetID, baseURL: config.mfaTenantURL, presentingViewconstroller: self, withCompletionHandler: nil)
+            addTransferFundsTransfer()
+        } catch {
+        }
         
+    }
+    func addTransferFundsTransfer()  {
+        provider.didReceiveApiResponse = { [weak self] status in
+            self?.pop()
+            self?.showFundsTransferSuccessMessage()
+        }
+    }
+    func showFundsTransferSuccessMessage(){
+        let alertViewController: InfoPopupViewController =  InfoPopupViewController.initFromNib()
+        let normalText = "Awesome !​\n​\n Your funds have been transferred successfully​"
+        let attributedString = normalText.getLinkAttributes(header: "Awesome !​​", linkAttribute: "", headerFont: UIFont.boldSystemFont(ofSize: 22.0), textFont:UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .white, linkValue: "")
+        alertViewController.callCompletion {
+            alertViewController.dismiss()
+        }
+        alertViewController.continueCallCompletion {
+            alertViewController.dismiss()
+        }
+        alertViewController.meessageAtributedText = attributedString
+        presentTranslucent(alertViewController, modalTransitionStyle: .crossDissolve, animated: true, completion: nil)
     }
 }
 

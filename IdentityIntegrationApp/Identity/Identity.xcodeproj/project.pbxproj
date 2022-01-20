@@ -66,6 +66,12 @@
 		E24ECD78269C63B100C61EF5 /* URLRquest+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD54269C63B100C61EF5 /* URLRquest+Helper.swift */; };
 		E24ECD79269C63B100C61EF5 /* URL+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD55269C63B100C61EF5 /* URL+Helper.swift */; };
 		E24ECD7B269C63B100C61EF5 /* String+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24ECD57269C63B100C61EF5 /* String+Helper.swift */; };
+		E258C8A927955BF6003F3463 /* MFAWidgetProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258C8A827955BF6003F3463 /* MFAWidgetProvider.swift */; };
+		E258C8B327955C0F003F3463 /* MFAWidgetEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258C8B227955C0F003F3463 /* MFAWidgetEndPoint.swift */; };
+		E258C8B727955C18003F3463 /* MFAWidgetClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258C8B627955C18003F3463 /* MFAWidgetClient.swift */; };
+		E258C8BB2795AB4D003F3463 /* MFAWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258C8BA2795AB4D003F3463 /* MFAWidgetView.swift */; };
+		E258C8C02795AE48003F3463 /* MFAWidgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258C8BE2795AE48003F3463 /* MFAWidgetViewController.swift */; };
+		E258C8C12795AE48003F3463 /* MFAWidgetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E258C8BF2795AE48003F3463 /* MFAWidgetViewController.xib */; };
 		E259CE652706E9D600F4E8C5 /* PushTokenEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E259CE642706E9D600F4E8C5 /* PushTokenEndpoint.swift */; };
 		E25C431726C67FB800800764 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E25C431626C67FB800800764 /* Localizable.strings */; };
 		E25C431C26C69CAA00800764 /* Dictionary+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25C431B26C69CAA00800764 /* Dictionary+Helper.swift */; };
@@ -176,6 +182,12 @@
 		E24ECD54269C63B100C61EF5 /* URLRquest+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLRquest+Helper.swift"; sourceTree = "<group>"; };
 		E24ECD55269C63B100C61EF5 /* URL+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URL+Helper.swift"; sourceTree = "<group>"; };
 		E24ECD57269C63B100C61EF5 /* String+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Helper.swift"; sourceTree = "<group>"; };
+		E258C8A827955BF6003F3463 /* MFAWidgetProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFAWidgetProvider.swift; sourceTree = "<group>"; };
+		E258C8B227955C0F003F3463 /* MFAWidgetEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFAWidgetEndPoint.swift; sourceTree = "<group>"; };
+		E258C8B627955C18003F3463 /* MFAWidgetClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFAWidgetClient.swift; sourceTree = "<group>"; };
+		E258C8BA2795AB4D003F3463 /* MFAWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFAWidgetView.swift; sourceTree = "<group>"; };
+		E258C8BE2795AE48003F3463 /* MFAWidgetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFAWidgetViewController.swift; sourceTree = "<group>"; };
+		E258C8BF2795AE48003F3463 /* MFAWidgetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MFAWidgetViewController.xib; sourceTree = "<group>"; };
 		E259CE642706E9D600F4E8C5 /* PushTokenEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTokenEndpoint.swift; sourceTree = "<group>"; };
 		E25C431626C67FB800800764 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E25C431B26C69CAA00800764 /* Dictionary+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Helper.swift"; sourceTree = "<group>"; };
@@ -288,6 +300,7 @@
 		E24ECD29269C63B100C61EF5 /* IdentitySDKCore */ = {
 			isa = PBXGroup;
 			children = (
+				E258C8A727955B99003F3463 /* MFA Widget */,
 				E23E0BE2277C20F0006B3AC4 /* NativeLogin */,
 				E24ECD2A269C63B100C61EF5 /* OAuth */,
 				E2EFFF1426C3AD5F008EED7E /* Enrollment */,
@@ -408,6 +421,27 @@
 				E2398DDE275A162600636A5F /* UserDefaults+Helper.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		E258C8A727955B99003F3463 /* MFA Widget */ = {
+			isa = PBXGroup;
+			children = (
+				E258C8BE2795AE48003F3463 /* MFAWidgetViewController.swift */,
+				E258C8BF2795AE48003F3463 /* MFAWidgetViewController.xib */,
+				E258C8A827955BF6003F3463 /* MFAWidgetProvider.swift */,
+				E258C8B227955C0F003F3463 /* MFAWidgetEndPoint.swift */,
+				E258C8B627955C18003F3463 /* MFAWidgetClient.swift */,
+				E258C8C42795AF42003F3463 /* MFAWidgetView */,
+				E258C8BA2795AB4D003F3463 /* MFAWidgetView.swift */,
+			);
+			path = "MFA Widget";
+			sourceTree = "<group>";
+		};
+		E258C8C42795AF42003F3463 /* MFAWidgetView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = MFAWidgetView;
 			sourceTree = "<group>";
 		};
 		E259CE682706E9DD00F4E8C5 /* MFA */ = {
@@ -678,6 +712,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				285ADA8526B4017000417085 /* QRCodeReaderViewController.xib in Resources */,
+				E258C8C12795AE48003F3463 /* MFAWidgetViewController.xib in Resources */,
 				E25C431726C67FB800800764 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -709,6 +744,7 @@
 				E24ECD63269C63B100C61EF5 /* OAuthClient.swift in Sources */,
 				E24ECD5B269C63B100C61EF5 /* AuthenticationViewModel.swift in Sources */,
 				E24ECD5D269C63B100C61EF5 /* IdentityAppInfo.swift in Sources */,
+				E258C8BB2795AB4D003F3463 /* MFAWidgetView.swift in Sources */,
 				E24ECD67269C63B100C61EF5 /* APIClient.swift in Sources */,
 				E23E0BE6277C21CC006B3AC4 /* LoginViewModel.swift in Sources */,
 				E24ECD58269C63B100C61EF5 /* CyberarkAuthProvider.swift in Sources */,
@@ -730,6 +766,7 @@
 				E24ECD6A269C63B100C61EF5 /* NetworkConstant.swift in Sources */,
 				E2EB52F52716C7C300027FF8 /* MFAProvider.swift in Sources */,
 				E24ECD72269C63B100C61EF5 /* ViewController+Helper.swift in Sources */,
+				E258C8C02795AE48003F3463 /* MFAWidgetViewController.swift in Sources */,
 				E24ECD70269C63B100C61EF5 /* Codable+Helper.swift in Sources */,
 				E24ECD71269C63B100C61EF5 /* Data+Helper.swift in Sources */,
 				E204635E26DF759E00359236 /* UIColor+Helper.swift in Sources */,
@@ -741,6 +778,7 @@
 				E2EB52EF2715A18C00027FF8 /* MFAChallengeEndpoint.swift in Sources */,
 				28519BC226B00F0C009F615D /* BiometricsAuthenticator.swift in Sources */,
 				E24ECD6B269C63B100C61EF5 /* QRAuthenticationProvider.swift in Sources */,
+				E258C8B727955C18003F3463 /* MFAWidgetClient.swift in Sources */,
 				E24ECD77269C63B100C61EF5 /* Reachability.swift in Sources */,
 				E24ECD78269C63B100C61EF5 /* URLRquest+Helper.swift in Sources */,
 				E2EFFF1A26C3AF01008EED7E /* EnrollmentClient.swift in Sources */,
@@ -749,6 +787,7 @@
 				28352398269DAF0A00AE1BBB /* QRAuthResultModel.swift in Sources */,
 				E24ECD73269C63B100C61EF5 /* Bundle+Helper.swift in Sources */,
 				E25C433326CA4DF900800764 /* CyberarkAccount.swift in Sources */,
+				E258C8B327955C0F003F3463 /* MFAWidgetEndPoint.swift in Sources */,
 				E2EB52ED2715963300027FF8 /* ProfileClient.swift in Sources */,
 				E24ECD5C269C63B100C61EF5 /* OAuthEndPoint.swift in Sources */,
 				E25C431C26C69CAA00800764 /* Dictionary+Helper.swift in Sources */,
@@ -761,6 +800,7 @@
 				E24ECD62269C63B100C61EF5 /* OAuthAcessToken.swift in Sources */,
 				E24ECD74269C63B100C61EF5 /* AuthOChallengeGenerator.swift in Sources */,
 				285ADA8D26B4026E00417085 /* QRCodeReaderProtocol.swift in Sources */,
+				E258C8A927955BF6003F3463 /* MFAWidgetProvider.swift in Sources */,
 				E20CE28226FB022D005B717B /* JWTHelper.swift in Sources */,
 				E2398DDF275A162600636A5F /* UserDefaults+Helper.swift in Sources */,
 				E23E0BE8277C2207006B3AC4 /* LoginEndPoint.swift in Sources */,

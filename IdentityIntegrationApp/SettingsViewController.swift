@@ -27,7 +27,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var responseType_textfeild: UITextField!
     @IBOutlet weak var scope_textfeild: UITextField!
     @IBOutlet weak var redirectURI_textfeild: UITextField!
-    
+    @IBOutlet weak var widgetID_textfeild: UITextField!
+    @IBOutlet weak var mfaTenant_textfeild: UITextField!
+
     @IBOutlet weak var accessToken_Switch: UISwitch!
     @IBOutlet weak var appLaunch_switch: UISwitch!
     @IBOutlet weak var qrLaunch_switch: UISwitch!
@@ -81,9 +83,9 @@ extension SettingsViewController {
         scope_textfeild.text = config.scope
         redirectURI_textfeild.text = config.redirectUri
         responseType_textfeild.text = config.responseType
-        //scope_textfeild.isEnabled = false
+        widgetID_textfeild.text = config.widgetID
+        mfaTenant_textfeild.text = config.mfaTenantURL
         responseType_textfeild.isEnabled = false
-        //scope_textfeild.backgroundColor = .lightGray
         responseType_textfeild.backgroundColor = .lightGray
     }
     func setupStackViewUI(){
@@ -147,6 +149,8 @@ extension SettingsViewController {
         addDoneButtonOnKeyboard(textFeild: responseType_textfeild)
         addDoneButtonOnKeyboard(textFeild: scope_textfeild)
         addDoneButtonOnKeyboard(textFeild: redirectURI_textfeild)
+        addDoneButtonOnKeyboard(textFeild: widgetID_textfeild)
+        addDoneButtonOnKeyboard(textFeild: mfaTenant_textfeild)
     }
     func addDoneButtonOnKeyboard(textFeild: UITextField){
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
@@ -183,7 +187,7 @@ extension SettingsViewController {
     }
     @objc func save(sender: UIBarButtonItem){
          
-        if( clientID_textfeild.text?.count ?? 0 > 0 && tenant_textfeild.text?.count ?? 0 > 0 && systemURL_textfeild.text?.count ?? 0 > 0 && appID_textfeild.text?.count ?? 0 > 0 && redirectURI_textfeild.text?.count ?? 0 > 0 && scope_textfeild.text?.count ?? 0 > 0 && responseType_textfeild.text?.count ?? 0 > 0) {
+        if(clientID_textfeild.text?.count ?? 0 > 0 && tenant_textfeild.text?.count ?? 0 > 0 && systemURL_textfeild.text?.count ?? 0 > 0 && appID_textfeild.text?.count ?? 0 > 0 && redirectURI_textfeild.text?.count ?? 0 > 0 && scope_textfeild.text?.count ?? 0 > 0 && responseType_textfeild.text?.count ?? 0 > 0 && widgetID_textfeild.text?.count ?? 0 > 0 && mfaTenant_textfeild.text?.count ?? 0 > 0) {
             var info = [String: Any]()
             info["clientid"] = clientID_textfeild.text
             info["domainoauth"] = tenant_textfeild.text
@@ -193,9 +197,10 @@ extension SettingsViewController {
             info["redirecturi"] = redirectURI_textfeild.text
             info["scope"] = scope_textfeild.text
             info["responsetype"] = responseType_textfeild.text
+            info["widgetid"] = widgetID_textfeild.text
+            info["mfatenanturl"] = mfaTenant_textfeild.text
             UserDefaults.standard.setDict(dict: info, for: "OAuthConfig")
             pop()
-            //navigateToWelcomeScreen()
         } else {
             showAlert(with: "", message: "Please enter all the input feilds")
         }
