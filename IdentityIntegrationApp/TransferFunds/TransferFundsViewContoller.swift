@@ -75,7 +75,7 @@ extension TransferFundsViewContoller {
     /// - Parameter sender: sender
     @IBAction func transferFunds_click(_ sender: Any) {
         if let amount = amount_textFeild.text, Int(amount) ?? 0 > 0 {
-            checkBiometricsOnTransferFunds()
+            initiateFundsTransfer()
         } else {
             showAlert(message: "Please enter amount")
         }

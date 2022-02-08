@@ -94,7 +94,7 @@ extension SettingsViewController {
                 setupStackViews(isHidden: true)
                 invokeBiometricsStackView.isHidden = false
                 invokeBiometricsTitleStackView.isHidden = false
-                transferFundsStackView.isHidden = true
+                //transferFundsStackView.isHidden = true
                 accesstokenExpiresStackView.isHidden = false
                 qrLaunch_switch.isHidden = false
                 cyberarkHostedloginStackView.isHidden = true
@@ -102,13 +102,13 @@ extension SettingsViewController {
                 setupStackViews(isHidden: true)
                 invokeBiometricsStackView.isHidden = false
                 invokeBiometricsTitleStackView.isHidden = false
-                transferFundsStackView.isHidden = false
+                //transferFundsStackView.isHidden = false
                 accesstokenExpiresStackView.isHidden = true
                 qrLaunchStackView.isHidden = true
                 cyberarkHostedloginStackView.isHidden = true
             }else if loginType == .stepupauthenticationusingMFA {
                 mfaTitleStackView.isHidden = false
-                transferFundsStackView.isHidden = false
+                //transferFundsStackView.isHidden = false
                 cyberarkHostedloginStackView.isHidden = true
                 invokeBiometricsStackView.isHidden = true
                 invokeBiometricsTitleStackView.isHidden = true
@@ -118,8 +118,10 @@ extension SettingsViewController {
                 invokeBiometricsTitleStackView.isHidden = true
                 cyberarkHostedloginStackView.isHidden = false
                 mfaTitleStackView.isHidden = false
-                transferFundsStackView.isHidden = false
+                //transferFundsStackView.isHidden = false
             }
+            transferFundsStackView.isHidden = true
+
             
         } catch {
             print("Unexpected error: \(error)")

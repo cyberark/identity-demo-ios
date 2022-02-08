@@ -69,9 +69,7 @@ extension MFAWidgetViewController {
    
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if(message.name == "loginSuccessHandler") {
-            //dismiss(animated: true) {
                 self.didRecieveResponse?(true)
-            //}
         }
     }
 }
