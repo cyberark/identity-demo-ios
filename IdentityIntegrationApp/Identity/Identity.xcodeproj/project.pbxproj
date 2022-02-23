@@ -73,6 +73,8 @@
 		E258C8C02795AE48003F3463 /* MFAWidgetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E258C8BE2795AE48003F3463 /* MFAWidgetViewController.swift */; };
 		E258C8C12795AE48003F3463 /* MFAWidgetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E258C8BF2795AE48003F3463 /* MFAWidgetViewController.xib */; };
 		E259CE652706E9D600F4E8C5 /* PushTokenEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E259CE642706E9D600F4E8C5 /* PushTokenEndpoint.swift */; };
+		E25BDC3027BF5EFE007534F1 /* SignupClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25BDC2F27BF5EFE007534F1 /* SignupClient.swift */; };
+		E25BDC3227BF5F74007534F1 /* SignupEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25BDC3127BF5F74007534F1 /* SignupEndpoint.swift */; };
 		E25C431726C67FB800800764 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E25C431626C67FB800800764 /* Localizable.strings */; };
 		E25C431C26C69CAA00800764 /* Dictionary+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25C431B26C69CAA00800764 /* Dictionary+Helper.swift */; };
 		E25C433326CA4DF900800764 /* CyberarkAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25C433226CA4DF900800764 /* CyberarkAccount.swift */; };
@@ -189,6 +191,8 @@
 		E258C8BE2795AE48003F3463 /* MFAWidgetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFAWidgetViewController.swift; sourceTree = "<group>"; };
 		E258C8BF2795AE48003F3463 /* MFAWidgetViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MFAWidgetViewController.xib; sourceTree = "<group>"; };
 		E259CE642706E9D600F4E8C5 /* PushTokenEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushTokenEndpoint.swift; sourceTree = "<group>"; };
+		E25BDC2F27BF5EFE007534F1 /* SignupClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupClient.swift; sourceTree = "<group>"; };
+		E25BDC3127BF5F74007534F1 /* SignupEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupEndpoint.swift; sourceTree = "<group>"; };
 		E25C431626C67FB800800764 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E25C431B26C69CAA00800764 /* Dictionary+Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Helper.swift"; sourceTree = "<group>"; };
 		E25C433226CA4DF900800764 /* CyberarkAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CyberarkAccount.swift; sourceTree = "<group>"; };
@@ -300,6 +304,7 @@
 		E24ECD29269C63B100C61EF5 /* IdentitySDKCore */ = {
 			isa = PBXGroup;
 			children = (
+				E25BDC2E27BF5E96007534F1 /* Signup */,
 				E258C8A727955B99003F3463 /* MFA Widget */,
 				E23E0BE2277C20F0006B3AC4 /* NativeLogin */,
 				E24ECD2A269C63B100C61EF5 /* OAuth */,
@@ -454,6 +459,15 @@
 				E2EB52F62716C7D500027FF8 /* MFAViewModel.swift */,
 			);
 			path = MFA;
+			sourceTree = "<group>";
+		};
+		E25BDC2E27BF5E96007534F1 /* Signup */ = {
+			isa = PBXGroup;
+			children = (
+				E25BDC2F27BF5EFE007534F1 /* SignupClient.swift */,
+				E25BDC3127BF5F74007534F1 /* SignupEndpoint.swift */,
+			);
+			path = Signup;
 			sourceTree = "<group>";
 		};
 		E25C431526C67F8E00800764 /* Resources */ = {
@@ -753,6 +767,7 @@
 				E24ECD68269C63B100C61EF5 /* APIResponse.swift in Sources */,
 				E27237DF26C5503600F748B8 /* BaseResponse.swift in Sources */,
 				E24ECD61269C63B100C61EF5 /* IdentitySDKError.swift in Sources */,
+				E25BDC3027BF5EFE007534F1 /* SignupClient.swift in Sources */,
 				E24ECD7B269C63B100C61EF5 /* String+Helper.swift in Sources */,
 				E2EB52F72716C7D500027FF8 /* MFAViewModel.swift in Sources */,
 				E2EB52F12715A19A00027FF8 /* MFAChallengeClient.swift in Sources */,
@@ -766,6 +781,7 @@
 				E24ECD6A269C63B100C61EF5 /* NetworkConstant.swift in Sources */,
 				E2EB52F52716C7C300027FF8 /* MFAProvider.swift in Sources */,
 				E24ECD72269C63B100C61EF5 /* ViewController+Helper.swift in Sources */,
+				E25BDC3227BF5F74007534F1 /* SignupEndpoint.swift in Sources */,
 				E258C8C02795AE48003F3463 /* MFAWidgetViewController.swift in Sources */,
 				E24ECD70269C63B100C61EF5 /* Codable+Helper.swift in Sources */,
 				E24ECD71269C63B100C61EF5 /* Data+Helper.swift in Sources */,

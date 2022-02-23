@@ -58,12 +58,13 @@ extension APIClient {
                 completion(nil, .requestFailed)
                 return
             }
-            //debugPrint("httpResponse: \(httpResponse.debugDescription) \(response)")
+            debugPrint("httpResponse: \(httpResponse.debugDescription) \(response)")
 
             if httpResponse.status! == .ok {
                
                 if let data = data {
                     do {
+                       // handleCookies(data: data, response: response, error: error)
                        // debugPrint("Base URL: \(String(request.url?.absoluteString ?? "")) \r\n Request: \(String(data: request.httpBody ?? Data(), encoding: .utf8)) \r\n Response: \(String(data: data, encoding: .utf8) ?? "error")")
                         let genericModel = try JSONDecoder().decode(decodingType, from: data)
                         completion(genericModel, nil)
@@ -114,7 +115,7 @@ extension APIClient {
     
 }
 
-/*extension APIClient {
+extension APIClient {
     func handleCookies(data: Data?, response: URLResponse?, error:Error?) {
         guard
                let url = response?.url,
@@ -131,14 +132,11 @@ extension APIClient {
                 cookieProperties[.domain] = cookie.domain
                 cookieProperties[.path] = cookie.path
                 cookieProperties[.version] = cookie.version
-                cookieProperties[.expires] = Date().addingTimeInterval(31536000)
-
                 let newCookie = HTTPCookie(properties: cookieProperties)
                 HTTPCookieStorage.shared.setCookie(newCookie!)
-
                 print("name: \(cookie.name) value: \(cookie.value)")
             }
         }
     }
 }
-*/
+

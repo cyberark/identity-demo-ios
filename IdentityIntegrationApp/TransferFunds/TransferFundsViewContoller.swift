@@ -108,6 +108,7 @@ extension TransferFundsViewContoller {
         parentView.addSubview(activityIndicator)
         NSLayoutConstraint.activate([
             activityIndicator.centerXAnchor.constraint(equalTo: parentView.centerXAnchor),
+         
             activityIndicator.centerYAnchor.constraint(equalTo: parentView.centerYAnchor),
         ])
     }
@@ -129,8 +130,8 @@ extension TransferFundsViewContoller {
         self.performSegue(withIdentifier: settingControllerSegueIdentifier, sender: self)
     }
     @objc func logoutAction(sender: UIBarButtonItem){
-        removePersistantStorage()
-        self.configureInitialScreen()
+        doLogout()
+
     }
     /// To setup the root view controller
     func configureInitialScreen() {
@@ -363,3 +364,60 @@ extension TransferFundsViewContoller {
     }
 }
 
+extension TransferFundsViewContoller {
+               
+    func doLogout(){
+        guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
+        let logoutString = "\(config.loginURL)/api/auth/logoutSession"
+        var sessionID = ""
+        do {
+            guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue), let sessionData = data.toString() else { return }
+            sessionID = sessionData
+        } catch  {
+            debugPrint("error: \(error)")
+        }
+        if let url = URL(string: logoutString) {
+            var request = URLRequest(url: url)
+            let params = ["SessionUuid": sessionID]
+            request.httpBody = try? JSONSerialization.data(withJSONObject: params, options: [])
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("Cookie", forHTTPHeaderField: "flow=flow3")
+            request.addValue("XSRF-TOKEN", forHTTPHeaderField: getCookie(cookieName: "XSRF-TOKEN") ?? "")
+            request.addValue("X-XSRF-TOKEN", forHTTPHeaderField: getCookie(cookieName: "XSRF-TOKEN") ?? "")
+            request.httpMethod = "POST"
+                             
+            let session = URLSession.shared
+            let task = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
+                guard let data = data else { return }
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data) as! Dictionary<String, AnyObject>
+                    print(json)
+                    self.removeCookies()
+                    self.removePersistantStorage()
+                    DispatchQueue.main.async {
+                        self.configureInitialScreen()
+                    }
+                    
+                } catch {
+                    print("error")
+                }
+            })
+            task.resume()
+        }
+    }
+}
+extension TransferFundsViewContoller {
+    func removeCookies(){
+        let cookieJar = HTTPCookieStorage.shared
+        for cookie in cookieJar.cookies! {
+            cookieJar.deleteCookie(cookie)
+        }
+    }
+    func getCookie(cookieName: String) -> String? {
+        
+        if let cookie = HTTPCookieStorage.shared.cookies?.first(where: { $0.name == cookieName }) {
+            return cookie.value
+        }
+        return ""
+    }
+}
