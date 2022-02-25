@@ -272,23 +272,14 @@ extension LoginViewController {
         guard
             let url = response?.url,
             let httpResponse = response as? HTTPURLResponse,
-            let fields = httpResponse.allHeaderFields as? [String: String]
+            let fields = httpResponse.allHeaderFields as? [String: String], let token = fields["Set-Cookie"]
         else { return }
-        let cookies = HTTPCookie.cookies(withResponseHeaderFields: fields, for: url)
-        HTTPCookieStorage.shared.setCookies(cookies, for: url, mainDocumentURL: nil)
-        for cookie in cookies {
-            var cookieProperties = [HTTPCookiePropertyKey: Any]()
-            cookieProperties[.name] = cookie.name
-            cookieProperties[.value] = cookie.value
-            cookieProperties[.domain] = cookie.domain
-            cookieProperties[.path] = cookie.path
-            cookieProperties[.version] = cookie.version
-            cookieProperties[.expires] = Date().addingTimeInterval(31536000)
-            
-            let newCookie = HTTPCookie(properties: cookieProperties)
-            HTTPCookieStorage.shared.setCookie(newCookie!)
-            
-            print("name: \(cookie.name) value: \(cookie.value)")
+        
+        do {
+            try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.xsrfToken.rawValue, data: token.toData() ?? Data())
+        } catch {
+            print("Unexpected error: \(error)")
         }
+        
     }
 }

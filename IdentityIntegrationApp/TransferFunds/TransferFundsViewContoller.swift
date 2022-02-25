@@ -147,6 +147,7 @@ extension TransferFundsViewContoller {
         do {
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.session_Id.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.userName.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.xsrfToken.rawValue)
 
         } catch {
         }
@@ -370,8 +371,12 @@ extension TransferFundsViewContoller {
         guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
         let logoutString = "\(config.loginURL)/api/auth/logoutSession"
         var sessionID = ""
+        var token = ""
+
         do {
             guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue), let sessionData = data.toString() else { return }
+            guard let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() else { return }
+            token = tokenData
             sessionID = sessionData
         } catch  {
             debugPrint("error: \(error)")
@@ -382,8 +387,8 @@ extension TransferFundsViewContoller {
             request.httpBody = try? JSONSerialization.data(withJSONObject: params, options: [])
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("Cookie", forHTTPHeaderField: "flow=flow3")
-            request.addValue("XSRF-TOKEN", forHTTPHeaderField: getCookie(cookieName: "XSRF-TOKEN") ?? "")
-            request.addValue("X-XSRF-TOKEN", forHTTPHeaderField: getCookie(cookieName: "XSRF-TOKEN") ?? "")
+            request.addValue("XSRF-TOKEN", forHTTPHeaderField: token)
+            request.addValue("X-XSRF-TOKEN", forHTTPHeaderField: token)
             request.httpMethod = "POST"
                              
             let session = URLSession.shared
@@ -392,7 +397,6 @@ extension TransferFundsViewContoller {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data) as! Dictionary<String, AnyObject>
                     print(json)
-                    self.removeCookies()
                     self.removePersistantStorage()
                     DispatchQueue.main.async {
                         self.configureInitialScreen()
@@ -404,20 +408,5 @@ extension TransferFundsViewContoller {
             })
             task.resume()
         }
-    }
-}
-extension TransferFundsViewContoller {
-    func removeCookies(){
-        let cookieJar = HTTPCookieStorage.shared
-        for cookie in cookieJar.cookies! {
-            cookieJar.deleteCookie(cookie)
-        }
-    }
-    func getCookie(cookieName: String) -> String? {
-        
-        if let cookie = HTTPCookieStorage.shared.cookies?.first(where: { $0.name == cookieName }) {
-            return cookie.value
-        }
-        return ""
     }
 }
