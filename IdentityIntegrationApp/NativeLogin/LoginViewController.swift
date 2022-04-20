@@ -222,8 +222,6 @@ extension LoginViewController {
         
                 request.httpBody = try? JSONSerialization.data(withJSONObject: params, options: [])
                 request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-                request.addValue("X-IDAP-NATIVE-CLIENT", forHTTPHeaderField: "true")
-                request.addValue("Accept-LanguageT", forHTTPHeaderField: "en-IN")
                 request.httpMethod = "POST"
                 let session = URLSession.shared
                 let task = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
@@ -276,7 +274,10 @@ extension LoginViewController {
         else { return }
         
         do {
-            try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.xsrfToken.rawValue, data: token.toData() ?? Data())
+            let x = token.replacingOccurrences(of: "XSRF-TOKEN=", with: "", options: .regularExpression, range: nil)
+            let y = x.replacingOccurrences(of: "; Path=/", with: "", options: .regularExpression, range: nil)
+
+            try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.xsrfToken.rawValue, data: y.toData() ?? Data())
         } catch {
             print("Unexpected error: \(error)")
         }
