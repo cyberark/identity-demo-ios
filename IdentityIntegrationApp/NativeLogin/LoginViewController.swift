@@ -84,13 +84,13 @@ extension LoginViewController {
             return
         }
         if userName.count > 0 && password.count > 0 {
-            doLogin(userName: userName, password: password)
+           // doLoginAPI(userName: userName, password: password)
+           doLogin(userName: userName, password: password)
         } else {
             showAlert(with: "", message: "Please enter username and password")
         }
-        
     }
-    func doLogin(userName: String, password: String) {
+    func doLoginAPI(userName: String, password: String) {
         if Reachability.isConnectedToNetwork() {
             guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
             activityIndicator.startAnimating()
@@ -110,6 +110,7 @@ extension LoginViewController {
             self.activityIndicator.stopAnimating()
             if result {
                 do {
+                    
                     if let sessionToken = accessToken {
                        try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.session_Id.rawValue, data: sessionToken.toData() ?? Data())
                     }
@@ -206,4 +207,80 @@ extension LoginViewController {
         activeField = nil
     }
     
+}
+extension LoginViewController {
+    
+    func doLogin(userName: String, password: String) {
+        if Reachability.isConnectedToNetwork() {
+            self.activityIndicator.startAnimating()
+            guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
+            let logoutString = "\(config.loginURL)/api/BasicLogin"
+        
+            if let url = URL(string: logoutString) {
+                var request = URLRequest(url: url)
+                let params = ["Username": userName, "Password": password]
+        
+                request.httpBody = try? JSONSerialization.data(withJSONObject: params, options: [])
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.httpMethod = "POST"
+                let session = URLSession.shared
+                let task = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
+                    guard let data = data else { return }
+                    do {
+                        print("Response:\(String(describing: response))")
+                        let json = try JSONSerialization.jsonObject(with: data) as! Dictionary<String, AnyObject>
+                        print(json)
+                        self.handleCookies(data: data, response: response, error: error)
+                        DispatchQueue.main.async {
+                            self.activityIndicator.stopAnimating()
+                            if let status = json["Success"], status as! Bool {
+                                do {
+                                    if let info = json["Result"] as? Dictionary<String, Any> {
+                                        if let sessionToken = info["SessionUuid"] as? String {
+                                           try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.session_Id.rawValue, data: sessionToken.toData() ?? Data())
+                                        }
+                                        if let name = info["MFAUserName"] as? String {
+                                            try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.userName.rawValue, data: name.toData() ?? Data())
+                                         }
+                                        self.performSegue(withIdentifier: self.transferFundsSegueIdentifier, sender: self)
+
+                                    }
+                                    
+                                } catch {
+                                    print("Unexpected error: \(error)")
+                                }
+                            } else {
+                                self.showAlert(with: "Unable to login", message: "")
+                            }
+                            
+                        }
+                        
+                    } catch {
+                        print("error")
+                    }
+                })
+                task.resume()
+            }
+        } else {
+            showAlert(with: "Network issue", message: "Please connect to the the internet")
+        }
+       
+    }
+    func handleCookies(data: Data?, response: URLResponse?, error:Error?) {
+        guard
+            let url = response?.url,
+            let httpResponse = response as? HTTPURLResponse,
+            let fields = httpResponse.allHeaderFields as? [String: String], let token = fields["Set-Cookie"]
+        else { return }
+        
+        do {
+            let x = token.replacingOccurrences(of: "XSRF-TOKEN=", with: "", options: .regularExpression, range: nil)
+            let y = x.replacingOccurrences(of: "; Path=/", with: "", options: .regularExpression, range: nil)
+
+            try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.xsrfToken.rawValue, data: y.toData() ?? Data())
+        } catch {
+            print("Unexpected error: \(error)")
+        }
+        
+    }
 }

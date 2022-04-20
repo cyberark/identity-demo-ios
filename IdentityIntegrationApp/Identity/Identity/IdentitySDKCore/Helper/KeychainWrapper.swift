@@ -39,6 +39,8 @@ public enum KeyChainStorageKeys: String {
     case profile_Counter = "Counter"
     case session_Id = "SessionUuid"
     case userName = "userName"
+    case xsrfToken = "XSRF-TOKEN"
+
     
 }
 /// Keychain Wrapper

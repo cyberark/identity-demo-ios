@@ -44,7 +44,7 @@ struct LoginInfo : Codable {
     let userName : String?
 
     enum CodingKeys: String, CodingKey {
-        case sessionUuid = "sessionUuid"
+        case sessionUuid = "SessionUuid"
         case userName = "MFAUserName"
     }
     

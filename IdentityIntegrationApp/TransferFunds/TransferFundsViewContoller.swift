@@ -17,6 +17,12 @@
 import UIKit
 import Identity
 
+enum SessionType {
+    case transferfunds
+    case logout
+    case foreground
+}
+
 class TransferFundsViewContoller:  UIViewController, UITextViewDelegate, UITextFieldDelegate {
                 
     @IBOutlet weak var body_textView: UITextView!
@@ -83,6 +89,9 @@ extension TransferFundsViewContoller {
     /// Button handlers
     /// - Parameter sender: sender
     @IBAction func transferFunds_click(_ sender: Any) {
+        checkforSession(type: .transferfunds)
+    }
+    func transferFunds() {
         if let amount = amount_textFeild.text, Int(amount) ?? 0 > 0 {
             initiateFundsTransfer()
         } else {
@@ -129,8 +138,8 @@ extension TransferFundsViewContoller {
         self.performSegue(withIdentifier: settingControllerSegueIdentifier, sender: self)
     }
     @objc func logoutAction(sender: UIBarButtonItem){
-        removePersistantStorage()
-        self.configureInitialScreen()
+        checkforSession(type: .logout)
+       // doLogout()
     }
     /// To setup the root view controller
     func configureInitialScreen() {
@@ -146,6 +155,7 @@ extension TransferFundsViewContoller {
         do {
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.session_Id.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.userName.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.xsrfToken.rawValue)
 
         } catch {
         }
@@ -273,6 +283,7 @@ extension TransferFundsViewContoller {
             switch response {
             case .success(let success):
                 self.isAuthenticated = true
+                self.checkforSession(type: .foreground)
                 if(fromTransferFunds) {
                     self.initiateFundsTransfer()
                 }
@@ -363,3 +374,113 @@ extension TransferFundsViewContoller {
     }
 }
 
+extension TransferFundsViewContoller {
+               
+    func doLogout(){
+        guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
+        let logoutString = "\(config.loginURL)/api/auth/logoutSession"
+        var sessionID = ""
+        var token = ""
+
+        do {
+            guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue), let sessionData = data.toString() else { return }
+            guard let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() else { return }
+            token = tokenData
+            sessionID = sessionData
+        } catch  {
+            debugPrint("error: \(error)")
+        }
+        if let url = URL(string: logoutString) {
+            var request = URLRequest(url: url)
+            let params = ["SessionUuid": sessionID]
+            request.httpBody = try? JSONSerialization.data(withJSONObject: params, options: [])
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("flow=flow3;XSRF-TOKEN=\(token)", forHTTPHeaderField: "Cookie")
+            request.addValue(token, forHTTPHeaderField: "X-XSRF-TOKEN")
+            request.httpMethod = "POST"
+                             
+            let session = URLSession.shared
+            let task = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
+                guard let data = data else { return }
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data) as! Dictionary<String, AnyObject>
+                    print(json)
+                    self.removePersistantStorage()
+                    DispatchQueue.main.async {
+                        self.configureInitialScreen()
+                    }
+                    
+                } catch {
+                    print("error")
+                }
+            })
+            task.resume()
+        }
+    }
+}
+extension TransferFundsViewContoller {
+            
+    func checkforSession(type: SessionType){
+        guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
+        let logoutString = "\(config.loginURL)/api/HeartBeat"
+        var sessionID = ""
+        var token = ""
+        do {
+            guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue), let sessionData = data.toString() else { return }
+            guard let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() else { return }
+            token = tokenData
+            sessionID = sessionData
+        } catch  {
+            debugPrint("error: \(error)")
+        }
+        if let url = URL(string: logoutString) {
+            var request = URLRequest(url: url)
+            let params = ["SessionUuid": sessionID]
+            request.httpBody = try? JSONSerialization.data(withJSONObject: params, options: [])
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("flow=flow3;XSRF-TOKEN=\(token)", forHTTPHeaderField: "Cookie")
+            request.addValue(token, forHTTPHeaderField: "X-XSRF-TOKEN")
+            request.httpMethod = "POST"
+            let session = URLSession.shared
+            let task = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
+                guard let data = data else { return }
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data) as! Dictionary<String, AnyObject>
+                    print(json)
+                    if let status = json["Success"], status as! Bool == true {
+                        self.navigate(type: type)
+                    } else {
+                        DispatchQueue.main.async {
+                            self.navigateToLogin(message: "User Session Ended. Please login again to proceed.")
+                        }
+                    }
+                    
+                } catch {
+                    print("error")
+                }
+            })
+            task.resume()
+        }
+    }
+    func navigate(type: SessionType) {
+        switch type {
+        case .transferfunds:
+            transferFunds()
+        case .logout:
+            doLogout()
+        case .foreground:
+            break
+        }
+    }
+    /// Navigate to login screen
+    func navigateToLogin(message: String){
+        let alertController = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                                    self.removePersistantStorage()
+                                    DispatchQueue.main.async {
+                                        self.configureInitialScreen()
+                                    }        })
+        alertController.addAction(action)
+        self.present(alertController, animated: true, completion: nil)
+    }
+}
