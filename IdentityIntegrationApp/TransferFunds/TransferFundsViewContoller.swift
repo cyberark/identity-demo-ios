@@ -448,7 +448,9 @@ extension TransferFundsViewContoller {
                     let json = try JSONSerialization.jsonObject(with: data) as! Dictionary<String, AnyObject>
                     print(json)
                     if let status = json["Success"], status as! Bool == true {
-                        self.navigate(type: type)
+                        DispatchQueue.main.async {
+                            self.navigate(type: type)
+                        }
                     } else {
                         DispatchQueue.main.async {
                             self.navigateToLogin(message: "User Session Ended. Please login again to proceed.")
