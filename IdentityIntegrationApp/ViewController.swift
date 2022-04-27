@@ -217,6 +217,8 @@ extension ViewController {
     /// - Parameter response: token response
     func save(response: AccessToken?) {
         do {
+            UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isSessionCreated.rawValue)
+
             if let accessToken = response?.access_token {
                 try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.accessToken.rawValue, data: accessToken.toData() ?? Data())
             }
@@ -354,7 +356,7 @@ extension ViewController {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue)
-
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isSessionCreated.rawValue)
     }
 }
 extension UIViewController {

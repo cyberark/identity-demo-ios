@@ -371,6 +371,8 @@ extension HomeViewController {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricWhenAccessTokenExpiresEnabled.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnQRLaunch.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isSessionCreated.rawValue)
+
 
     }
 }

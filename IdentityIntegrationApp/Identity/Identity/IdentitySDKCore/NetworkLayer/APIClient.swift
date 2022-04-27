@@ -58,7 +58,7 @@ extension APIClient {
                 completion(nil, .requestFailed)
                 return
             }
-            debugPrint("httpResponse: \(httpResponse.debugDescription) \(response)")
+            //debugPrint("httpResponse: \(httpResponse.debugDescription) \(response)")
 
             if httpResponse.status! == .ok {
                

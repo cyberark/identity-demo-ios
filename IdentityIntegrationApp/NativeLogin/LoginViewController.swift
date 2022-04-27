@@ -112,6 +112,7 @@ extension LoginViewController {
                 do {
                     
                     if let sessionToken = accessToken {
+                        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isSessionCreated.rawValue)
                        try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.session_Id.rawValue, data: sessionToken.toData() ?? Data())
                     }
                     if let name = userName {
@@ -236,6 +237,8 @@ extension LoginViewController {
                             if let status = json["Success"], status as! Bool {
                                 do {
                                     if let info = json["Result"] as? Dictionary<String, Any> {
+                                        UserDefaults.standard.set(true, forKey: UserDefaultsKeys.isSessionCreated.rawValue)
+
                                         if let sessionToken = info["SessionUuid"] as? String {
                                            try KeyChainWrapper.standard.save(key: KeyChainStorageKeys.session_Id.rawValue, data: sessionToken.toData() ?? Data())
                                         }

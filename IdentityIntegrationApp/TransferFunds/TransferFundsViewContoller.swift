@@ -152,6 +152,8 @@ extension TransferFundsViewContoller {
     func removePersistantStorage() {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricEnabledOnTransfeFunds.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isSessionCreated.rawValue)
+
         do {
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.session_Id.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.userName.rawValue)
@@ -384,7 +386,13 @@ extension TransferFundsViewContoller {
 
         do {
             guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue), let sessionData = data.toString() else { return }
-            guard let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() else { return }
+            guard let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() else {
+                self.removePersistantStorage()
+                DispatchQueue.main.async {
+                    self.configureInitialScreen()
+                }
+                return
+            }
             token = tokenData
             sessionID = sessionData
         } catch  {
@@ -427,7 +435,13 @@ extension TransferFundsViewContoller {
         var token = ""
         do {
             guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue), let sessionData = data.toString() else { return }
-            guard let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() else { return }
+            guard let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() else {
+                self.removePersistantStorage()
+                DispatchQueue.main.async {
+                    self.configureInitialScreen()
+                }
+                return
+            }
             token = tokenData
             sessionID = sessionData
         } catch  {
