@@ -138,8 +138,8 @@ extension TransferFundsViewContoller {
         self.performSegue(withIdentifier: settingControllerSegueIdentifier, sender: self)
     }
     @objc func logoutAction(sender: UIBarButtonItem){
-        checkforSession(type: .logout)
-       // doLogout()
+        //checkforSession(type: .logout)
+       doLogout()
     }
     /// To setup the root view controller
     func configureInitialScreen() {
@@ -161,6 +161,10 @@ extension TransferFundsViewContoller {
 
         } catch {
         }
+        
+        HTTPCookieStorage.shared.cookies?.forEach(HTTPCookieStorage.shared.deleteCookie)
+        URLCache.shared.removeAllCachedResponses()
+
     }
     
 }
@@ -386,14 +390,9 @@ extension TransferFundsViewContoller {
 
         do {
             guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue), let sessionData = data.toString() else { return }
-            guard let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() else {
-                self.removePersistantStorage()
-                DispatchQueue.main.async {
-                    self.configureInitialScreen()
-                }
-                return
+            if let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() {
+                token = tokenData
             }
-            token = tokenData
             sessionID = sessionData
         } catch  {
             debugPrint("error: \(error)")
@@ -435,14 +434,16 @@ extension TransferFundsViewContoller {
         var token = ""
         do {
             guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue), let sessionData = data.toString() else { return }
-            guard let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() else {
-                self.removePersistantStorage()
-                DispatchQueue.main.async {
-                    self.configureInitialScreen()
-                }
-                return
+//            guard let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() else {
+//                self.removePersistantStorage()
+//                DispatchQueue.main.async {
+//                    self.configureInitialScreen()
+//                }
+//                return
+//            }
+            if let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() {
+                token = tokenData
             }
-            token = tokenData
             sessionID = sessionData
         } catch  {
             debugPrint("error: \(error)")
