@@ -138,8 +138,8 @@ extension TransferFundsViewContoller {
         self.performSegue(withIdentifier: settingControllerSegueIdentifier, sender: self)
     }
     @objc func logoutAction(sender: UIBarButtonItem){
-        checkforSession(type: .logout)
-       // doLogout()
+        //checkforSession(type: .logout)
+       doLogout()
     }
     /// To setup the root view controller
     func configureInitialScreen() {
@@ -152,6 +152,8 @@ extension TransferFundsViewContoller {
     func removePersistantStorage() {
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
         UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricEnabledOnTransfeFunds.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isSessionCreated.rawValue)
+
         do {
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.session_Id.rawValue)
             try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.userName.rawValue)
@@ -159,6 +161,10 @@ extension TransferFundsViewContoller {
 
         } catch {
         }
+        
+        HTTPCookieStorage.shared.cookies?.forEach(HTTPCookieStorage.shared.deleteCookie)
+        URLCache.shared.removeAllCachedResponses()
+
     }
     
 }
@@ -384,8 +390,9 @@ extension TransferFundsViewContoller {
 
         do {
             guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue), let sessionData = data.toString() else { return }
-            guard let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() else { return }
-            token = tokenData
+            if let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() {
+                token = tokenData
+            }
             sessionID = sessionData
         } catch  {
             debugPrint("error: \(error)")
@@ -427,8 +434,16 @@ extension TransferFundsViewContoller {
         var token = ""
         do {
             guard let data = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue), let sessionData = data.toString() else { return }
-            guard let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() else { return }
-            token = tokenData
+//            guard let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() else {
+//                self.removePersistantStorage()
+//                DispatchQueue.main.async {
+//                    self.configureInitialScreen()
+//                }
+//                return
+//            }
+            if let tokenKey = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.xsrfToken.rawValue), let tokenData = tokenKey.toString() {
+                token = tokenData
+            }
             sessionID = sessionData
         } catch  {
             debugPrint("error: \(error)")
@@ -448,7 +463,9 @@ extension TransferFundsViewContoller {
                     let json = try JSONSerialization.jsonObject(with: data) as! Dictionary<String, AnyObject>
                     print(json)
                     if let status = json["Success"], status as! Bool == true {
-                        self.navigate(type: type)
+                        DispatchQueue.main.async {
+                            self.navigate(type: type)
+                        }
                     } else {
                         DispatchQueue.main.async {
                             self.navigateToLogin(message: "User Session Ended. Please login again to proceed.")

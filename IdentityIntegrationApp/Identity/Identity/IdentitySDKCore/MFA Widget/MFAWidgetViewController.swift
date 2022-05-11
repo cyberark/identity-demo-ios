@@ -78,7 +78,9 @@ extension MFAWidgetViewController {
    
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         if(message.name == "loginSuccessHandler") {
-                self.didRecieveResponse?(true)
+            HTTPCookieStorage.shared.cookies?.forEach(HTTPCookieStorage.shared.deleteCookie)
+            URLCache.shared.removeAllCachedResponses()
+            self.didRecieveResponse?(true)
         }
     }
 }

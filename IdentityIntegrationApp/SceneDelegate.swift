@@ -91,11 +91,13 @@ extension SceneDelegate {
             
             let story = UIStoryboard(name: "Main", bundle:nil)
             var vc: UIViewController = UIViewController()
-            if (try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue)) != nil {
+
+            if (try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue)) != nil && UserDefaults.standard.object(forKey: UserDefaultsKeys.isSessionCreated.rawValue) != nil {
                 vc = story.instantiateViewController(withIdentifier: "HomeViewController") as! HomeViewController
-            } else if (try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue)) != nil {
+            } else if (try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.session_Id.rawValue)) != nil && UserDefaults.standard.object(forKey: UserDefaultsKeys.isSessionCreated.rawValue) != nil {
                 vc = story.instantiateViewController(withIdentifier: "TransferFundsViewContoller") as! TransferFundsViewContoller
             }else {
+                removePersistantStorage()
                 vc = story.instantiateViewController(withIdentifier: "WelcomeViewController") as! WelcomeViewController
             }
             let window = UIWindow(windowScene: windowScene)
@@ -105,6 +107,19 @@ extension SceneDelegate {
             window.makeKeyAndVisible()
         } catch {
             print("Unexpected error: \(error)")
+        }
+    }
+    func removePersistantStorage() {
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricOnAppLaunchEnabled.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isBiometricEnabledOnTransfeFunds.rawValue)
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.isSessionCreated.rawValue)
+
+        do {
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.session_Id.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.userName.rawValue)
+            try KeyChainWrapper.standard.delete(key: KeyChainStorageKeys.xsrfToken.rawValue)
+
+        } catch {
         }
     }
 }

@@ -21,6 +21,7 @@ public enum UserDefaultsKeys: String {
     case isBiometricWhenAccessTokenExpiresEnabled       = "isEnabledBiometricOnAccessTokenExpires"
     case isBiometricOnQRLaunch       = "isBiometricOnQRLaunch"
     case isBiometricEnabledOnTransfeFunds       = "isBiometricEnabledOnTransfeFunds"
+    case isSessionCreated        = "isSessionCreated"
 
 }
 public func plistValues(bundle: Bundle, plistFileName: String) -> (clientId: String, domain: String, domain_auth0: String, scope: String, redirectUri: String, applicationID: String, systemurl: String, responseType: String, loginURL: String, widgetID: String, mfaTenantURL: String)? {
