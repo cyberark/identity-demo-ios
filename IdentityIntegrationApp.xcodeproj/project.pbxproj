@@ -24,6 +24,7 @@
 		E24ECDF0269C668C00C61EF5 /* IdentityConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = E24ECDEF269C668C00C61EF5 /* IdentityConfiguration.plist */; };
 		E2709BAC277DDBA200500FE6 /* TransferFundsViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2709BAB277DDBA200500FE6 /* TransferFundsViewContoller.swift */; };
 		E2AD8A74270F09ED00F554B1 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AD8A73270F09ED00F554B1 /* NotificationsViewController.swift */; };
+		E2CDD0C4283264B7005EC829 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDD0C3283264B7005EC829 /* ProfileViewController.swift */; };
 		E2E77B67277B767000D3A443 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E77B66277B767000D3A443 /* LoginViewController.swift */; };
 		E2EB52E7271051D000027FF8 /* MFANotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EB52E5271051D000027FF8 /* MFANotificationTableViewCell.swift */; };
 		E2EB52E8271051D000027FF8 /* MFANotificationTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2EB52E6271051D000027FF8 /* MFANotificationTableViewCell.xib */; };
@@ -84,6 +85,7 @@
 		E24ECDEF269C668C00C61EF5 /* IdentityConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = IdentityConfiguration.plist; sourceTree = "<group>"; };
 		E2709BAB277DDBA200500FE6 /* TransferFundsViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferFundsViewContoller.swift; sourceTree = "<group>"; };
 		E2AD8A73270F09ED00F554B1 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
+		E2CDD0C3283264B7005EC829 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		E2E77B66277B767000D3A443 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		E2EB52E5271051D000027FF8 /* MFANotificationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MFANotificationTableViewCell.swift; sourceTree = "<group>"; };
 		E2EB52E6271051D000027FF8 /* MFANotificationTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MFANotificationTableViewCell.xib; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				E204635926DE2A8500359236 /* SettingsViewController.swift */,
 				E2F4F8582760908B00237A91 /* WelcomeViewController.swift */,
 				E2AD8A73270F09ED00F554B1 /* NotificationsViewController.swift */,
+				E2CDD0C3283264B7005EC829 /* ProfileViewController.swift */,
 				E2EB52E5271051D000027FF8 /* MFANotificationTableViewCell.swift */,
 				E2EB52E6271051D000027FF8 /* MFANotificationTableViewCell.xib */,
 				E2709BA6277DDB2500500FE6 /* TransferFunds */,
@@ -321,6 +324,7 @@
 				E2F4F85E2760A69900237A91 /* LoginTypeTableViewCell.swift in Sources */,
 				E2AD8A74270F09ED00F554B1 /* NotificationsViewController.swift in Sources */,
 				E204635A26DE2A8500359236 /* SettingsViewController.swift in Sources */,
+				E2CDD0C4283264B7005EC829 /* ProfileViewController.swift in Sources */,
 				E231411626A550F000741657 /* HomeViewController.swift in Sources */,
 				E2EB52E7271051D000027FF8 /* MFANotificationTableViewCell.swift in Sources */,
 			);

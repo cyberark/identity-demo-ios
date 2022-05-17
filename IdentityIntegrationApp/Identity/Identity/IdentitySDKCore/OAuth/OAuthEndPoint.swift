@@ -46,6 +46,12 @@ internal class OAuthEndPoint {
 
     var cyberarkAccount: CyberarkAccount? = nil
 
+    var authWidgetID: String? = nil
+
+    var authHostURL: String? = nil
+
+    var authResourceURL: String? = nil
+
     /*public convenience init(pkce: AuthOPKCE?) {
      self.init()
      self.pkce = pkce
@@ -71,6 +77,9 @@ internal class OAuthEndPoint {
         self.redirectUri = self.cyberarkAccount?.redirectUri
         self.pkce = self.cyberarkAccount?.pkce
         self.widgetID = self.cyberarkAccount?.widgetID
+        self.authWidgetID = self.cyberarkAccount?.authWidgetID
+        self.authResourceURL = self.cyberarkAccount?.authResourceURL
+        self.authHostURL = self.cyberarkAccount?.authHostURL
     }
     
     /// Initial Configuration
@@ -86,7 +95,9 @@ internal class OAuthEndPoint {
         self.applicationID = config.applicationID
         self.logoutUri = config.applicationID
         self.widgetID = config.widgetID
-
+        self.authWidgetID = config.authwidgetId
+        self.authResourceURL = config.authwidgetresourceURL
+        self.authHostURL = config.authwidgethosturl
     }
 }
 extension OAuthEndPoint {
@@ -166,5 +177,40 @@ extension OAuthEndPoint {
         headers[HttpHeaderKeys.contenttype.rawValue] = HttpHeaderKeys.applicationfomrurlencoded.rawValue
         let path = "/oauth2/Token/\(applicationID ?? "")"
         return Endpoint(path:path, httpMethod: .post, headers: headers, body: postData as Data, queryItems: queryItems, dataType: .JSON, base: self.domain!)
+    }
+}
+extension OAuthEndPoint {
+        
+    /// getAuthWidgetEndpoint Endpoint
+    /// - Parameters:
+    ///   - sessionToken: sessionToken description
+    ///   - baseURL: baseURL description
+    ///   - userName: userName description
+    ///   - password: password description
+    /// - Returns: Endpoint
+    func getAuthWidgetEndpoint(baseURL: String, widgetID: String) -> Endpoint {
+        let queryItems = [URLQueryItem(name: MFAWidgetEndpointHeader.widgetID.rawValue, value: widgetID)]
+        let headers: [String: String] = [:]
+        let path = "/Authenticationwidgets/WidgetPage"
+        return Endpoint(path:path, httpMethod: .post, headers: headers, body: nil, queryItems: queryItems, dataType: .JSON, base: baseURL)
+    }
+    // getAuthWidgetEndpoint Endpoint
+    /// - Parameters:
+    ///   - sessionToken: sessionToken description
+    ///   - baseURL: baseURL description
+    ///   - userName: userName description
+    ///   - password: password description
+    /// - Returns: Endpoint
+    func getUserInfoEndpoint(accesstoken: String) -> Endpoint {
+        let queryItems = [URLQueryItem]()
+
+        var headers: [String: String] = [:]
+        let accessToken = "Bearer \(accesstoken)"
+        headers[HttpHeaderKeys.contenttype.rawValue] = "application/json"
+        headers[HttpHeaderKeys.xidpnativeclient.rawValue] = "true"
+        headers[HttpHeaderKeys.authorization.rawValue] = accessToken
+        headers[HttpHeaderKeys.acceptlanguage.rawValue] = "en-IN"
+        let path = "/oauth2/UserInfo/\(applicationID ?? "")"
+        return Endpoint(path:path, httpMethod: .post, headers: headers, body: nil, queryItems: queryItems, dataType: .JSON, base: self.domain!)
     }
 }

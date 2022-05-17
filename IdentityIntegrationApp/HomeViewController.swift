@@ -52,6 +52,8 @@ class HomeViewController: UIViewController, UITextViewDelegate {
     
     private let settingControllerSegueIdentifier = "SettingControllerSegueIdentifier"
 
+    private let myProfileControllerSegueIdentifier = "MyProfileControllerSegueIdentifier"
+
     private var pushUserInfo = [AnyHashable : Any]()
 
 }
@@ -577,13 +579,20 @@ extension HomeViewController {
         let logoutButtonItem = UIBarButtonItem(image: LogoutImage, style: .plain, target: self, action: #selector(logoutAction(sender:)))
         rightButtonItem.tintColor = .white
         
-        self.navigationItem.rightBarButtonItems = [logoutButtonItem, rightButtonItem]
+        let profileImage = UIImage(named: "profile")?.withRenderingMode(.alwaysOriginal)
+        let profileButtonItem = UIBarButtonItem(image: profileImage, style: .plain, target: self, action: #selector(myProfile(sender:)))
+        rightButtonItem.tintColor = .white
+                
+        self.navigationItem.rightBarButtonItems = [logoutButtonItem, rightButtonItem, profileButtonItem]
     }
     @objc func settingsAction(sender: UIBarButtonItem){
         self.performSegue(withIdentifier: settingControllerSegueIdentifier, sender: self)
     }
     @objc func logoutAction(sender: UIBarButtonItem){
         closeSession()
+    }
+    @objc func myProfile(sender: UIBarButtonItem){
+        self.performSegue(withIdentifier: myProfileControllerSegueIdentifier, sender: self)
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == notificationsSegueIdentifier {

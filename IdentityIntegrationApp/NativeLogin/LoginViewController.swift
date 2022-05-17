@@ -22,7 +22,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     private let settingControllerSegueIdentifier = "SettingSegueIdentifier"
     private let transferFundsSegueIdentifier = "TransferFundsSegueIdentifier"
-    let loginProvider = LoginProvider()
 
     @IBOutlet weak var userName_textfeild: UITextField!
     @IBOutlet weak var password_textfeild: UITextField!
@@ -32,6 +31,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var scrollView: UIScrollView!
 
     let activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+
+    var loginType: LoginType?
+
+    let loginProvider = LoginProvider()
 
     override func viewDidLoad() {
         super.viewDidLoad()

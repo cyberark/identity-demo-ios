@@ -69,6 +69,14 @@ public protocol CyberarkAuthProviderProtocol {
     /// To update the device token to the backend
     /// - Parameter token: token
     func handlePushToken(token: Data, baseURL: String)
+    
+    
+    /// Completion block which will notify when the userinfo api finished loading
+    /// To get the refreshtoken
+    /// - Parameters:
+    ///   - Bool: result
+    ///   - String: error or success message
+    var didReceiveUserInfo: ((Bool,String, UserInfo?) -> Void)? { get set }
 }
 /*
 /// CyberarkAuthProvider
@@ -102,6 +110,10 @@ public class CyberarkAuthProvider: CyberarkAuthProviderProtocol {
     /// Handler for the referesh token response
     public var didReceiveLogoutResponse: ((Bool,String) -> Void)?
 
+    public var didReceiveResurceURLCallback: ((Bool,String) -> Void)?
+
+    public var didReceiveUserInfo: ((Bool,String, UserInfo?) -> Void)?
+    
     /// private initializers
     private init(){
         pkce = AuthOPKCE()
@@ -109,6 +121,7 @@ public class CyberarkAuthProvider: CyberarkAuthProviderProtocol {
         viewModel = AuthenticationViewModel()
         addAccessTokenObserver()
         addRefreshTokenObserver()
+        addUserInfoObserver()
         addLogoutObserver()
     }
     
@@ -135,12 +148,26 @@ extension CyberarkAuthProvider {
     public func login(account: CyberarkAccount){
         launchBrowser(account: account)
     }
+    /// Login
+    /// - Parameter account: CyberarkAccount with the required parameters
+    public func launchAuthWidget(account: CyberarkAccount){
+        launchAuthenticationWidget(account: account)
+    }
     /// Browser
     /// - Parameter account: CyberarkAccount with the required parameters
     private func launchBrowser(account: CyberarkAccount){
             let browser =  CyberArkBrowser(account: account)
             self.browser = browser
         browser.login(completion: { (status, error) in
+            print(status ?? "")
+        })
+    }
+    /// Browser
+    /// - Parameter account: CyberarkAccount with the required parameters
+    private func launchAuthenticationWidget(account: CyberarkAccount){
+            let browser =  CyberArkBrowser(account: account)
+            self.browser = browser
+        browser.launchAuthenticationWidget(completion: { (status, error) in
             print(status ?? "")
         })
     }
@@ -163,6 +190,11 @@ extension CyberarkAuthProvider {
                 } else {
                     self.dismiss()
                 }
+            }
+        }else {
+            guard let configuredURI = getResourceURL(bundle: Bundle.main) else { return }
+            if url.absoluteString.contains(configuredURI) {
+                self.didReceiveResurceURLCallback!(true, "")
             }
         }
     }
@@ -243,6 +275,29 @@ extension CyberarkAuthProvider {
         return redirectUri
     }
 }
+
+//MARK:- Plist Configuration
+extension CyberarkAuthProvider {
+    /// To get the redirect URI
+    /// - Parameter bundle: Main bundle
+    /// - Returns: redirectURI
+    func getResourceURL(bundle: Bundle) -> String? {
+        guard
+            let path = bundle.path(forResource: "IdentityConfiguration", ofType: "plist"),
+            let values = NSDictionary(contentsOfFile: path) as? [String: Any]
+        else {
+            print("Missing CIAMConfiguration.plist file with 'ClientId' and 'Domain' entries in main bundle!")
+            return nil
+        }
+        guard
+            let redirectUri = values["resourceurl"] as? String
+        else {
+            print("IdentityConfiguration.plist file at \(path) is missing 'ClientId' and/or 'Domain' values!")
+            return nil
+        }
+        return redirectUri
+    }
+}
 //MARK:- Device token and push notifications relateed
 extension CyberarkAuthProvider {
     /// To update the device token to the backend
@@ -250,5 +305,26 @@ extension CyberarkAuthProvider {
     public func handlePushToken(token: Data, baseURL: String){
         
         viewModel?.updatePushToken(token: token, baseURL: baseURL)
+    }
+}
+//MARK:- UserInfo related operations
+extension CyberarkAuthProvider {
+    
+    /// To send the refresh token related operations
+    public func fetchUserInfo() {
+        do {
+            guard let accessTokenData = try KeyChainWrapper.standard.fetch(key: KeyChainStorageKeys.accessToken.rawValue),let accessToken = accessTokenData.toString() else {
+                return
+            }
+            viewmodel()?.fetchUserInfo(token: accessToken, pkce: self.pkce)
+        } catch  {
+            debugPrint("error: \(error)")
+        }
+    }
+    /// Add the access token observer
+    func addUserInfoObserver(){
+        viewModel?.didReceiveUserInfo = { (status, message, response) in
+            self.didReceiveUserInfo!(status, message, response)
+        }
     }
 }

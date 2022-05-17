@@ -68,6 +68,12 @@ public class CyberarkAccount: NSObject {
     
     var widgetID: String? = nil
 
+    var authWidgetID: String? = nil
+
+    var authHostURL: String? = nil
+
+    var authResourceURL: String? = nil
+
     /// code challenge
     lazy var challenge: String? = {
         return self.pkce?.challenge
@@ -85,7 +91,7 @@ public class CyberarkAccount: NSObject {
     ///   - pkce: pkce =
     ///   - presentingViewController: presentingViewController
     ///   - systemURL: systemURL 
-    init (clientId: String, domain: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logoutUri: String, pkce: AuthOPKCE, presentingViewController: UIViewController, systemURL: String, widgetID: String) {
+    init (clientId: String, domain: String, scope: String, redirectUri: String, threshold: Int, applicationID: String, logoutUri: String, pkce: AuthOPKCE, presentingViewController: UIViewController, systemURL: String, widgetID: String, authWidgetID: String, authWidgetHostURL: String, authWidgetResourceURL: String) {
         self.clientId = clientId
         self.domain = domain
         self.systemURL = domain
@@ -96,7 +102,8 @@ public class CyberarkAccount: NSObject {
         self.redirectUri = redirectUri
         self.pkce = pkce
         self.presentingViewController = presentingViewController
-        var widgetID = widgetID
-
+        self.authWidgetID = authWidgetID
+        self.authHostURL = authWidgetHostURL
+        self.authResourceURL = authWidgetResourceURL
     }
 }

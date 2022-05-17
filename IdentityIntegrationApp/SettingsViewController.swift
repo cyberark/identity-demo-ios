@@ -48,6 +48,12 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var mfaTitleStackView: UIStackView!
     @IBOutlet weak var transferFundsStackView: UIStackView!
 
+    //Authentication Widget
+    @IBOutlet weak var authWidgetContentStackView: UIStackView!
+    @IBOutlet weak var authWidgetID_textfeild: UITextField!
+    @IBOutlet weak var authWidgetHostURL_textfeild: UITextField!
+    @IBOutlet weak var authWidgetResourceURL_textfeild: UITextField!
+
     var loginType: LoginType?
 
 
@@ -87,6 +93,10 @@ extension SettingsViewController {
         mfaTenant_textfeild.text = config.mfaTenantURL
         responseType_textfeild.isEnabled = false
         responseType_textfeild.backgroundColor = .lightGray
+        
+        authWidgetID_textfeild.text = config.authwidgetId
+        authWidgetHostURL_textfeild.text = config.authwidgethosturl
+        authWidgetResourceURL_textfeild.text = config.authwidgetresourceURL
     }
     func setupStackViewUI(){
         do {
@@ -153,6 +163,10 @@ extension SettingsViewController {
         addDoneButtonOnKeyboard(textFeild: redirectURI_textfeild)
         addDoneButtonOnKeyboard(textFeild: widgetID_textfeild)
         addDoneButtonOnKeyboard(textFeild: mfaTenant_textfeild)
+        addDoneButtonOnKeyboard(textFeild: authWidgetID_textfeild)
+        addDoneButtonOnKeyboard(textFeild: authWidgetHostURL_textfeild)
+        addDoneButtonOnKeyboard(textFeild: authWidgetResourceURL_textfeild)
+
     }
     func addDoneButtonOnKeyboard(textFeild: UITextField){
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
@@ -201,6 +215,10 @@ extension SettingsViewController {
             info["responsetype"] = responseType_textfeild.text
             info["widgetid"] = widgetID_textfeild.text
             info["mfatenanturl"] = mfaTenant_textfeild.text
+            info["authwidgethosturl"] = authWidgetHostURL_textfeild.text
+            info["authwidgetid"] = authWidgetID_textfeild.text
+            info["resourceurl"] = authWidgetResourceURL_textfeild.text
+
             UserDefaults.standard.setDict(dict: info, for: "OAuthConfig")
             pop()
         } else {
