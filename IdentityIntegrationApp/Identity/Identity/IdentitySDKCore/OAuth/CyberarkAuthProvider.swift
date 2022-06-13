@@ -181,6 +181,7 @@ extension CyberarkAuthProvider {
     public func resume(url: URL) {
         guard let configuredURI = getRedirectURI(bundle: Bundle.main) else { return }
 
+        //OAUTH
         if url.absoluteString.contains(configuredURI) {
             if let code =  url.queryParameter(with:"code") {
                 fetchAuthToken(code: code)
@@ -192,6 +193,7 @@ extension CyberarkAuthProvider {
                 }
             }
         }else {
+            //OIDC
             guard let configuredURI = getResourceURL(bundle: Bundle.main) else { return }
             if url.absoluteString.contains(configuredURI) {
                 self.didReceiveResurceURLCallback!(true, "")

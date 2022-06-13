@@ -23,6 +23,7 @@
 		E24ECDDA269C663C00C61EF5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E24ECDD8269C663C00C61EF5 /* LaunchScreen.storyboard */; };
 		E24ECDF0269C668C00C61EF5 /* IdentityConfiguration.plist in Resources */ = {isa = PBXBuildFile; fileRef = E24ECDEF269C668C00C61EF5 /* IdentityConfiguration.plist */; };
 		E2709BAC277DDBA200500FE6 /* TransferFundsViewContoller.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2709BAB277DDBA200500FE6 /* TransferFundsViewContoller.swift */; };
+		E284CD9228463493002FB9D9 /* IdentityConfiguration_dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = E284CD8F28463493002FB9D9 /* IdentityConfiguration_dev.plist */; };
 		E2AD8A74270F09ED00F554B1 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AD8A73270F09ED00F554B1 /* NotificationsViewController.swift */; };
 		E2CDD0C4283264B7005EC829 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDD0C3283264B7005EC829 /* ProfileViewController.swift */; };
 		E2E77B67277B767000D3A443 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E77B66277B767000D3A443 /* LoginViewController.swift */; };
@@ -84,6 +85,7 @@
 		E24ECDDB269C663C00C61EF5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E24ECDEF269C668C00C61EF5 /* IdentityConfiguration.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = IdentityConfiguration.plist; sourceTree = "<group>"; };
 		E2709BAB277DDBA200500FE6 /* TransferFundsViewContoller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferFundsViewContoller.swift; sourceTree = "<group>"; };
+		E284CD8F28463493002FB9D9 /* IdentityConfiguration_dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = IdentityConfiguration_dev.plist; sourceTree = "<group>"; };
 		E2AD8A73270F09ED00F554B1 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		E2CDD0C3283264B7005EC829 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		E2E77B66277B767000D3A443 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				E24ECDD8269C663C00C61EF5 /* LaunchScreen.storyboard */,
 				E24ECDDB269C663C00C61EF5 /* Info.plist */,
 				E24ECDEF269C668C00C61EF5 /* IdentityConfiguration.plist */,
+				E284CD8F28463493002FB9D9 /* IdentityConfiguration_dev.plist */,
 			);
 			path = IdentityIntegrationApp;
 			sourceTree = "<group>";
@@ -294,6 +297,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E284CD9228463493002FB9D9 /* IdentityConfiguration_dev.plist in Resources */,
 				E2EB52E8271051D000027FF8 /* MFANotificationTableViewCell.xib in Resources */,
 				E2F4F85F2760A69900237A91 /* LoginTypeTableViewCell.xib in Resources */,
 				E24ECDDA269C663C00C61EF5 /* LaunchScreen.storyboard in Resources */,
