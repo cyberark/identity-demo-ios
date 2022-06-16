@@ -102,7 +102,17 @@ public class CyberArkBrowser: NSObject {
             }
         }
     }
-    
+    /// Navigate to broswer
+    /// - Parameter completion: to get the callback
+    public func launchAuthenticationWidget(completion: @escaping didFinishingbrowserOperationCallback) {
+        self.browserCallback = completion
+        let endpoint = oAuthEndPoint?.getAuthWidgetEndpoint(baseURL: self.account?.authHostURL ?? "", widgetID: self.account?.authWidgetID ?? "")
+        if let url = endpoint?.request.url {
+            launchSFViewController(url: url) { (result, error) in
+                self.browserCallback!(result, error)
+            }
+        }
+    }
 }
 //MARK: - SafariController delegate methods
 extension CyberArkBrowser {

@@ -21,6 +21,7 @@ import Identity
 enum LoginType: Int {
     case cyberarkhostedlogin
     case stepupauthenticationusingMFA
+    case authenticationWidget
 
     var index: Int {
         return rawValue
@@ -31,6 +32,8 @@ enum LoginType: Int {
             return "CyberArk Hosted Login"
         case .stepupauthenticationusingMFA:
             return "Step-up authentication using MFA widget"
+        case .authenticationWidget:
+            return "Authentication Widgets"
         }
     }
 }
@@ -49,7 +52,7 @@ class ViewController: UIViewController {
         }
     }
     
-    var loginTypes: [LoginType] = [.cyberarkhostedlogin, .stepupauthenticationusingMFA]
+    var loginTypes: [LoginType] = [.cyberarkhostedlogin, .stepupauthenticationusingMFA, .authenticationWidget]
     
     func updateSections() {
         // When some kind of state changes, rebuild `sections` to include the relevant sections
@@ -81,6 +84,7 @@ extension ViewController {
         addObserver()
         addLogoutObserver()
         addRightBar()
+        addAuthWidgetResourceURLObserver()
     }
     func registerCell() {
         /*let logo = UIImage(named: "acme_logo")
@@ -110,20 +114,18 @@ extension ViewController {
     func navigate(type: LoginType) {
         if type == .cyberarkhostedlogin {
             doLogin()
-        } else {
-            navigateToLoginWidget()
+        } else if type == .authenticationWidget {
+            launchAuthenticationWidget()
+        }else {
+            doNativeLogin()
         }
-    }
-    @objc func navigateToCyberArkHostedLogin(){
-        doLogin()
-    }
-    @objc func navigateToLoginWidget(){
-        doNativeLogin()
     }
     @objc func navigateToMore(sender: UIButton){
         let type = loginTypes[sender.tag]
         if type == .cyberarkhostedlogin {
             showCyberArkHostedLoginAlert(type: .success, actionType: .defaultCase, title: "", message: "")
+        } else if type == .authenticationWidget {
+            showAuthenticationWidgetAlert(type: .success, actionType: .defaultCase, title: "", message: "")
         } else {
             showNativeLoginAlert(type: .success, actionType: .defaultCase, title: "", message: "")
         }
@@ -312,12 +314,41 @@ extension ViewController {
         alertViewController.meessageAtributedText = attributedString
         presentTranslucent(alertViewController, modalTransitionStyle: .crossDissolve, animated: true, completion: nil)
     }
+    func showAuthenticationWidgetAlert(type: PopUpType, actionType: PopUpActionType, title: String, message: String, onCompletion: (() -> Void)? = nil) {
+        let alertViewController: CustomPopUpViewController =  CustomPopUpViewController.initFromNib()
+        
+        let normalText = "Authentication Widgets\n​\nThe admin of Acme Inc. creates the authentication widget on the CyberArk Identity portal and uses the page URL to embed the widget into the mobile app. The widget adds sign up and sign in capabilities to your website or mobile app.\n\nEnd-users who sign up are added to the CyberArk Cloud Directory. You can leverage CyberArk Identity\'s authentication and authorization features to secure their accounts. Once the end-user signs up, they are re-directed to the sign in form in the widget to securely sign in using multi-factor authentication.\n\nThe same widget prompts end-users to authenticate to your website with MFA. The widget can be integrated with sign in protocols such as OIDC/SAML to authorize a user."
+        
+        let attributedString = normalText.getLinkAttributes(header: "Authentication Widgets​", linkAttribute: "here", headerFont: UIFont.boldSystemFont(ofSize: 22.0), textFont:UIFont.boldSystemFont(ofSize: 15.0), color: UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0), underLineColor: .white, linkValue: "https://identity-developer.cyberark.com/docs/cyberark-identity-sdk-for-ios")
+        
+        alertViewController.callCompletion {
+            if (onCompletion != nil) {
+                onCompletion!()
+            }
+            alertViewController.dismiss()
+        }
+        alertViewController.continueCallCompletion {
+            if (onCompletion != nil) {
+                onCompletion!()
+            }
+            alertViewController.dismiss {
+                self.launchAuthenticationWidget()
+            }
+        }
+        
+        alertViewController.popUpType = type
+        alertViewController.meessageAtributedText = attributedString
+        presentTranslucent(alertViewController, modalTransitionStyle: .crossDissolve, animated: true, completion: nil)
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == homeViewSegueIdentifier) {
             let controller = segue.destination as! HomeViewController
             controller.isFromLogin = true
         } else if (segue.identifier == settingsViewSegueIdentifier) {
             _ = segue.destination as! SettingsViewController
+        }else if (segue.identifier == nativeLoginSegueIdentifier) {
+            let controller = segue.destination as! LoginViewController
+            controller.loginType = .authenticationWidget
         }
     }
   
@@ -395,7 +426,63 @@ extension UIViewController {
     }
     
 }
+//MARK: Weblogin
+extension ViewController {
+    /*
+    /// Invokes the Login
+    /// Launches the extrenal safari view controller based on the configuration
+    /// Setup the initial tenant configuration required
+    /// setup Custom browser Parameters
+    ///
+    */
+    func launchAuthenticationWidget() {
+        if Reachability.isConnectedToNetwork() {
+            guard let config = plistValues(bundle: Bundle.main, plistFileName: "IdentityConfiguration") else { return }
+            //CyberarkAccount
+            guard let account =  CyberArkAuthProvider.webAuth()?
+                    .set(clientId: config.clientId)
+                    .set(domain: config.domain)
+                    .set(redirectUri: config.redirectUri)
+                    .set(applicationID: config.applicationID)
+                    .set(presentingViewController: self)
+                    .setCustomParam(key: "", value: "")
+                    .set(scope: config.scope)
+                    .set(webType: .sfsafari)
+                    .set(systemURL: config.systemurl)
+                    .set(authWidgetHostURL: config.authwidgethosturl)
+                    .set(authWidgetID: config.authwidgetId)
+                    .set(authWidgetResourceURL: config.authwidgetresourceURL)
+                    .build() else { return }
 
+            CyberArkAuthProvider.launchAuthWidget(account: account)
+        } else {
+            showAlert(with: "Network issue", message: "Please connect to the the internet")
+        }
+       
+    }
+    /*
+    ///
+    /// Observer to get the access token
+    /// Must call this method before calling the login api
+    */
+    func addAuthWidgetResourceURLObserver(){
+        CyberArkAuthProvider.didReceiveResurceURLCallback = { (status, message) in
+            if status {
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true) {
+                        self.doLogin()
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true) {
+                        self.showAlert(message: message)
+                    }
+                }
+            }
+        }
+    }
+}
 extension CaseIterable where Self: Equatable {
 
     var index: Self.AllCases.Index? {

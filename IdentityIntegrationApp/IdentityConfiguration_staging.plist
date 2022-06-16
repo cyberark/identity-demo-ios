@@ -3,19 +3,19 @@
 <plist version="1.0">
 <dict>
 	<key>clientid</key>
-	<string>cf5337f7-9742-4399-90b5-d1651f6a9b47</string>
+	<string>acme</string>
 	<key>domainoauth</key>
-	<string>https://aak7873.my.dev.idaptive.app</string>
+	<string>https://auth.cyberarklab.com</string>
 	<key>loginurl</key>
 	<string>https://ciam.cyberarklab.com</string>
 	<key>systemurl</key>
-	<string>https://aak7873.my.dev.idaptive.app</string>
+	<string>https://aar5203.my.idaptive.qa</string>
 	<key>applicationid</key>
-	<string>OpenIDConnectiOS</string>
+	<string>AcmeIOSApp</string>
 	<key>redirecturi</key>
-	<string>authwidgetdemo://com.cyberark.ciamsdk/redirectcallback</string>
+	<string>ciamsdkdemo://com.cyberark.ciamsdk</string>
 	<key>scope</key>
-	<string>openid email profile All</string>
+	<string>All</string>
 	<key>threshold</key>
 	<integer>60</integer>
 	<key>responsetype</key>

@@ -58,7 +58,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 }
-
 extension SceneDelegate {
     
     /// CyberArkAuthProvider resume operations

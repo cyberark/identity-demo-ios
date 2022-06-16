@@ -94,6 +94,7 @@
 		E2C669CC26987AAF00E98544 /* Identity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2C669C226987AAF00E98544 /* Identity.framework */; };
 		E2C669D126987AAF00E98544 /* IdentityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C669D026987AAF00E98544 /* IdentityTests.swift */; };
 		E2C669D326987AAF00E98544 /* Identity.h in Headers */ = {isa = PBXBuildFile; fileRef = E2C669C526987AAF00E98544 /* Identity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E2CDD0C228324CDF005EC829 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CDD0C128324CDF005EC829 /* UserInfo.swift */; };
 		E2EB34C326E5F2F700DC2FE5 /* OAuth_End_Session_Success.json in Resources */ = {isa = PBXBuildFile; fileRef = E2EB34C226E5F2F700DC2FE5 /* OAuth_End_Session_Success.json */; };
 		E2EB34C926E5F2FF00DC2FE5 /* OAuth_Redirect_Failure.json in Resources */ = {isa = PBXBuildFile; fileRef = E2EB34C826E5F2FE00DC2FE5 /* OAuth_Redirect_Failure.json */; };
 		E2EB34CF26E5F30600DC2FE5 /* OAuth_Success.json in Resources */ = {isa = PBXBuildFile; fileRef = E2EB34CE26E5F30600DC2FE5 /* OAuth_Success.json */; };
@@ -215,6 +216,7 @@
 		E2C669CB26987AAF00E98544 /* IdentityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IdentityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2C669D026987AAF00E98544 /* IdentityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityTests.swift; sourceTree = "<group>"; };
 		E2C669D226987AAF00E98544 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E2CDD0C128324CDF005EC829 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		E2EB34C226E5F2F700DC2FE5 /* OAuth_End_Session_Success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OAuth_End_Session_Success.json; sourceTree = "<group>"; };
 		E2EB34C826E5F2FE00DC2FE5 /* OAuth_Redirect_Failure.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OAuth_Redirect_Failure.json; sourceTree = "<group>"; };
 		E2EB34CE26E5F30600DC2FE5 /* OAuth_Success.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OAuth_Success.json; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 			isa = PBXGroup;
 			children = (
 				E24ECD3A269C63B100C61EF5 /* OAuthAcessToken.swift */,
+				E2CDD0C128324CDF005EC829 /* UserInfo.swift */,
 			);
 			path = OAuth;
 			sourceTree = "<group>";
@@ -751,6 +754,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2CDD0C228324CDF005EC829 /* UserInfo.swift in Sources */,
 				E259CE652706E9D600F4E8C5 /* PushTokenEndpoint.swift in Sources */,
 				E25C449F26CF844A00800764 /* Date+Helper.swift in Sources */,
 				28352390269DADF100AE1BBB /* QRCodeAuthClient.swift in Sources */,

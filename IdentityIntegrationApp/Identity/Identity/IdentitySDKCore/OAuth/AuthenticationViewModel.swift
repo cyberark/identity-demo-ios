@@ -61,6 +61,15 @@ public protocol AuthenticationViewModelProtocol {
     /// Handle Pushtoken
     /// - Parameter token: token description
     func updatePushToken(token: Data, baseURL: String)
+    
+    
+    /// Completion block which will notify when the userinfo api finished loading
+    /// To get the refreshtoken
+    /// - Parameters:
+    ///   - Bool: result
+    ///   - String: error or success message
+    var didReceiveUserInfo: ((Bool,String, UserInfo?) -> Void)? { get set }
+
 
 }
 //MARK:- ViewModel
@@ -77,6 +86,8 @@ public class AuthenticationViewModel {
     
     public var didReceiveRefreshToken: ((Bool, String, AccessToken?) -> Void)?
     
+    public var didReceiveUserInfo: ((Bool,String, UserInfo?) -> Void)?
+
     public var didDeviceEnrolled: ((Bool, String) -> Void)?
 
     public var didLoggedOut: ((Bool, String) -> Void)?
@@ -89,6 +100,11 @@ public class AuthenticationViewModel {
     var authResponse: AccessToken? {
         didSet {
             self.didReceiveAccessToken!(true,authResponse?.access_token ?? "", authResponse)
+        }
+    }
+    var userInfoResponse: UserInfo? {
+        didSet {
+            self.didReceiveUserInfo!(true, "", userInfoResponse)
         }
     }
     init(apiClient: OAuthClientProtocol = OAuthClient()) {
@@ -231,6 +247,32 @@ extension AuthenticationViewModel {
                 //self?.refreshTokenResponse = response
             case .failure(let error):
                 //self?.didReceiveRefreshToken!(false, "unable to fecth accesstoken", nil)
+                print("the error \(error)")
+            }
+        }
+    }
+}
+
+//MARK:- Push token implementation
+/// To send the refresh token
+extension AuthenticationViewModel {
+
+    /// To fetchUserInfo
+    /// - Parameters:
+    ///   - code: code
+    ///   - pkce: pkce
+    public func fetchUserInfo(token: String, pkce: AuthOPKCE?) {
+        
+        client.fetchUserInfo(with: pkce ?? AuthOPKCE(), accessToken: token) { [weak self] result in
+            switch result {
+            case .success(let loginFeedResult):
+                guard let response = loginFeedResult else {
+                    self?.didReceiveUserInfo!(false, "unable to fecth the user info", nil)
+                    return
+                }
+                self?.userInfoResponse = response
+            case .failure(let error):
+                self?.didReceiveRefreshToken!(false, "unable to fecth accesstoken", nil)
                 print("the error \(error)")
             }
         }

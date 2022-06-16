@@ -44,6 +44,12 @@ protocol OAuthClientProtocol {
     ///   - completion: completion
     func updateDeviceToken(with deviceToken: Data, baseURL: String , completion: @escaping (Result<BaseAPIResponse?, APIError>) -> Void)
     
+    /// To Fetch the userInfo
+    /// for handling the push notifications
+    /// - Parameters:
+    ///   - deviceToken: deviceToken
+    ///   - completion: completion
+    func fetchUserInfo(with pkce: AuthOPKCE, accessToken: String, completion: @escaping (Result<UserInfo?, APIError>) -> Void)
 
 }
 
@@ -109,4 +115,21 @@ extension OAuthClient: OAuthClientProtocol {
             return acccessToken
         }, completion: completion)
     }
+}
+extension OAuthClient {
+    /// To get the userinfo token
+    /// - Parameters:
+    ///   - pkce: pkce
+    ///   - code: code
+    ///   - refreshToken: refreshToken
+    ///   - completion: completion
+    func fetchUserInfo(with pkce: AuthOPKCE, accessToken: String, completion: @escaping (Result<UserInfo?, APIError>) -> Void) {
+        let endpoint: Endpoint = OAuthEndPoint(pkce: pkce).getUserInfoEndpoint( accesstoken: accessToken)
+        let request = endpoint.request
+        fetch(with: request, decode: { json -> UserInfo? in
+            guard let acccessToken = json as? UserInfo else { return  nil }
+            return acccessToken
+        }, completion: completion)
+    }
+    
 }
