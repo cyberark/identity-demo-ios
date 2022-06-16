@@ -3,32 +3,32 @@
 <plist version="1.0">
 <dict>
 	<key>clientid</key>
-	<string>cf5337f7-9742-4399-90b5-d1651f6a9b47</string>
+	<string>{your_clientId}</string>
 	<key>domainoauth</key>
-	<string>https://aak7873.my.dev.idaptive.app</string>
+	<string>{your_domainoauth}</string>
 	<key>loginurl</key>
-	<string>https://ciam.cyberarklab.com</string>
+	<string>{your_loginurl}</string>
 	<key>systemurl</key>
-	<string>https://aak7873.my.dev.idaptive.app</string>
+	<string>{your_systemurl}</string>
 	<key>applicationid</key>
-	<string>OpenIDConnectiOS</string>
+	<string>{your_applicationid}</string>
 	<key>redirecturi</key>
-	<string>authwidgetdemo://com.cyberark.ciamsdk/redirectcallback</string>
+	<string>{your_redirecturi}</string>
 	<key>scope</key>
-	<string>openid email profile All</string>
+	<string>{your_scope}</string>
 	<key>threshold</key>
-	<integer>60</integer>
+	<integer>0</integer>
 	<key>responsetype</key>
-	<string>code</string>
+	<string>{your_responsetype}</string>
 	<key>widgetid</key>
-	<string>a5556784-04f4-48d0-a78a-8b80eca106f6</string>
+	<string>{your_widgetid}</string>
 	<key>mfatenanturl</key>
-	<string>https://auth.cyberarklab.com</string>
+	<string>{your_mfatenanturl}</string>
 	<key>authwidgethosturl</key>
-	<string>https://aak7873.my.dev.idaptive.app</string>
+	<string>{your_authwidgethosturl}</string>
 	<key>authwidgetid</key>
-	<string>16ebdde7-a708-4e60-a28b-80ecdcb6e719</string>
+	<string>{your_authwidgetid}</string>
 	<key>resourceurl</key>
-	<string>authwidgetdemo://com.cyberark.ciamsdk/resourcecallback</string>
+	<string>{your_resourceurl}</string>
 </dict>
 </plist>

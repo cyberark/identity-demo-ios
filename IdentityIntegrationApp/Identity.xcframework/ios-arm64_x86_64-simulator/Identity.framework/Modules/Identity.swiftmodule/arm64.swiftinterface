@@ -1,0 +1,637 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3 (swiftlang-1200.0.29.2 clang-1200.0.30.1)
+// swift-module-flags: -target arm64-apple-ios13.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name Identity
+import AVFoundation
+import AuthenticationServices
+import CommonCrypto
+import CoreGraphics
+import CryptoKit
+import Foundation
+@_exported import Identity
+import LocalAuthentication
+import SafariServices
+import Swift
+import SystemConfiguration
+import UIKit
+import WebKit
+public struct UserInfo : Swift.Codable {
+  public let auth_time: Swift.Double?
+  public let given_name: Swift.String?
+  public let name: Swift.String?
+  public let email: Swift.String?
+  public let family_name: Swift.String?
+  public let preferred_username: Swift.String?
+  public let unique_name: Swift.String?
+  public let email_verified: Swift.Bool?
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension Date {
+  public func isEqualTo(_ date: Foundation.Date) -> Swift.Bool
+  public func isGreaterThan(_ date: Foundation.Date) -> Swift.Bool
+  public func isSmallerThan(_ date: Foundation.Date) -> Swift.Bool
+}
+extension Date {
+  public func epirationDate(with timestamp: Swift.Int) -> Foundation.Date
+}
+extension Date {
+  public func isAccessTokenExpired(with token: Foundation.Data?) -> Swift.Bool
+}
+extension Date {
+  public func getCurrentMillis() -> Swift.Int
+}
+@_inheritsConvenienceInitializers public class EnrollResponse : Identity.BaseAPIResponse {
+  required public init(from decoder: Swift.Decoder) throws
+  @objc deinit
+}
+public protocol AuthenticationViewModelProtocol {
+  var didReceiveAccessToken: ((Swift.Bool, Swift.String, Identity.AccessToken?) -> Swift.Void)? { get set }
+  var didReceiveRefreshToken: ((Swift.Bool, Swift.String, Identity.AccessToken?) -> Swift.Void)? { get set }
+  var didLoggedOut: ((Swift.Bool, Swift.String) -> Swift.Void)? { get set }
+  var didDeviceEnrolled: ((Swift.Bool, Swift.String) -> Swift.Void)? { get set }
+  func fetchAuthToken(code: Swift.String, pkce: Identity.AuthOPKCE?)
+  func updatePushToken(token: Foundation.Data, baseURL: Swift.String)
+  var didReceiveUserInfo: ((Swift.Bool, Swift.String, Identity.UserInfo?) -> Swift.Void)? { get set }
+}
+@_hasMissingDesignatedInitializers public class AuthenticationViewModel {
+  public var didReceiveAccessToken: ((Swift.Bool, Swift.String, Identity.AccessToken?) -> Swift.Void)?
+  public var didReceiveRefreshToken: ((Swift.Bool, Swift.String, Identity.AccessToken?) -> Swift.Void)?
+  public var didReceiveUserInfo: ((Swift.Bool, Swift.String, Identity.UserInfo?) -> Swift.Void)?
+  public var didDeviceEnrolled: ((Swift.Bool, Swift.String) -> Swift.Void)?
+  public var didLoggedOut: ((Swift.Bool, Swift.String) -> Swift.Void)?
+  @objc deinit
+}
+extension AuthenticationViewModel : Identity.AuthenticationViewModelProtocol {
+  public func fetchAuthToken(code: Swift.String, pkce: Identity.AuthOPKCE?)
+}
+extension AuthenticationViewModel {
+  public func sendRefreshToken(code: Swift.String, refreshToken: Swift.String, pkce: Identity.AuthOPKCE?)
+}
+extension AuthenticationViewModel {
+  public func logout()
+}
+extension AuthenticationViewModel {
+  public func updatePushToken(token: Foundation.Data, baseURL: Swift.String)
+}
+extension AuthenticationViewModel {
+  public func fetchUserInfo(token: Swift.String, pkce: Identity.AuthOPKCE?)
+}
+public struct AppInfo {
+}
+public typealias NodeCompletion<T> = (T?, Swift.Error?) -> Swift.Void
+public var CyberArkAuthProvider: Identity.CyberarkAuthProvider {
+  get
+}
+public protocol CyberarkAuthProviderProtocol {
+  func login(account: Identity.CyberarkAccount)
+  func resume(url: Foundation.URL)
+  var didReceiveAccessToken: ((Swift.Bool, Swift.String, Identity.AccessToken?) -> Swift.Void)? { get set }
+  var didReceiveRefreshToken: ((Swift.Bool, Swift.String, Identity.AccessToken?) -> Swift.Void)? { get set }
+  var didReceiveLogoutResponse: ((Swift.Bool, Swift.String) -> Swift.Void)? { get set }
+  func handlePushToken(token: Foundation.Data, baseURL: Swift.String)
+  var didReceiveUserInfo: ((Swift.Bool, Swift.String, Identity.UserInfo?) -> Swift.Void)? { get set }
+}
+@_hasMissingDesignatedInitializers public class CyberarkAuthProvider : Identity.CyberarkAuthProviderProtocol {
+  public var didReceiveAccessToken: ((Swift.Bool, Swift.String, Identity.AccessToken?) -> Swift.Void)?
+  public var didReceiveRefreshToken: ((Swift.Bool, Swift.String, Identity.AccessToken?) -> Swift.Void)?
+  public var didReceiveLogoutResponse: ((Swift.Bool, Swift.String) -> Swift.Void)?
+  public var didReceiveResurceURLCallback: ((Swift.Bool, Swift.String) -> Swift.Void)?
+  public var didReceiveUserInfo: ((Swift.Bool, Swift.String, Identity.UserInfo?) -> Swift.Void)?
+  @objc deinit
+}
+extension CyberarkAuthProvider {
+  public func webAuth() -> Identity.CyberArkBrowserBuilder?
+}
+extension CyberarkAuthProvider {
+  public func login(account: Identity.CyberarkAccount)
+  public func launchAuthWidget(account: Identity.CyberarkAccount)
+  public func resume(url: Foundation.URL)
+}
+extension CyberarkAuthProvider {
+  public func closeSession(account: Identity.CyberarkAccount)
+}
+extension CyberarkAuthProvider {
+  public func sendRefreshToken()
+  public func dismiss()
+}
+extension CyberarkAuthProvider {
+  public func handlePushToken(token: Foundation.Data, baseURL: Swift.String)
+}
+extension CyberarkAuthProvider {
+  public func fetchUserInfo()
+}
+@_hasMissingDesignatedInitializers public class Logger {
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DeviceManager {
+  public func getUUID() -> Swift.String?
+  @objc deinit
+}
+public enum Result<T, U> where U : Swift.Error {
+  case success(T)
+  case failure(U)
+}
+public class BaseAPIResponse : Swift.Codable {
+  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+  @objc deinit
+}
+public protocol IdentityError : Swift.Error {
+}
+public enum IdentitySDKError : Identity.IdentityError {
+  case emptyConfiguration
+  case invalidConfiguration
+  case requestFailed
+  case invalidData
+  case invalidurl
+  case unknownError
+  public static func == (a: Identity.IdentitySDKError, b: Identity.IdentitySDKError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum IdentityOAuthError : Identity.IdentityError {
+  case oAuth_invalidRequest(Swift.String?)
+  case oAuth_invalid(Swift.String?)
+  case oAuth_invalidGrant(Swift.String?)
+  case oAuth_unauthorized(Swift.String?)
+  case oAuth_unsupportedGrantType(Swift.String?)
+  case oAuth_unsupportedResponseType(Swift.String?)
+  case oAuth_invalidScope(Swift.String?)
+  case oAuth_missingOrInvalidRedirectURI(Swift.String?)
+  case oAuth_accessDenied(Swift.String?)
+  case oAuth_invalidPKCEState
+  case unknown
+}
+public enum CyberArkBrowserError : Identity.IdentityError {
+  case failure
+  case inprogress
+  case cancelled
+  public static func == (a: Identity.CyberArkBrowserError, b: Identity.CyberArkBrowserError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+extension String {
+  public func encodeUrl() -> Swift.String?
+  public func decodeUrl() -> Swift.String?
+  public func toData() -> Foundation.Data?
+}
+extension String {
+  public var isValidURL: Swift.Bool {
+    get
+  }
+}
+extension String {
+  public func sha256() -> Swift.String
+  public func fetchAttributedTextContent(firstText: Swift.String, firstTintColor: UIKit.UIColor, secondText: Swift.String, secondTintColor: UIKit.UIColor) -> Foundation.NSMutableAttributedString
+  public func fetchAttributedTextContentWithParagraphStyle(firstText: Swift.String, firstTintColor: UIKit.UIColor, secondText: Swift.String, secondTintColor: UIKit.UIColor) -> Foundation.NSMutableAttributedString
+  public func getLinkAttributes(header: Swift.String, linkAttribute: Swift.String, headerFont: UIKit.UIFont, textFont: UIKit.UIFont, color: UIKit.UIColor, underLineColor: UIKit.UIColor, linkValue: Swift.String) -> Foundation.NSMutableAttributedString
+}
+public enum KeychainError : Swift.Error {
+  case create_error
+  case operation_error
+  public static func == (a: Identity.KeychainError, b: Identity.KeychainError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum KeyChainStorageKeys : Swift.String {
+  case accessToken
+  case grantCode
+  case refreshToken
+  case access_token_expiresIn
+  case profile_SecretKey
+  case profile_SecretKey_version
+  case profile_HmacAlgorithm
+  case profile_Digits
+  case profile_Period
+  case profile_uuid
+  case profile_Counter
+  case session_Id
+  case userName
+  case xsrfToken
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+}
+@_hasMissingDesignatedInitializers public class KeyChainWrapper {
+  public static let standard: Identity.KeyChainWrapper
+  public var serviceName: Swift.String {
+    get
+  }
+  public func save(key: Swift.String, data: Foundation.Data) throws
+  public func fetch(key: Swift.String) throws -> Foundation.Data?
+  public func string(for key: Swift.String) throws -> Swift.String?
+  public func delete(key: Swift.String) throws
+  @objc deinit
+}
+public protocol EnrollmentProviderProtocol {
+  func enroll(baseURL: Swift.String)
+  var didReceiveEnrollmentApiResponse: ((Swift.Bool, Swift.String) -> Swift.Void)? { get set }
+}
+public class EnrollmentProvider : Identity.EnrollmentProviderProtocol {
+  public var didReceiveEnrollmentApiResponse: ((Swift.Bool, Swift.String) -> Swift.Void)?
+  public init()
+  @objc deinit
+}
+extension EnrollmentProvider {
+  public func enroll(baseURL: Swift.String)
+}
+@objc @_hasMissingDesignatedInitializers public class CyberArkBrowserBuilder : ObjectiveC.NSObject {
+  @discardableResult
+  @objc(setWebType:) public func set(webType: Identity.WebType) -> Identity.CyberArkBrowserBuilder
+  @discardableResult
+  @objc(setPresentingViewController:) public func set(presentingViewController: UIKit.UIViewController) -> Identity.CyberArkBrowserBuilder
+  @discardableResult
+  @objc(setCustomKey:CustomValue:) public func setCustomParam(key: Swift.String, value: Swift.String) -> Identity.CyberArkBrowserBuilder
+  @discardableResult
+  @objc(setDomain:) public func set(domain: Swift.String) -> Identity.CyberArkBrowserBuilder
+  @discardableResult
+  @objc(setSystemURL:) public func set(systemURL: Swift.String) -> Identity.CyberArkBrowserBuilder
+  @discardableResult
+  @objc(setScope:) public func set(scope: Swift.String) -> Identity.CyberArkBrowserBuilder
+  @discardableResult
+  @objc(setClientId:) public func set(clientId: Swift.String) -> Identity.CyberArkBrowserBuilder
+  @discardableResult
+  @objc(setRedirectUri:) public func set(redirectUri: Swift.String) -> Identity.CyberArkBrowserBuilder
+  @discardableResult
+  @objc(setApplicationID:) public func set(applicationID: Swift.String) -> Identity.CyberArkBrowserBuilder
+  @discardableResult
+  @objc(setlLogoutUri:) public func set(logoutUri: Swift.String) -> Identity.CyberArkBrowserBuilder
+  @discardableResult
+  @objc(setWidgetID:) public func set(widgetID: Swift.String) -> Identity.CyberArkBrowserBuilder
+  @discardableResult
+  @objc(setAuthWidgetID:) public func set(authWidgetID: Swift.String) -> Identity.CyberArkBrowserBuilder
+  @discardableResult
+  @objc(setAuthWidgetHostURL:) public func set(authWidgetHostURL: Swift.String) -> Identity.CyberArkBrowserBuilder
+  @discardableResult
+  @objc(setAuthWidgetResourceURL:) public func set(authWidgetResourceURL: Swift.String) -> Identity.CyberArkBrowserBuilder
+  @objc public func build() -> Identity.CyberarkAccount
+  @objc override dynamic public init()
+  @objc deinit
+}
+public protocol DeviceProfileProviderProtocol {
+  func getDeviceProfile(baseURL: Swift.String)
+  var didReceiveProfileApiResponse: ((Swift.Bool, Swift.String) -> Swift.Void)? { get set }
+}
+public class DeviceProfileProvider : Identity.DeviceProfileProviderProtocol {
+  public var didReceiveProfileApiResponse: ((Swift.Bool, Swift.String) -> Swift.Void)?
+  public init()
+  @objc deinit
+}
+extension DeviceProfileProvider {
+  public func getDeviceProfile(baseURL: Swift.String)
+}
+public enum APIError : Swift.Error {
+  case requestFailed
+  case jsonConversionFailure
+  case invalidData
+  case responseUnsuccessful
+  case jsonParsingFailure
+  case unauthorized
+  public static func == (a: Identity.APIError, b: Identity.APIError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public struct APIRequestConstants {
+}
+public enum HttpRequestType {
+  case basic
+  case bearer
+  case multipart
+  case jsonContentType
+  public static func == (a: Identity.HttpRequestType, b: Identity.HttpRequestType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public typealias HTTPHeaders = [Swift.String : Swift.String]
+public enum DataType {
+  case JSON
+  case Data
+  public static func == (a: Identity.DataType, b: Identity.DataType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public typealias CheckNotificationResult = () -> Swift.Void
+public protocol MFAProviderProtocol {
+  func handleMFAChallenge(isAccepted: Swift.Bool, challenge: Swift.String, baseURL: Swift.String, withCompletionHandler completionHandler: Identity.CheckNotificationResult?)
+  var didReceiveMFAApiResponse: ((Swift.Bool, Swift.String) -> Swift.Void)? { get set }
+}
+public class MFAChallengeProvider : Identity.MFAProviderProtocol {
+  public var didReceiveMFAApiResponse: ((Swift.Bool, Swift.String) -> Swift.Void)?
+  public init()
+  @objc deinit
+}
+extension MFAChallengeProvider {
+  public func handleMFAChallenge(isAccepted: Swift.Bool, challenge: Swift.String, baseURL: Swift.String, withCompletionHandler completionHandler: Identity.CheckNotificationResult?)
+}
+extension UIViewController {
+  public static func initFromNib() -> Self
+  public class func loadFromNib<T>() -> T where T : UIKit.UIViewController
+  public class func loadFromNib() -> Self
+  public func present(_ viewControllerToPresent: UIKit.UIViewController, completion: @escaping (() -> ()))
+  public func present(_ viewControllerToPresent: UIKit.UIViewController)
+  public func presentTranslucent(_ viewController: UIKit.UIViewController, modalTransitionStyle: UIKit.UIModalTransitionStyle = .coverVertical, animated flag: Swift.Bool = true, completion: (() -> ())? = nil)
+  public func push(_ viewController: UIKit.UIViewController)
+  public func pop(animated: Swift.Bool = true)
+  public func popToViewController(ofClass: Swift.AnyClass, animated: Swift.Bool = true)
+  public func popToRoot(animated: Swift.Bool = true)
+  public func dismiss(completion: (() -> Swift.Void)? = nil)
+}
+extension UIViewController {
+  public func showAlert(with title: Swift.String? = "", message: Swift.String)
+}
+extension UIApplication {
+  public class func getTopMostViewController() -> UIKit.UIViewController?
+}
+extension UIViewController {
+  public func addKeyboardObserver()
+  public func removeKeyboardObserver()
+  @objc dynamic public func keyboardNotifications(notification: Foundation.NSNotification)
+}
+extension Data {
+  public var JSONObject: Swift.AnyObject? {
+    get
+  }
+  public static func make(fromJSONObject obj: Swift.AnyObject) -> Foundation.Data?
+  public init<T>(from value: T)
+  public func to<T>(type: T.Type) -> T
+}
+extension Data {
+  public func encodeBase64URLSafe() -> Swift.String?
+}
+extension Data {
+  public func toString() -> Swift.String?
+}
+extension Data {
+  public var bytes: Swift.Array<Swift.UInt8> {
+    get
+  }
+  public init(hex: Swift.String)
+}
+extension Array where Element == Swift.UInt8 {
+  public init(hex: Swift.String)
+  public func toHexString() -> Swift.String
+}
+extension Data {
+  public func sha256() -> Swift.String
+}
+extension UIColor {
+  public static func hexToUIColor(hex: Swift.String) -> UIKit.UIColor
+}
+@_inheritsConvenienceInitializers public class DeviceProfile : Identity.BaseAPIResponse {
+  required public init(from decoder: Swift.Decoder) throws
+  @objc deinit
+}
+@_inheritsConvenienceInitializers public class DeviceProfileInfo : Identity.BaseAPIResponse {
+  required public init(from decoder: Swift.Decoder) throws
+  @objc deinit
+}
+public enum HMACAlgorithm : Swift.Int {
+  case Sha1
+  case Sha256
+  case Sha512
+  case Md5
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class TOTPGenerator {
+  @objc deinit
+}
+extension URL {
+  public func queryParameter(with param: Swift.String) -> Swift.String?
+}
+public protocol LAContextProtocol {
+  func canEvaluatePolicy(_: LocalAuthentication.LAPolicy, error: Foundation.NSErrorPointer) -> Swift.Bool
+  func evaluatePolicy(_ policy: LocalAuthentication.LAPolicy, localizedReason: Swift.String, reply: @escaping (Swift.Bool, Swift.Error?) -> Swift.Void)
+}
+public enum BiometricError : Foundation.LocalizedError {
+  case authenticationFailed
+  case userCancel
+  case userFallback
+  case biometricsNotAvailable
+  case biometricsNotEnrolled
+  case biometricksLockout
+  case unknown
+  public var errorDescription: Swift.String {
+    get
+  }
+  public static func == (a: Identity.BiometricError, b: Identity.BiometricError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+final public class BiometricsAuthenticator {
+  public init(context: Identity.LAContextProtocol = LAContext(), policy: LocalAuthentication.LAPolicy = .deviceOwnerAuthenticationWithBiometrics, localizedReason: Swift.String = "Verify your Identity")
+  final public func canEvaluatePolicy() -> Swift.Bool
+  final public func authenticateUser(completion: @escaping (Identity.Result<Swift.Bool, Identity.BiometricError>) -> Swift.Void)
+  @objc deinit
+}
+extension LAContext : Identity.LAContextProtocol {
+}
+public typealias ResultHandler = (Identity.Result<Swift.Bool, Identity.APIError>) -> Swift.Void
+public protocol AVCaptureDeviceProtocl {
+  func authorizationStatus(for mediaType: AVFoundation.AVMediaType) -> AVFoundation.AVAuthorizationStatus
+  func requestAccess(for mediaType: AVFoundation.AVMediaType, completionHandler handler: @escaping (Swift.Bool) -> Swift.Void)
+}
+public protocol QRCodeReaderBuilderProtocol {
+  func authenticateWithQRCode(presenter: UIKit.UIViewController, completion: @escaping Identity.ResultHandler)
+}
+public class QRAuthenticationProvider {
+  public init()
+  public var viewModel: Identity.QRAuthViewModel
+  @objc deinit
+}
+extension QRAuthenticationProvider : Identity.QRCodeReaderBuilderProtocol {
+  public func authenticateWithQRCode(presenter: UIKit.UIViewController, completion: @escaping Identity.ResultHandler)
+  public func fetchAccessTokenWithQRCode(qrCode: Swift.String)
+}
+public protocol UIApplicationProtocol {
+  func open(_ url: Foundation.URL)
+}
+@_hasMissingDesignatedInitializers final public class Reachability {
+  public static func isConnectedToNetwork() -> Swift.Bool
+  @objc deinit
+}
+extension URLRequest {
+  public init?(urlString: Swift.String)
+}
+public enum UserDefaultsKeys : Swift.String {
+  case isDeviceEnrolled
+  case isBiometricOnAppLaunchEnabled
+  case isBiometricWhenAccessTokenExpiresEnabled
+  case isBiometricOnQRLaunch
+  case isBiometricEnabledOnTransfeFunds
+  case isSessionCreated
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+}
+public func plistValues(bundle: Foundation.Bundle, plistFileName: Swift.String) -> (clientId: Swift.String, domain: Swift.String, domain_auth0: Swift.String, scope: Swift.String, redirectUri: Swift.String, applicationID: Swift.String, systemurl: Swift.String, responseType: Swift.String, loginURL: Swift.String, widgetID: Swift.String, mfaTenantURL: Swift.String, authwidgethosturl: Swift.String, authwidgetId: Swift.String, authwidgetresourceURL: Swift.String)?
+@objc @_hasMissingDesignatedInitializers public class CyberarkAccount : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  @objc deinit
+}
+public protocol LoginProviderProtocol {
+  func handleLogin(userName: Swift.String, password: Swift.String, baseURL: Swift.String, withCompletionHandler completionHandler: Identity.CheckNotificationResult?)
+  var didReceiveLoginApiResponse: ((Swift.Bool, Swift.String?, Swift.String?, Swift.String?) -> Swift.Void)? { get set }
+}
+public class LoginProvider : Identity.LoginProviderProtocol {
+  public var didReceiveLoginApiResponse: ((Swift.Bool, Swift.String?, Swift.String?, Swift.String?) -> Swift.Void)?
+  public init()
+  @objc deinit
+}
+extension LoginProvider {
+  public func handleLogin(userName: Swift.String, password: Swift.String, baseURL: Swift.String, withCompletionHandler completionHandler: Identity.CheckNotificationResult?)
+}
+@_hasMissingDesignatedInitializers public class QRAuthViewModel {
+  public var didReceiveAuth: ((Swift.Error?, Swift.String?) -> Swift.Void)?
+  @objc deinit
+}
+public enum IdentityLoginType {
+  case oidc
+  case auth0
+  case fido
+  public static func == (a: Identity.IdentityLoginType, b: Identity.IdentityLoginType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum IdentityType : Swift.CaseIterable {
+  case web
+  case qrcode
+  case totp
+  case push
+  case otp
+  public static func == (a: Identity.IdentityType, b: Identity.IdentityType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+  public typealias AllCases = [Identity.IdentityType]
+  public static var allCases: [Identity.IdentityType] {
+    get
+  }
+}
+@objc public enum WebType : Swift.Int {
+  case webview
+  case sfsafari
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public typealias didFinishingbrowserOperationCallback = (Swift.String?, Swift.Error?) -> Swift.Void
+@objc @_hasMissingDesignatedInitializers public class CyberArkBrowser : ObjectiveC.NSObject {
+  public func login(completion: @escaping Identity.didFinishingbrowserOperationCallback)
+  public func closeSession(completion: @escaping Identity.didFinishingbrowserOperationCallback)
+  public func launchAuthenticationWidget(completion: @escaping Identity.didFinishingbrowserOperationCallback)
+  @objc override dynamic public init()
+  @objc deinit
+}
+extension CyberArkBrowser : SafariServices.SFSafariViewControllerDelegate {
+  @objc dynamic public func safariViewControllerDidFinish(_ controller: SafariServices.SFSafariViewController)
+  @objc dynamic public func safariViewController(_ controller: SafariServices.SFSafariViewController, initialLoadDidRedirectTo URL: Foundation.URL)
+}
+public struct AccessToken : Swift.Codable {
+  public var access_token: Swift.String?
+  public var token_type: Swift.String?
+  public var expires_in: Swift.Int?
+  public var scope: Swift.String?
+  public var refresh_token: Swift.String?
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+@_hasMissingDesignatedInitializers public class AuthOPKCE {
+  @objc deinit
+}
+public protocol MFAWidgetProviderProtocol {
+  func launchMFAWidget(userName: Swift.String, widgetID: Swift.String, baseURL: Swift.String, presentingViewconstroller: UIKit.UIViewController, withCompletionHandler completionHandler: Identity.CheckNotificationResult?)
+  var didReceiveApiResponse: ((Swift.Bool) -> Swift.Void)? { get set }
+}
+public class MFAWidgetProvider : Identity.MFAWidgetProviderProtocol {
+  public var didReceiveApiResponse: ((Swift.Bool) -> Swift.Void)?
+  public init()
+  @objc deinit
+}
+extension MFAWidgetProvider {
+  public func launchMFAWidget(userName: Swift.String, widgetID: Swift.String, baseURL: Swift.String, presentingViewconstroller: UIKit.UIViewController, withCompletionHandler completionHandler: Identity.CheckNotificationResult?)
+}
+extension MFAWidgetProvider {
+  public func launchBrowser(userName: Swift.String, widgetID: Swift.String, baseURL: Swift.String, presentingViewconstroller: UIKit.UIViewController)
+}
+extension UserDefaults {
+  public func setDict(dict: [Swift.String : Any], for key: Swift.String)
+  public func getDict(key: Swift.String) -> [Swift.String : Any]?
+}
+extension UIDevice {
+  public static var identifier: Swift.String? {
+    get
+  }
+  public var isIPhone: Swift.Bool {
+    get
+  }
+  public var isIPad: Swift.Bool {
+    get
+  }
+  public static var iOSVersion: Swift.String? {
+    get
+  }
+}
+extension UIDevice {
+  public static let modelName: Swift.String?
+}
+@_inheritsConvenienceInitializers public class LoginResponse : Identity.BaseAPIResponse {
+  required public init(from decoder: Swift.Decoder) throws
+  @objc deinit
+}
+extension Identity.IdentitySDKError : Swift.Equatable {}
+extension Identity.IdentitySDKError : Swift.Hashable {}
+extension Identity.CyberArkBrowserError : Swift.Equatable {}
+extension Identity.CyberArkBrowserError : Swift.Hashable {}
+extension Identity.KeychainError : Swift.Equatable {}
+extension Identity.KeychainError : Swift.Hashable {}
+extension Identity.KeyChainStorageKeys : Swift.Equatable {}
+extension Identity.KeyChainStorageKeys : Swift.Hashable {}
+extension Identity.KeyChainStorageKeys : Swift.RawRepresentable {}
+extension Identity.APIError : Swift.Equatable {}
+extension Identity.APIError : Swift.Hashable {}
+extension Identity.HttpRequestType : Swift.Equatable {}
+extension Identity.HttpRequestType : Swift.Hashable {}
+extension Identity.DataType : Swift.Equatable {}
+extension Identity.DataType : Swift.Hashable {}
+extension Identity.HMACAlgorithm : Swift.Equatable {}
+extension Identity.HMACAlgorithm : Swift.Hashable {}
+extension Identity.HMACAlgorithm : Swift.RawRepresentable {}
+extension Identity.BiometricError : Swift.Equatable {}
+extension Identity.BiometricError : Swift.Hashable {}
+extension Identity.UserDefaultsKeys : Swift.Equatable {}
+extension Identity.UserDefaultsKeys : Swift.Hashable {}
+extension Identity.UserDefaultsKeys : Swift.RawRepresentable {}
+extension Identity.IdentityLoginType : Swift.Equatable {}
+extension Identity.IdentityLoginType : Swift.Hashable {}
+extension Identity.IdentityType : Swift.Equatable {}
+extension Identity.IdentityType : Swift.Hashable {}
+extension Identity.WebType : Swift.Equatable {}
+extension Identity.WebType : Swift.Hashable {}
+extension Identity.WebType : Swift.RawRepresentable {}
